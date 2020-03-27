@@ -1,5 +1,6 @@
 import subprocess
 import pathlib
+from pathlib import Path
 import os
 import shutil
 
@@ -14,10 +15,10 @@ class Delta:
         :param yesterday_directory: yesterday it works
         :param today_directory: today it does not work
         """
-        self.test_binary = test_binary
-        self.root_directory = root_directory
-        self.yesterday_directory = yesterday_directory
-        self.today_directory = today_directory
+        self.test_binary = Path(test_binary).resolve()
+        self.root_directory = Path(root_directory).resolve()
+        self.yesterday_directory = Path(yesterday_directory).resolve()
+        self.today_directory = Path(today_directory).resolve()
         self.debug_flag = False
 
     def pre_run(self):
@@ -37,13 +38,13 @@ class Delta:
         Test yesterday's directory. Patches are applied to yesterday, so it will be used to test patched code
         :return:
         """
-        ytd_run = subprocess.run([self.test_binary, self.yesterday_directory])
+        ytd_run = subprocess.run([str(self.test_binary), str(self.yesterday_directory)])
         if self.debug_flag:
             print("yesterday test return code", ytd_run.returncode)
         return ytd_run.returncode
 
     def test_today(self):
-        today_run = subprocess.run([self.test_binary, self.today_directory])
+        today_run = subprocess.run([str(self.test_binary), str(self.today_directory)])
         if self.debug_flag:
             print("yesterday test return code", today_run.returncode)
         return today_run.returncode
@@ -63,7 +64,7 @@ class Delta:
         big_patch_path = self.tmp_dir / "bigpatch"
         with big_patch_path.open("w+") as big_patch:
             # create a diff patch
-            subprocess.run(["diff", "-u", "-r", self.yesterday_directory, self.today_directory], stdout=big_patch)
+            subprocess.run(["diff", "-u", "-r", str(self.yesterday_directory), str(self.today_directory)], stdout=big_patch)
 
             # splitpatch into hunks
             subprocess.run(["splitpatch", "-H", str(big_patch_path)], stderr=subprocess.PIPE)
@@ -225,8 +226,9 @@ class Delta:
                 subprocess.run(["patch", "-p0", "-d/"], stdin=combined, stdout=subprocess.DEVNULL)
 
             # apply, test ytd, and revert
-            ret_code = self.test_ytd()
+        ret_code = self.test_ytd()
 
+        with combined_path.open("r") as combined:
             # with combined_path.open("r") as combined:
             if self.debug_flag:
                 subprocess.run(["patch", "-R", "-p0", "-d/"], stdin=combined)
@@ -244,10 +246,13 @@ class Delta:
 
 
 def quick_main():
-    tb = "/home/jasonhu/Desktop/pydd/test_dummy.py"
-    yd = "/home/jasonhu/Desktop/pydd/patches/expcp"
-    td = "/home/jasonhu/Desktop/pydd/patches/expcp2"
-    root = "/home/jasonhu/Desktop/pydd/patches"
+    tb = "test_dummy.py"
+    yd = "patches/expcp"
+    td = "patches/expcp2"
+    root = "patches"
+    # yd = "/home/jasonhu/Desktop/rootdir/today"
+    # td = "/home/jasonhu/Desktop/rootdir/yesterday"
+    # root = "/home/jasonhu/Desktop/rootdir"
 
     delta = Delta(tb, root, yd, td)
     delta.pre_run()
