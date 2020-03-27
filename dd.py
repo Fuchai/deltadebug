@@ -6,6 +6,14 @@ import shutil
 
 class Delta:
     def __init__(self, test_binary=None, root_directory=None, yesterday_directory=None, today_directory=None):
+        """
+
+        :param test_binary: the binary that tests the repository. The binary will accept the path as the only argument
+        and returns 0 for correct, 1 for buggy and -1 for indeterminate
+        :param root_directory: the directory that contains both today's and yesterday's code
+        :param yesterday_directory: yesterday it works
+        :param today_directory: today it does not work
+        """
         self.test_binary = test_binary
         self.root_directory = root_directory
         self.yesterday_directory = yesterday_directory
@@ -25,6 +33,10 @@ class Delta:
         assert today_ret == 1, "Today's code did not break?"
 
     def test_ytd(self):
+        """
+        Test yesterday's directory. Patches are applied to yesterday, so it will be used to test patched code
+        :return:
+        """
         ytd_run = subprocess.run([self.test_binary, self.yesterday_directory])
         if self.debug_flag:
             print("yesterday test return code", ytd_run.returncode)
@@ -36,10 +48,14 @@ class Delta:
             print("yesterday test return code", today_run.returncode)
         return today_run.returncode
 
-    def debug(self, create_patch=True, print_results=True):
+    def debug(self, algo=1, create_patch=True, print_results=True):
         """
-        Runs algorithm one on the paper
+        Delta debug.
 
+        :param algo: Pick which algorithm you want to use, 1 or 2.
+        :param create_patch: If you want to create a patch for the minimal set of failure inducing changes
+        :param print_results: If you want to print out the results of the incremental patches in the minimal set
+        of failure inducing changes
         :return:
         """
         self.create_tmp_folder()
@@ -59,7 +75,14 @@ class Delta:
 
         if self.debug_flag:
             print(incrementals)
-        minimal_patches=self.algo1(incrementals, set())
+
+        if algo==1:
+            minimal_patches = self.algo1(incrementals, set())
+        elif algo==2:
+            minimal_patches = self.algo2(incrementals, set(), 2)
+        else:
+            raise Exception("Your algorithm choice is not supported, only 1 or 2")
+
         if self.debug_flag:
             print(minimal_patches)
         if print_results:
@@ -69,12 +92,18 @@ class Delta:
 
         if create_patch:
             combined_path = self.tmp_dir / "combined"
-            minimal_patch_path= self.tmp_dir / "minimal_patch"
+            minimal_patch_path = self.tmp_dir / "minimal_patch"
             shutil.copy(combined_path, minimal_patch_path)
             print("The minimal patch is created at location", minimal_patch_path)
 
-
     def algo1(self, patches, fixed):
+        """
+        Algorithm 1 presented in the paper. Does not handle inconsistencies.
+
+        :param patches: The set of patches. c in paper.
+        :param fixed: The fixed changes that will be applied to the subset. r in paper.
+        :return: A possibly smaller set of patches.
+        """
         if len(patches) == 1:
             return patches
 
@@ -89,6 +118,93 @@ class Delta:
         else:
             return self.algo1(c1, c2 | fixed) | self.algo1(c2, c1 | fixed)
 
+    def algo2(self, patches, fixed, n):
+        if len(patches) == 1:
+            return patches
+
+        set_size = len(patches) // n
+        cis = []
+        for i in range(n):
+            if i == n - 1:
+                cis.append(set(patches[i * set_size:]))
+            else:
+                cis.append(set(patches[i * set_size: (i + 1) * set_size]))
+
+        # case 2
+        tis = []
+        for ci in cis:
+            ti = self.test_patches(ci)
+            tis.append(ti)
+            if ti == 1:
+                return self.algo2(ci, fixed, 2)
+
+        # case 3
+        complements = []
+        complement_tis = []
+        if n == 2:
+            complements = [cis[1], cis[0]]
+            complement_tis = [tis[1], tis[0]]
+            if tis[0] == 0 and tis[1] == 0:
+                return self.algo2(cis[0], cis[1] | fixed, 2) | self.algo2(cis[1], cis[0] | fixed, 2)
+        else:
+            complements = [set(patches) - ci for ci in cis]
+            for i, complement in enumerate(complements):
+                ci = cis[i]
+
+                complement_ti = self.test_patches(complement)
+                complement_tis.append(complement_ti)
+                if complement_tis == 0 and tis[i] == 0:
+                    return self.algo2(ci, complement | fixed, 2) | self.algo2(complement, ci | fixed, 2)
+
+        #
+        #
+        #     if tis[0] == 0 and tis[1] == 0:
+        #         return self.algo2(cis[0], cis[1] | fixed, 2) | self.algo2(cis[1], cis[0] | fixed, 2)
+        # else:
+        #     complements = [set(patches) - ci for ci in cis]
+        #     for i, complement in enumerate(complements):
+        #         ci = cis[i]
+        #         if self.test_patches(complement) == 0 and tis[i] == 0:
+        #             return self.algo2(ci, complement | fixed, 2) | self.algo2(complement, ci | fixed, 2)
+
+        # case 4
+        # if n == 2:
+        #     if tis[0] == -1 and tis[1] == 0:
+        #         return self.algo2(cis[0], cis[1] | fixed, 2)
+        #     elif tis[0] == 0 and tis[1] == -1:
+        #         return self.algo2(cis[1], cis[0]|fixed, 2)
+        # else:
+
+        # case 4
+        for i, complement in enumerate(complements):
+            ci = cis[i]
+            complement_ti = complement_tis[i]
+            ti = tis[i]
+            if ti == -1 and complement_ti == 0:
+                return self.algo2(ci, complement | fixed, 2)
+
+        # case 5
+        # prep
+        c_prime = set(patches)
+        for complement, complement_ti in zip(complements, complement_tis):
+            if complement_ti == 1:
+                c_prime = c_prime & complement
+
+        r_prime = fixed
+        for ci, ti in zip(cis, tis):
+            if ti == 0:
+                r_prime = r_prime | ci
+
+        n_prime = min(len(c_prime), 2*n)
+
+        # for real
+        if n < len(patches):
+            return self.algo2(c_prime, r_prime, n_prime)
+
+        # case 6
+        return c_prime
+
+
     def test_patches(self, patches):
         # combine patches together
         plist = [str(p) for p in patches]
@@ -96,8 +212,8 @@ class Delta:
         if combined_path.exists():
             os.remove(combined_path)
         with combined_path.open("w") as combined:
-            if len(plist)==1:
-                shutil.copy(plist[0],combined_path)
+            if len(plist) == 1:
+                shutil.copy(plist[0], combined_path)
             else:
                 subprocess.run(["combinediff", "-q"] + plist, stdout=combined)
 
@@ -108,10 +224,10 @@ class Delta:
             else:
                 subprocess.run(["patch", "-p0", "-d/"], stdin=combined, stdout=subprocess.DEVNULL)
 
-        # apply, test ytd, and revert
-        ret_code = self.test_ytd()
+            # apply, test ytd, and revert
+            ret_code = self.test_ytd()
 
-        with combined_path.open("r") as combined:
+            # with combined_path.open("r") as combined:
             if self.debug_flag:
                 subprocess.run(["patch", "-R", "-p0", "-d/"], stdin=combined)
             else:
@@ -135,7 +251,7 @@ def quick_main():
 
     delta = Delta(tb, root, yd, td)
     delta.pre_run()
-    delta.debug()
+    delta.debug(algo=2)
 
 
 def main():
@@ -147,6 +263,7 @@ def main():
     delta = Delta(tb, root, yd, td)
     delta.pre_run()
     delta.debug()
+
 
 if __name__ == '__main__':
     quick_main()
