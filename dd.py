@@ -10,7 +10,7 @@ class Delta:
         self.root_directory = root_directory
         self.yesterday_directory = yesterday_directory
         self.today_directory = today_directory
-        self.debug_flag = True
+        self.debug_flag = False
 
     def pre_run(self):
         """
@@ -20,8 +20,6 @@ class Delta:
         """
         ytd_ret = self.test_ytd()
         today_ret = self.test_today()
-
-
 
         assert ytd_ret == 0, "Yesterday's code did not work?"
         assert today_ret == 1, "Today's code did not break?"
@@ -49,7 +47,7 @@ class Delta:
         big_patch_path = self.tmp_dir / "bigpatch"
         with big_patch_path.open("w+") as big_patch:
             # create a diff patch
-            subprocess.run(["diff", "-u", "-r", "--new-file", self.yesterday_directory, self.today_directory], stdout=big_patch)
+            subprocess.run(["diff", "-u", "-r", self.yesterday_directory, self.today_directory], stdout=big_patch)
 
             # splitpatch into hunks
             subprocess.run(["splitpatch", "-H", str(big_patch_path)], stderr=subprocess.PIPE)
@@ -59,7 +57,22 @@ class Delta:
             if p.suffix == ".patch":
                 incrementals.append(p)
 
-        self.algo1(incrementals, set())
+        if self.debug_flag:
+            print(incrementals)
+        minimal_patches=self.algo1(incrementals, set())
+        if self.debug_flag:
+            print(minimal_patches)
+        if print_results:
+            print("The minimal set of failure-inducing changes includes the following:")
+            for p in minimal_patches:
+                print(str(p))
+
+        if create_patch:
+            combined_path = self.tmp_dir / "combined"
+            minimal_patch_path= self.tmp_dir / "minimal_patch"
+            shutil.copy(combined_path, minimal_patch_path)
+            print("The minimal patch is created at location", minimal_patch_path)
+
 
     def algo1(self, patches, fixed):
         if len(patches) == 1:
@@ -90,11 +103,19 @@ class Delta:
 
         # patch the files
         with combined_path.open("r") as combined:
-            subprocess.run(["patch", "-p0", "-d/"], stdin=combined, stderr=subprocess.PIPE)
+            if self.debug_flag:
+                subprocess.run(["patch", "-p0", "-d/"], stdin=combined)
+            else:
+                subprocess.run(["patch", "-p0", "-d/"], stdin=combined, stdout=subprocess.DEVNULL)
 
-            # apply, test ytd, and revert
-            ret_code = self.test_ytd()
-            subprocess.run(["patch", "-R", "-p0", "-d/"], stdin=combined, stderr=subprocess.STDOUT)
+        # apply, test ytd, and revert
+        ret_code = self.test_ytd()
+
+        with combined_path.open("r") as combined:
+            if self.debug_flag:
+                subprocess.run(["patch", "-R", "-p0", "-d/"], stdin=combined)
+            else:
+                subprocess.run(["patch", "-R", "-p0", "-d/"], stdin=combined, stdout=subprocess.DEVNULL)
 
         return ret_code
 
@@ -126,7 +147,6 @@ def main():
     delta = Delta(tb, root, yd, td)
     delta.pre_run()
     delta.debug()
-
 
 if __name__ == '__main__':
     quick_main()
