@@ -3,8 +3,8 @@
 import sys
 from os import listdir
 
-
 def main():
+    """ this is the original test dummy"""
     source_dir = sys.argv[1]
 
     for f in listdir(source_dir):
