@@ -245,7 +245,18 @@ class Delta:
         self.tmp_dir.mkdir()
 
 
+def demo():
+    tb = "demo_test.py"
+    yd = "demodir/today"
+    td = "demodir/yesterday"
+    root = "demodir"
+
+    delta = Delta(tb, root, yd, td)
+    delta.pre_run()
+    delta.debug(algo=1)
+
 def quick_main():
+    # relative paths work
     tb = "test_dummy.py"
     yd = "patches/expcp"
     td = "patches/expcp2"
@@ -271,4 +282,4 @@ def main():
 
 
 if __name__ == '__main__':
-    quick_main()
+    demo()

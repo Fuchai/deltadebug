@@ -9,6 +9,8 @@ diff -u -r ../expcp ../expcp2 | fgrep -v '^Only in'
 
 
 ## Dependencies
+This program runs on Linux only.
+
 ```splitpatch``` command from **splitpatch**
 https://github.com/benjsc/splitpatch
 
@@ -16,6 +18,8 @@ https://github.com/benjsc/splitpatch
 https://directory.fsf.org/wiki/Patchutils
 
 ```patch``` and ```diff``` commands
+
+For tester binary/script, you need to make it executable with ```chmod +x script```, of course.
 
 ## Specifications
 
