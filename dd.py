@@ -75,15 +75,13 @@ class Delta:
         Reset tmp files
         :return:
         """
-        ytd_run = subprocess.run([str(self.test_binary.resolve()), str(self.yesterday_directory.resolve())], stdout=subprocess.DEVNULL,
-                                 stderr=subprocess.DEVNULL)
+        ytd_run = subprocess.run([str(self.test_binary.resolve()), str(self.yesterday_directory.resolve())])
         print("yesterday test return code", ytd_run.returncode)
 
         return ytd_run.returncode
 
     def test_today(self):
-        today_run = subprocess.run([str(self.test_binary.resolve()), str(self.today_directory.resolve())], stdout=subprocess.DEVNULL,
-                                   stderr=subprocess.DEVNULL)
+        today_run = subprocess.run([str(self.test_binary.resolve()), str(self.today_directory.resolve())])
         print("today test return code", today_run.returncode)
 
         return today_run.returncode
