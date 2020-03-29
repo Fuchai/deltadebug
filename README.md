@@ -7,6 +7,8 @@ patch -p0 < trythis2
 diff -u -r ../expcp ../expcp2 | fgrep -v '^Only in'  
 ```
 
+/root/Desktop/pydd/tmp/dbg/find6/test/test.sh /root/Desktop/pydd/tmp/dbg/find14/find
+
 
 ## Dependencies
 This program runs on Linux only.
