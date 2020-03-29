@@ -11,10 +11,14 @@ diff -u -r ../expcp ../expcp2 | fgrep -v '^Only in'
 ## Dependencies
 This program runs on Linux only.
 
-```splitpatch``` command from **splitpatch**
+You need to install python3.6
+
+```splitpatch``` command from **splitpatch** ```apt-get install splitpatch```
+
 https://github.com/benjsc/splitpatch
 
-```combinediff``` command from **patchutils**
+
+```combinediff``` command from **patchutils** ```apt-get install patchutils```
 https://directory.fsf.org/wiki/Patchutils
 
 ```patch``` and ```diff``` commands

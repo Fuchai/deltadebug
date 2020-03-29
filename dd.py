@@ -50,8 +50,6 @@ class Delta:
         """
         self.yesterday_directory = Path(self.original_root_directory.name) / self.yesterday_directory.name
         self.today_directory = Path(self.original_root_directory.name) / self.today_directory.name
-        self.yesterday_directory=self.yesterday_directory.resolve()
-        self.today_directory=self.today_directory.resolve()
 
     def pre_run(self):
         """
@@ -77,14 +75,14 @@ class Delta:
         Reset tmp files
         :return:
         """
-        ytd_run = subprocess.run([str(self.test_binary), str(self.yesterday_directory)], stdout=subprocess.DEVNULL,
+        ytd_run = subprocess.run([str(self.test_binary.resolve()), str(self.yesterday_directory.resolve())], stdout=subprocess.DEVNULL,
                                  stderr=subprocess.DEVNULL)
         print("yesterday test return code", ytd_run.returncode)
 
         return ytd_run.returncode
 
     def test_today(self):
-        today_run = subprocess.run([str(self.test_binary), str(self.today_directory)], stdout=subprocess.DEVNULL,
+        today_run = subprocess.run([str(self.test_binary.resolve()), str(self.today_directory.resolve())], stdout=subprocess.DEVNULL,
                                    stderr=subprocess.DEVNULL)
         print("today test return code", today_run.returncode)
 
