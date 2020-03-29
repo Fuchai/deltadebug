@@ -8,12 +8,12 @@ from pathlib import Path
 def main():
     # for some reason the testing file only works with absolute paths, well.
     
-
-    find_path=Path(sys.argv[1])/"find"/"find"
+    find_path=Path(sys.argv[1])/"find"
+    find_find_path=Path(sys.argv[1])/"find"/"find"
 
     # compile
     cwd=os.getcwd()
-    os.chdir(find_path)
+    os.chdir(find_find_path)
     subprocess.run(["make", "clean"])
     subprocess.run(["make"])
 
