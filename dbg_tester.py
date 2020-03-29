@@ -12,7 +12,7 @@ def main():
     find_path=Path(sys.argv[1])/"find"
 
     # compile
-    subprocess.run(["cd", str(find_path)])
+    os.chdir(find_path)
     subprocess.run(["make", "clean"])
     subprocess.run(["make"])
 
