@@ -1,0 +1,32 @@
+--- demodir/yesterday/permatree.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/permatree.py	2019-11-29 23:50:49.000000000 -0600
+@@ -62,6 +62,7 @@ class PermaEdge:
+         self.value = value.cpu().numpy().tolist()[0][0]
+         return value
+ 
++
+ class PermaNode:
+     """
+     Guarantees that from_edge is not None. May not have self.edges
+@@ -118,11 +119,6 @@ class PermaNode:
+             self.unassigned+=1
+             nn_queue.put(edge)
+ 
+-    def find_child(self, state):
+-        for child in [e.to_node for e in self.edges]:
+-            if child.checker_state.board_hash() == state.board_hash():
+-                return child
+-
+         #
+         # # this lock will be released when all of its children are evaluated
+         # states = [edge.to_node.checker_state for edge in self.edges]
+@@ -143,5 +139,3 @@ class PermaNode:
+         #     edge.prior_probability = npp[edx]
+ 
+ 
+-    def is_first_player(self):
+-        return not self.checker_state.flipped
+\ No newline at end of file
+Only in demodir/yesterday: plots
+Binary files demodir/yesterday/__pycache__/checker.cpython-36.pyc and demodir/today/__pycache__/checker.cpython-36.pyc differ
+diff -up -r demodir/yesterday/README.md demodir/today/README.md

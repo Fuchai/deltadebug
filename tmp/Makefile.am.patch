@@ -1,0 +1,27 @@
+--- dbg/find14/find/doc/Makefile.am	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/doc/Makefile.am	2020-01-28 23:39:42.000000000 -0600
+@@ -1,7 +1,7 @@
+ info_TEXINFOS = find.texi
+-find_TEXINFOS = perm.texi
++find_TEXINFOS = perm.texi regexprops.texi
+ MOSTLYCLEANFILES = find.cps 
+-CLEANFILES = find.txt find_mono.html findutils.texi_html_node.tar.gz
++CLEANFILES = find.txt find_mono.html findutils.texi_html_node.tar.gz regexprops.texi
+ 
+ MAKEINFOTXT = $(MAKEINFO) --plaintext
+ 
+@@ -50,3 +50,13 @@ find_mono.html: find.texi
+ # for "make all" or "make install" (or even "make check").
+ findutils.texi_html_node.tar.gz: find.html
+ 	tar zcf $@ $<
++
++if CROSS_COMPILING
++regexprops.texi: ../gnulib/lib/regex.h
++	echo "WARNING: $? is newer than $@ but $@ cannot be rebuilt because we are cross-compiling.   Continuing anyway." >&2
++else
++regexprops.texi: ../gnulib/lib/regex.h
++	cd ../lib && $(MAKE) $(AM_MAKEFLAGS) regexprops$(EXEEXT)
++	../lib/regexprops$(EXEEXT) "Regular Expressions" > $@
++	$(RM) ../lib/regexprops$(EXEEXT)
++endif
+diff -up -r dbg/find14/find/doc/Makefile.in dbg/find6/find/doc/Makefile.in

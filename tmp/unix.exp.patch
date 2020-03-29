@@ -1,0 +1,254 @@
+--- dbg/find14/find/find/testsuite/config/unix.exp	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/find/testsuite/config/unix.exp	2020-01-28 23:39:42.000000000 -0600
+@@ -1,6 +1,6 @@
+ # -*- TCL -*-
+ # Test-specific TCL procedures required by DejaGNU.
+-# Copyright (C) 2000 Free Software Foundation, Inc.
++# Copyright (C) 2000,2003,2004,2005,2006 Free Software Foundation, Inc.
+ 
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -14,7 +14,7 @@
+ # 
+ # You should have received a copy of the GNU General Public License
+ # along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
++# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
+ # USA.
+ 
+ # Modified by Kevin Dalley <kevind@rahul.net> from the xargs files.
+@@ -22,13 +22,49 @@
+ # written by Rob Savoye <rob@cygnus.com>.
+ 
+ 
+-global FIND
+-# look for FIND
+-if ![info exists FIND] {
+-    set FIND [findfile $base_dir/../find $base_dir/../find [transform find]]
+-    verbose "FIND defaulting to $FIND" 2
++global OLDFIND
++global FTSFIND
++
++verbose "base_dir is $base_dir" 2
++
++# look for OLDFIND and FTSFIND
++if { ![info exists OLDFIND] || ![info exists FTSFIND] } {
++    verbose "Searching for oldfind"
++    set dir "$base_dir/.."
++
++    set objfile "find.o"
++    if ![file exists "$dir/$objfile"] then {
++	error "dir is $dir, but I cannot see $objfile in that directory"
++    }
++    if ([findfile $dir/oldfind 1 0]) {
++	verbose "found oldfind, so ftsfind must be called find"
++	set OLDFIND [findfile $dir/oldfind $dir/oldfind [transform oldfind]]
++	set FTSFIND [findfile $dir/find    $dir/find    [transform find   ]]
++    } else {
++	verbose "did not find oldfind, so ftsfind must be called ftsfind"
++	set OLDFIND [findfile $dir/find    $dir/find    [transform find   ]]
++	set FTSFIND [findfile $dir/ftsfind $dir/ftsfind [transform ftsfind]]
++    }
++}
++
++verbose "ftsfind is at $FTSFIND" 2
++verbose "oldfind is at $OLDFIND" 2
++
++if { [ string equal $FTSFIND $OLDFIND ] } {
++    error "OLDFIND and FTSFIND are set to $FTSFIND, which can't be right"
+ }
+ 
++if [file exists $FTSFIND] then {
++    if [file exists $OLDFIND] then { 
++	verbose "FTSFIND=$FTSFIND and OLDFIND=$OLDFIND both exist." 2
++    } else {
++	error "OLDFIND=$OLDFIND, but that program does not exist"
++    }
++} else {
++    error "FTSFIND=$FTSFIND, but that program does not exist (base_dir is $base_dir)"
++}
++    
++
+ global FINDFLAGS
+ if ![info exists FINDFLAGS] then {
+     set FINDFLAGS ""
+@@ -37,44 +73,65 @@ if ![info exists FINDFLAGS] then {
+ # Called by runtest.
+ # Extract and print the version number of find.
+ proc find_version {} {
+-    global FIND
++    global FTSFIND
+     global FINDFLAGS
+ 
+-    if {[which $FIND] != 0} then {
+-	set tmp [ eval exec $FIND $FINDFLAGS --version </dev/null ]
++    if {[which $FTSFIND] != 0} then {
++	set tmp [ eval exec $FTSFIND $FINDFLAGS --version </dev/null ]
+ 	regexp "version.*$" $tmp version
+ 	if [info exists version] then {
+-	    clone_output "[which $FIND] $version\n"
++	    clone_output "[which $FTSFIND] $version\n"
+ 	} else {
+ 	    warning "cannot get version from $tmp."
+ 	}
+     } else {
+-	warning "$FIND, program does not exist"
++	warning "$FTSFIND, program does not exist"
+     }
+ }
+ 
+ # Run find and leave the output in $comp_output.
+ # Called by individual test scripts.
+-proc find_start { passfail options {infile ""}} {
++proc do_find_start { suffix findprogram flags passfail options infile output } {
+     global verbose
+-    global FIND
+-    global FINDFLAGS
+     global comp_output
+ 
+-    if {[which $FIND] == 0} then {
+-	error "$FIND, program does not exist"
+-	exit 1
+-    }
+-
+-    set fail_good [string match "f*" $passfail]
+-
+     set scriptname [uplevel {info script}]
+     set testbase [file rootname $scriptname]
+-    set testname [file tail $testbase]
++    
++
++    if { [string match "f*" $passfail] } {
++	set fail_good 1
++    } else {
++	if { [string match "p*" $passfail] } {
++	    set fail_good 0
++	} else {
++	    if { [string match "xf*" $passfail] } {
++		setup_xfail "*-*-*"
++		set fail_good 1
++	    } else {
++		if { [string match "xp*" $passfail] } {
++		    setup_xfail "*-*-*"
++		    set fail_good 0
++		} else {
++		    # badly formed
++		    untested "Badly defined test"
++		    error "The first argument to find_start was $passfail but it should begin with p (pass) or f (fail) or xf (should fail but we know it passes) or xp (should pass but we know it fails)"
++		}
++	    }
++	}
++    }
++
++    set test [file tail $testbase] 
++    set testname "$test.$suffix"
+ 
+     # set compareprog "cmp"
+     set compareprog "diff -u"
+ 
++    set tmpout ""
++    if { $output != "" } {
++	error "The output option is not supported yet"
++    }
++
+     set outfile "$testbase.xo"
+     if {$infile != ""} then {
+ 	set infile "[file dirname [file dirname $testbase]]/inputs/$infile"
+@@ -82,7 +139,7 @@ proc find_start { passfail options {infi
+ 	set infile /dev/null
+     }
+ 
+-    set cmd "$FIND $FINDFLAGS $options < $infile | sort > find.out"
++    set cmd "$findprogram $flags $options < $infile | sort > find.out"
+     send_log "$cmd\n"
+     if $verbose>1 then {
+ 	send_user "Spawning \"$cmd\"\n"
+@@ -130,8 +187,73 @@ proc find_start { passfail options {infi
+     pass "$testname"
+ }
+ 
++
++proc find_start { passfail options {infile ""} {output ""}} {
++    global OLDFIND
++    global FTSFIND
++    global FINDFLAGS
++    global comp_output
++    global SKIP_OLD
++    global SKIP_NEW
++
++    if {$infile != ""} then {
++	set msg "Did not expect infile parameter to be set"
++	untested $msg
++	error $msg
++    }
++
++    if {[which $FTSFIND] == 0} then {
++	error "$FTSFIND, program does not exist"
++	exit 1
++    }
++    if {[which $OLDFIND] == 0} then {
++	error "$OLDFIND, program does not exist"
++	exit 1
++    }
++
++    # Now run the test with each binary, once with each optimisation level.
++    foreach optlevel {0 1 2 3} {
++	set flags "$FINDFLAGS -O$optlevel"
++	if { ![info exists SKIP_OLD] || ! $SKIP_OLD } {
++	    do_find_start old-O$optlevel  $OLDFIND $flags $passfail $options $infile $output
++	}
++	if { ![info exists SKIP_NEW] || !$SKIP_NEW } {
++	    do_find_start new-O$optlevel  $FTSFIND $flags $passfail $options $infile $output
++	}
++    }
++}
++
+ # Called by runtest.
+ # Clean up (remove temporary files) before runtest exits.
+ proc find_exit {} {
+     catch "exec rm -f find.out cmp.out"
+ }
++
++proc path_setting_is_unsafe {} {
++    global env;
++    set itemlist [ split $env(PATH) : ]
++    foreach item $itemlist {
++	if { [ string equal $item "" ] } {
++	    return 1;
++	}
++	if { [ string equal $item "." ] } {
++	    return 1;
++	}
++	if { ! [ string match "/*" $item ] } {
++	    # not an absolute path element.
++	    return 1
++	}
++    }
++    return 0;
++}
++
++proc safe_path [ ] {
++    if { [ path_setting_is_unsafe ] } {
++	warning { Cannot perform test as your $PATH environment variable includes a reference to the current directory or a directory name which is not absolute } 
++	untested { skipping this test because your $PATH variable is wrongly set }
++	return 0
++    } else {
++	return 1
++    }
++}
++
+Only in dbg/find6/find/find/testsuite: excuses.txt
+Only in dbg/find6/find/find/testsuite/find.gnu: access.exp
+Only in dbg/find6/find/find/testsuite/find.gnu: access.xo
+Only in dbg/find6/find/find/testsuite/find.gnu: delete.exp
+Only in dbg/find6/find/find/testsuite/find.gnu: delete.xo
+Only in dbg/find6/find/find/testsuite/find.gnu: depth-d.exp
+Only in dbg/find6/find/find/testsuite/find.gnu: depth-d.xo
+Only in dbg/find6/find/find/testsuite/find.gnu: empty.exp
+Only in dbg/find6/find/find/testsuite/find.gnu: empty.xo
+Only in dbg/find6/find/find/testsuite/find.gnu: execdir-hier.exp
+Only in dbg/find6/find/find/testsuite/find.gnu: execdir-hier.xo
+Only in dbg/find6/find/find/testsuite/find.gnu: execdir-one.exp
+Only in dbg/find6/find/find/testsuite/find.gnu: execdir-one.xo
+Only in dbg/find6/find/find/testsuite/find.gnu: execdir-pwd.exp
+diff -up -r dbg/find14/find/find/testsuite/find.gnu/execdir-root-only.exp dbg/find6/find/find/testsuite/find.gnu/execdir-root-only.exp

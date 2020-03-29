@@ -1,0 +1,23 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/mkdir.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/mkdir.c	2020-01-28 23:39:42.000000000 -0600
+@@ -1,7 +1,7 @@
+ /* On some systems, mkdir ("foo/", 0700) fails because of the trailing
+    slash.  On those systems, this wrapper removes the trailing slash.
+ 
+-   Copyright (C) 2001, 2003 Free Software Foundation, Inc.
++   Copyright (C) 2001, 2003, 2006 Free Software Foundation, Inc.
+ 
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+@@ -15,7 +15,7 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ /* written by Jim Meyering */
+ 
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: mkdir-p.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: mkdir-p.h
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/mkdtemp.c dbg/find6/find/gnulib-cvs/gnulib/lib/mkdtemp.c

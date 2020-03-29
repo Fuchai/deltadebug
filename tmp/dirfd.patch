@@ -1,0 +1,18 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/dirfd	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/dirfd	2020-01-28 23:39:42.000000000 -0600
+@@ -12,13 +12,12 @@ configure.ac:
+ gl_FUNC_DIRFD
+ 
+ Makefile.am:
+-lib_SOURCES += dirfd.h
+ 
+ Include:
+ "dirfd.h"
+ 
+ License:
+-GPL
++LGPL
+ 
+ Maintainer:
+ Jim Meyering
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/dirname dbg/find6/find/gnulib-cvs/gnulib/modules/dirname

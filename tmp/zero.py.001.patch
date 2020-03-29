@@ -1,0 +1,11 @@
+--- demodir/yesterday/zero.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/zero.py	2019-11-29 23:50:49.000000000 -0600
+@@ -20,8 +19,6 @@ import numpy as np
+ import time
+ import queue
+ import threading
+-import pickle
+-import math
+ 
+ 
+ class AlphaZero:

@@ -1,0 +1,28 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/CVS/Entries	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/CVS/Entries	2020-01-28 23:39:42.000000000 -0600
+@@ -1,7 +1,16 @@
+-/COPYING/1.2/Wed Sep 15 15:59:43 2004//D2005.02.12.00.00.00
+-/ChangeLog/1.250/Thu Feb  3 20:38:14 2005//D2005.02.12.00.00.00
+-/MODULES.html/1.125/Fri Feb  4 08:53:03 2005//D2005.02.12.00.00.00
+-/MODULES.html.sh/1.75/Fri Jan 28 12:08:30 2005//D2005.02.12.00.00.00
+-/README/1.11/Tue Sep 28 15:02:50 2004//D2005.02.12.00.00.00
+-/gnulib-tool/1.38/Wed Jan  5 02:50:04 2005//D2005.02.12.00.00.00
+-D
++/COPYING/1.3/Thu Oct 26 16:20:28 2006//D2007.04.03.00.00.00
++/ChangeLog/1.1508/Sun Apr  1 13:56:50 2007//D2007.04.03.00.00.00
++/MODULES.html.sh/1.203/Sat Mar 31 14:01:54 2007//D2007.04.03.00.00.00
++/Makefile/1.1/Mon Nov 20 18:13:41 2006//D2007.04.03.00.00.00
++/NEWS/1.11/Sun Apr  1 11:01:09 2007//D2007.04.03.00.00.00
++/README/1.20/Sat Mar 31 12:34:54 2007//D2007.04.03.00.00.00
++/check-module/1.7/Sat Nov 18 11:16:55 2006//D2007.04.03.00.00.00
++/gnulib-tool/1.229/Fri Mar 23 13:11:28 2007//D2007.04.03.00.00.00
++/users.txt/1.15/Thu Mar  8 16:34:31 2007//D2007.04.03.00.00.00
++D/build-aux////
++D/config////
++D/doc////
++D/lib////
++D/m4////
++D/modules////
++D/tests////
+Only in dbg/find14/find/gnulib-cvs/gnulib/CVS: Entries.Log
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/CVS/Tag dbg/find6/find/gnulib-cvs/gnulib/CVS/Tag

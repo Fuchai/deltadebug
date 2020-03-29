@@ -1,0 +1,16 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/group-member	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/group-member	2020-01-28 23:39:42.000000000 -0600
+@@ -14,7 +14,6 @@ configure.ac:
+ gl_FUNC_GROUP_MEMBER
+ 
+ Makefile.am:
+-lib_SOURCES += group-member.h
+ 
+ Include:
+ "group-member.h"
+@@ -24,4 +23,3 @@ GPL
+ 
+ Maintainer:
+ Jim Meyering
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/hard-locale dbg/find6/find/gnulib-cvs/gnulib/modules/hard-locale

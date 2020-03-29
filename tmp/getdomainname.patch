@@ -1,0 +1,11 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/getdomainname	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/getdomainname	2020-01-28 23:39:42.000000000 -0600
+@@ -12,7 +12,6 @@ configure.ac:
+ gl_FUNC_GETDOMAINNAME
+ 
+ Makefile.am:
+-lib_SOURCES += getdomainname.h
+ 
+ Include:
+ "getdomainname.h"
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/gethostname dbg/find6/find/gnulib-cvs/gnulib/modules/gethostname

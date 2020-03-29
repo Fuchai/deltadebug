@@ -1,0 +1,255 @@
+--- dbg/find14/find/find/.deps/pred.Po	2020-01-28 23:48:55.000000000 -0600
++++ dbg/find6/find/find/.deps/pred.Po	2020-01-28 23:40:07.000000000 -0600
+@@ -5,9 +5,9 @@ pred.o: pred.c /usr/include/stdc-predef.
+  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+  /usr/include/x86_64-linux-gnu/bits/types.h \
+- /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/time.h \
+- /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h /usr/include/endian.h \
+- /usr/include/x86_64-linux-gnu/bits/endian.h \
++ /usr/include/x86_64-linux-gnu/bits/typesizes.h ../gnulib/lib/time.h \
++ ///usr/include/time.h /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
++ /usr/include/endian.h /usr/include/x86_64-linux-gnu/bits/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+  /usr/include/x86_64-linux-gnu/sys/select.h \
+@@ -17,26 +17,27 @@ pred.o: pred.c /usr/include/stdc-predef.
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
+  /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+- /usr/include/x86_64-linux-gnu/sys/stat.h \
++ ../gnulib/lib/sys/stat.h ///usr/include/x86_64-linux-gnu/sys/stat.h \
+  /usr/include/x86_64-linux-gnu/bits/stat.h /usr/include/stdio.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+- /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/string.h \
+- /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/string.h \
+- /usr/include/x86_64-linux-gnu/bits/string2.h /usr/include/stdlib.h \
+- /usr/include/x86_64-linux-gnu/bits/string3.h /usr/include/errno.h \
+- /usr/include/x86_64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
+- /usr/include/x86_64-linux-gnu/asm/errno.h \
++ /usr/include/x86_64-linux-gnu/bits/stdio2.h ../gnulib/lib/string.h \
++ ///usr/include/string.h /usr/include/xlocale.h \
++ /usr/include/x86_64-linux-gnu/bits/string.h \
++ /usr/include/x86_64-linux-gnu/bits/string2.h ../gnulib/lib/stdlib.h \
++ ///usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/string3.h \
++ /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
++ /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
+  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
+  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+  /usr/include/x86_64-linux-gnu/bits/waitstatus.h ../gnulib/lib/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+- /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/unistd.h \
+- /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
++ /usr/include/x86_64-linux-gnu/bits/stdlib.h ../gnulib/lib/unistd.h \
++ ///usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd.h \
+@@ -47,10 +48,12 @@ pred.o: pred.c /usr/include/stdc-predef.
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+- /usr/include/x86_64-linux-gnu/bits/xopen_lim.h /usr/include/inttypes.h \
++ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h ../gnulib/lib/inttypes.h \
++ ///usr/include/inttypes.h \
+  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar.h ../gnulib/lib/regex.h \
+- /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdbool.h ../lib/buildcmd.h \
++ ../gnulib/lib/timespec.h ../lib/buildcmd.h \
++ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdbool.h \
+  /usr/include/fnmatch.h /usr/include/signal.h \
+  /usr/include/x86_64-linux-gnu/bits/signum.h \
+  /usr/include/x86_64-linux-gnu/bits/siginfo.h \
+@@ -58,16 +61,27 @@ pred.o: pred.c /usr/include/stdc-predef.
+  /usr/include/x86_64-linux-gnu/bits/sigcontext.h \
+  /usr/include/x86_64-linux-gnu/bits/sigstack.h \
+  /usr/include/x86_64-linux-gnu/sys/ucontext.h \
+- /usr/include/x86_64-linux-gnu/bits/sigthread.h /usr/include/pwd.h \
+- /usr/include/grp.h /usr/include/assert.h /usr/include/fcntl.h \
+- /usr/include/x86_64-linux-gnu/bits/fcntl.h \
++ /usr/include/x86_64-linux-gnu/bits/sigthread.h /usr/include/math.h \
++ /usr/include/x86_64-linux-gnu/bits/huge_val.h \
++ /usr/include/x86_64-linux-gnu/bits/huge_valf.h \
++ /usr/include/x86_64-linux-gnu/bits/huge_vall.h \
++ /usr/include/x86_64-linux-gnu/bits/inf.h \
++ /usr/include/x86_64-linux-gnu/bits/nan.h \
++ /usr/include/x86_64-linux-gnu/bits/mathdef.h \
++ /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
++ /usr/include/x86_64-linux-gnu/bits/mathinline.h /usr/include/pwd.h \
++ /usr/include/grp.h /usr/include/assert.h ../gnulib/lib/fcntl.h \
++ ///usr/include/fcntl.h /usr/include/x86_64-linux-gnu/bits/fcntl.h \
+  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
+  /usr/include/x86_64-linux-gnu/bits/uio.h \
+- /usr/include/x86_64-linux-gnu/bits/fcntl2.h ../gnulib/lib/xalloc.h \
+- ../gnulib/lib/dirname.h ../gnulib/lib/human.h ../lib/modetype.h \
+- ../gnulib/lib/filemode.h ../lib/wait.h \
+- /usr/include/x86_64-linux-gnu/sys/wait.h /usr/include/dirent.h \
+- /usr/include/x86_64-linux-gnu/bits/dirent.h
++ /usr/include/x86_64-linux-gnu/bits/fcntl2.h /usr/include/locale.h \
++ /usr/include/x86_64-linux-gnu/bits/locale.h ../gnulib/lib/openat.h \
++ /usr/include/dirent.h /usr/include/x86_64-linux-gnu/bits/dirent.h \
++ ../gnulib/lib/xalloc.h ../gnulib/lib/dirname.h ../gnulib/lib/human.h \
++ ../lib/modetype.h ../gnulib/lib/filemode.h ../lib/wait.h \
++ /usr/include/x86_64-linux-gnu/sys/wait.h ../lib/printquoted.h \
++ ../gnulib/lib/quote.h ../gnulib/lib/quotearg.h ../gnulib/lib/yesno.h \
++ ../lib/listfile.h ../gnulib/lib/stat-time.h ../lib/dircallback.h
+ 
+ /usr/include/stdc-predef.h:
+ 
+@@ -91,7 +105,9 @@ defs.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h:
+ 
+-/usr/include/time.h:
++../gnulib/lib/time.h:
++
++///usr/include/time.h:
+ 
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h:
+ 
+@@ -117,7 +133,9 @@ defs.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
+ 
+-/usr/include/x86_64-linux-gnu/sys/stat.h:
++../gnulib/lib/sys/stat.h:
++
++///usr/include/x86_64-linux-gnu/sys/stat.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/stat.h:
+ 
+@@ -139,7 +157,9 @@ defs.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h:
+ 
+-/usr/include/string.h:
++../gnulib/lib/string.h:
++
++///usr/include/string.h:
+ 
+ /usr/include/xlocale.h:
+ 
+@@ -147,7 +167,9 @@ defs.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/string2.h:
+ 
+-/usr/include/stdlib.h:
++../gnulib/lib/stdlib.h:
++
++///usr/include/stdlib.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/string3.h:
+ 
+@@ -175,7 +197,9 @@ defs.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h:
+ 
+-/usr/include/unistd.h:
++../gnulib/lib/unistd.h:
++
++///usr/include/unistd.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/posix_opt.h:
+ 
+@@ -205,7 +229,9 @@ defs.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
+ 
+-/usr/include/inttypes.h:
++../gnulib/lib/inttypes.h:
++
++///usr/include/inttypes.h:
+ 
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
+ 
+@@ -215,10 +241,12 @@ defs.h:
+ 
+ ../gnulib/lib/regex.h:
+ 
+-/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdbool.h:
++../gnulib/lib/timespec.h:
+ 
+ ../lib/buildcmd.h:
+ 
++/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdbool.h:
++
+ /usr/include/fnmatch.h:
+ 
+ /usr/include/signal.h:
+@@ -237,13 +265,33 @@ defs.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/sigthread.h:
+ 
++/usr/include/math.h:
++
++/usr/include/x86_64-linux-gnu/bits/huge_val.h:
++
++/usr/include/x86_64-linux-gnu/bits/huge_valf.h:
++
++/usr/include/x86_64-linux-gnu/bits/huge_vall.h:
++
++/usr/include/x86_64-linux-gnu/bits/inf.h:
++
++/usr/include/x86_64-linux-gnu/bits/nan.h:
++
++/usr/include/x86_64-linux-gnu/bits/mathdef.h:
++
++/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
++
++/usr/include/x86_64-linux-gnu/bits/mathinline.h:
++
+ /usr/include/pwd.h:
+ 
+ /usr/include/grp.h:
+ 
+ /usr/include/assert.h:
+ 
+-/usr/include/fcntl.h:
++../gnulib/lib/fcntl.h:
++
++///usr/include/fcntl.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/fcntl.h:
+ 
+@@ -253,6 +301,16 @@ defs.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/fcntl2.h:
+ 
++/usr/include/locale.h:
++
++/usr/include/x86_64-linux-gnu/bits/locale.h:
++
++../gnulib/lib/openat.h:
++
++/usr/include/dirent.h:
++
++/usr/include/x86_64-linux-gnu/bits/dirent.h:
++
+ ../gnulib/lib/xalloc.h:
+ 
+ ../gnulib/lib/dirname.h:
+@@ -267,6 +325,16 @@ defs.h:
+ 
+ /usr/include/x86_64-linux-gnu/sys/wait.h:
+ 
+-/usr/include/dirent.h:
++../lib/printquoted.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/dirent.h:
++../gnulib/lib/quote.h:
++
++../gnulib/lib/quotearg.h:
++
++../gnulib/lib/yesno.h:
++
++../lib/listfile.h:
++
++../gnulib/lib/stat-time.h:
++
++../lib/dircallback.h:
+diff -up -r dbg/find14/find/find/.deps/tree.Po dbg/find6/find/find/.deps/tree.Po

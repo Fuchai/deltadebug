@@ -1,0 +1,27 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/hash	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/hash	2020-01-28 23:39:42.000000000 -0600
+@@ -2,19 +2,18 @@ Description:
+ Parametrizable hash table.
+ 
+ Files:
+-lib/hash.h
+ lib/hash.c
++lib/hash.h
+ m4/hash.m4
+-lib/xalloc.h
+ 
+ Depends-on:
+ stdbool
++xalloc
+ 
+ configure.ac:
+ gl_HASH
+ 
+ Makefile.am:
+-lib_SOURCES += hash.h hash.c
+ 
+ Include:
+ "hash.h"
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: havelib
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: host-os
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/human dbg/find6/find/gnulib-cvs/gnulib/modules/human

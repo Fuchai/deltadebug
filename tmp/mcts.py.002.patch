@@ -1,0 +1,16 @@
+--- demodir/yesterday/mcts.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/mcts.py	2019-11-29 23:50:49.000000000 -0600
+@@ -40,11 +39,9 @@ class MCTS:
+         when terminal, the winner is calculated, and all data points get an extra value
+         :return:
+         """
+-        if self.debug:
+-            print("Generating a new game with MCTS")
+         for step in range(self.max_game_length):
+-            if step % 10 == 0:
+-                print("Game step " + str(step) + " /" + str(self.max_game_length))
++            # if step % 10 == 0:
++            print("Game step " + str(step) + " /" + str(self.max_game_length))
+             if step == self.temperature_change_at:
+                 self.temperature = False
+             if self.debug:

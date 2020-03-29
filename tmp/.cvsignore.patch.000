@@ -1,0 +1,12 @@
+--- dbg/find14/find/doc/.cvsignore	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/doc/.cvsignore	2020-01-28 23:39:42.000000000 -0600
+@@ -17,5 +17,8 @@ find.ps
+ find.toc
+ find.tp
+ find.vr
++regexprops.texi
+ stamp-vti
+ version.texi
++texinfo.tex
++getdate.texi
+diff -up -r dbg/find14/find/doc/find.texi dbg/find6/find/doc/find.texi

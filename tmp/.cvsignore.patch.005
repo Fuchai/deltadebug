@@ -1,0 +1,8 @@
+--- dbg/find14/find/po/.cvsignore	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/po/.cvsignore	2020-01-28 23:39:42.000000000 -0600
+@@ -3,3 +3,4 @@ Makefile
+ Makefile.in
+ POTFILES
+ cat-id-tbl.c
++stamp-po
+diff -up -r dbg/find14/find/po/da.po dbg/find6/find/po/da.po

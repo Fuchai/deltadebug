@@ -1,0 +1,38 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/gcd.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/gcd.h	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+ /* Arithmetic.
+-   Copyright (C) 2001-2002 Free Software Foundation, Inc.
++   Copyright (C) 2001-2002, 2006 Free Software Foundation, Inc.
+    Written by Bruno Haible <bruno@clisp.org>, 2001.
+ 
+    This program is free software; you can redistribute it and/or modify
+@@ -14,12 +14,22 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ #ifndef _GCD_H
+ #define _GCD_H
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++
+ /* Return the greatest common divisor of a > 0 and b > 0.  */
+ extern unsigned long gcd (unsigned long a, unsigned long b);
+ 
++
++#ifdef __cplusplus
++}
++#endif
++
+ #endif /* _GCD_H */
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gc-gnulib.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gc.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gc-libgcrypt.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gc-pbkdf2-sha1.c
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/getaddrinfo.c dbg/find6/find/gnulib-cvs/gnulib/lib/getaddrinfo.c

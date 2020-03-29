@@ -1,0 +1,42 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/m4/clock_time.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/m4/clock_time.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,14 +1,18 @@
+-# clock_time.m4 serial 5
+-dnl Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
++# clock_time.m4 serial 8
++dnl Copyright (C) 2002-2006 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+ 
+-# Check for clock_gettime and clock_settime, and sets LIB_CLOCK_GETTIME.
++# Check for clock_gettime and clock_settime, and set LIB_CLOCK_GETTIME.
++# For a program named, say foo, you should add a line like the following
++# in the corresponding Makefile.am file:
++# foo_LDADD = $(LDADD) $(LIB_CLOCK_GETTIME)
++
+ AC_DEFUN([gl_CLOCK_TIME],
+ [
+-  # dnl Persuade glibc <time.h> to declare these functions.
+-  AC_REQUIRE([AC_GNU_SOURCE])
++  dnl Persuade glibc and Solaris <time.h> to declare these functions.
++  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
+ 
+   # Solaris 2.5.1 needs -lposix4 to get the clock_gettime function.
+   # Solaris 7 prefers the library name -lrt to the obsolescent name -lposix4.
+@@ -16,11 +20,11 @@ AC_DEFUN([gl_CLOCK_TIME],
+   # Save and restore LIBS so e.g., -lrt, isn't added to it.  Otherwise, *all*
+   # programs in the package would end up linked with that potentially-shared
+   # library, inducing unnecessary run-time overhead.
+-  fetish_saved_libs=$LIBS
++  gl_saved_libs=$LIBS
+     AC_SEARCH_LIBS(clock_gettime, [rt posix4],
+                    [test "$ac_cv_search_clock_gettime" = "none required" ||
+                     LIB_CLOCK_GETTIME=$ac_cv_search_clock_gettime])
+-    AC_SUBST(LIB_CLOCK_GETTIME)
++    AC_SUBST([LIB_CLOCK_GETTIME])
+     AC_CHECK_FUNCS(clock_gettime clock_settime)
+-  LIBS=$fetish_saved_libs
++  LIBS=$gl_saved_libs
+ ])
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/cloexec.m4 dbg/find6/find/gnulib-cvs/gnulib/m4/cloexec.m4

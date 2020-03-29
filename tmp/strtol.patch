@@ -1,0 +1,11 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/strtol	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/strtol	2020-01-28 23:39:42.000000000 -0600
+@@ -6,6 +6,7 @@ lib/strtol.c
+ m4/strtol.m4
+ 
+ Depends-on:
++wchar
+ 
+ configure.ac:
+ gl_FUNC_STRTOL
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/strtoumax dbg/find6/find/gnulib-cvs/gnulib/modules/strtoumax

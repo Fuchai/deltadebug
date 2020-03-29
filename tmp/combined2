@@ -1,0 +1,64 @@
+--- demodir/today/mcts.py	2019-11-29 23:50:49.000000000 -0600
++++ demodir/today/mcts.py	2019-11-29 23:50:49.000000000 -0600
+@@ -17,7 +17,7 @@
+     page 2 right column paragraph 1).
+     """
+ 
+-    def __init__(self, nn_execution_queue, nn, is_cuda, max_game_length, peace, simulations_per_play, debug):
++    def __init__(self, nn_execution_queue, nn, is_cuda, max_game_length, simulations_per_play, debug):
+         self.checker = Checker()
+         self.permaTree = PermaTree(self.checker, is_cuda)
+         self.nn_queue = nn_execution_queue
+@@ -239,19 +239,9 @@
+                 print(node.is_root())
+             Usa = (self.puct * edge.prior_probability * math.sqrt(sumnsb)) / (1 + Nsa)
+             QU.append(edge.mean_action_value + Usa)
+-            # if edge.is_first_player():
+-            #     QU.append(edge.mean_action_value + Usa)
+-            # else:
+-            #     QU.append(-edge.mean_action_value+ Usa)
+ 
+         # pick the edge that is returned by the argmax and return it
+         # make it node
+-        if node.is_root():
+-            epsilon=0.25
+-            d_samples=np.random.dirichlet((0.03,)*len(QU)).tolist()
+-            for quidx in range(len(QU)):
+-                QU[quidx]=QU[quidx]*(1-epsilon)+d_samples[quidx]*epsilon
+-
+         maxqu = -float('inf')
+         maxedx = None
+         for edx, qu in enumerate(QU):
+--- demodir/yesterday/zero.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/zero.py	2019-11-29 23:50:49.000000000 -0600
+@@ -499,7 +381,7 @@ def gpu_thread_worker(nn, edge_queue, ev
+                     edge = edge_queue.get_nowait()
+                     if edge is None:
+                         last_batch = True
+-                        print("Sentinel received. GPU will process this batch and terminate afterwards")
++                        # print("Sentinel received. GPU will process this batch and terminate afterwards")
+                     else:
+                         edges.append(edge)
+                 except queue.Empty:
+--- demodir/yesterday/test_checker.py	2020-03-28 20:51:37.174154259 -0500
++++ demodir/today/test_checker.py	2020-03-28 20:51:19.569984012 -0500
+@@ -17,8 +17,8 @@ class TestChecker(TestCase):
+         print(checker.state.get_legal_actions())
+         # player_play_verbose(checker.state)
+         original_state=checker.state
+-        checker.flip_board()
+-        checker.flip_board()
++        checker.flip_board().flip_board()
++
+         assert checker.state==original_state
+ 
+ 
+--- demodir/yesterday/gameInterface.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/gameInterface.py	2019-11-29 23:50:49.000000000 -0600
+@@ -23,3 +23,5 @@ def machine_versus_machine():
+     ab.start_game()
+ 
+ 
++if __name__ == '__main__':
++    machine_versus_machine()
+\ No newline at end of file

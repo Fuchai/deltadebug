@@ -1,0 +1,90 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/findprog.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/findprog.c	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+ /* Locating a program in PATH.
+-   Copyright (C) 2001-2004 Free Software Foundation, Inc.
++   Copyright (C) 2001-2004, 2006-2007 Free Software Foundation, Inc.
+    Written by Bruno Haible <haible@clisp.cons.org>, 2001.
+ 
+    This program is free software; you can redistribute it and/or modify
+@@ -14,12 +14,10 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ 
+-#ifdef HAVE_CONFIG_H
+-# include "config.h"
+-#endif
++#include <config.h>
+ 
+ /* Specification.  */
+ #include "findprog.h"
+@@ -27,13 +25,10 @@
+ #include <stdbool.h>
+ #include <stdlib.h>
+ #include <string.h>
+-
+-#ifdef HAVE_UNISTD_H
+-# include <unistd.h>
+-#endif
++#include <unistd.h>
+ 
+ #include "xalloc.h"
+-#include "pathname.h"
++#include "filename.h"
+ 
+ 
+ const char *
+@@ -47,7 +42,7 @@ find_in_path (const char *progname)
+ #else
+   /* Unix */
+   char *path;
+-  char *dir;
++  char *path_rest;
+   char *cp;
+ 
+   if (strchr (progname, '/') != NULL)
+@@ -63,13 +58,15 @@ find_in_path (const char *progname)
+ 
+   /* Make a copy, to prepare for destructive modifications.  */
+   path = xstrdup (path);
+-  for (dir = path; ; dir = cp + 1)
++  for (path_rest = path; ; path_rest = cp + 1)
+     {
++      const char *dir;
+       bool last;
+       char *progpathname;
+ 
+       /* Extract next directory in PATH.  */
+-      for (cp = dir; *cp != '\0' && *cp != ':'; cp++)
++      dir = path_rest;
++      for (cp = path_rest; *cp != '\0' && *cp != ':'; cp++)
+ 	;
+       last = (*cp == '\0');
+       *cp = '\0';
+@@ -79,7 +76,7 @@ find_in_path (const char *progname)
+ 	dir = ".";
+ 
+       /* Concatenate dir and progname.  */
+-      progpathname = concatenated_pathname (dir, progname, NULL);
++      progpathname = concatenated_filename (dir, progname, NULL);
+ 
+       /* On systems which have the eaccess() system call, let's use it.
+ 	 On other systems, let's hope that this program is not installed
+@@ -92,10 +89,10 @@ find_in_path (const char *progname)
+ 	    {
+ 	      free (progpathname);
+ 
+-	      /* Add the "./" prefix for real, that concatenated_pathname()
++	      /* Add the "./" prefix for real, that concatenated_filename()
+ 		 optimized away.  This avoids a second PATH search when the
+ 		 caller uses execlp/execvp.  */
+-	      progpathname = xmalloc (2 + strlen (progname) + 1);
++	      progpathname = XNMALLOC (2 + strlen (progname) + 1, char);
+ 	      progpathname[0] = '.';
+ 	      progpathname[1] = '/';
+ 	      memcpy (progpathname + 2, progname, strlen (progname) + 1);
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/findprog.h dbg/find6/find/gnulib-cvs/gnulib/lib/findprog.h

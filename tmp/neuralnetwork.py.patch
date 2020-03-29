@@ -1,0 +1,114 @@
+--- demodir/yesterday/neuralnetwork.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/neuralnetwork.py	2019-11-29 23:50:49.000000000 -0600
+@@ -118,7 +118,8 @@ class NoPolicy(Model):
+ 
+ 
+ class YesPolicy(Model):
+-    def __init__(self, scale):
++    def __init__(self):
++        scale = 64
+         tower_len = 9
+         super(YesPolicy, self).__init__()
+         self.conv1 = nn.Conv2d(4, scale, 3, padding=1)
+@@ -152,8 +153,7 @@ class YesPolicy(Model):
+         A second design
+ 
+         :param input_tensor: a batch tensor
+-        :return: policy logits, not probability
+-                 value
++        :return: value of the state
+         """
+         out = self.conv1(input_tensor)
+         out1 = self.bn1(out)
+@@ -166,6 +166,7 @@ class YesPolicy(Model):
+         p2 = self.policy_linear_1(p2)
+         p2 = torch.relu(p2)
+         p2 = self.policy_linear_2(p2)
++        p2 = torch.tanh(p2)
+ 
+         v = self.value_head(out3)
+         v1 = v.reshape(v.shape[0], -1)
+@@ -176,63 +177,11 @@ class YesPolicy(Model):
+         return p2, v2
+ 
+ 
+-class SharedPolicy(Model):
+-    def __init__(self, scale):
+-        tower_len = 9
+-        super(SharedPolicy, self).__init__()
+-        self.conv1 = nn.Conv2d(4, scale, 3, padding=1)
+-        self.bn1 = nn.BatchNorm2d(scale)
+-        self.tower = nn.ModuleList([ResBlock(scale)] * tower_len)
+-        self.policy_linear_1 = nn.Linear(1 * 8 * 8, scale * 2)
+-        self.policy_linear_2 = nn.Linear(scale * 2, 1)
+-        self.value_linear_1 = nn.Linear(1 * 8 * 8, scale * 2)
+-        self.value_linear_2 = nn.Linear(scale * 2, 1)
+-
+-        self.shared_head = nn.Sequential(
+-            nn.Conv2d(scale, 1, 1),
+-            nn.BatchNorm2d(1),
+-            nn.ReLU(),
+-        )
+-        self.weights_init()
+-
+-    def forward(self, input_tensor):
+-        """
+-        the (p,v)=f_theta(s) function
+-        f_theta=NeuralNetwork()
+-        p,v=f_theta(state)
+-
+-        A second design
+-
+-        :param input_tensor: a batch tensor
+-        :return: policy logits, not probability
+-                 value
+-        """
+-        out = self.conv1(input_tensor)
+-        out1 = self.bn1(out)
+-        out2 = torch.relu(out1)
+-        for res in self.tower:
+-            out3 = res(out2)
+-
+-        v = self.shared_head(out3)
+-        v1 = v.reshape(v.shape[0], -1)
+-
+-        p2 = self.policy_linear_1(v1)
+-        p2 = torch.relu(p2)
+-        p2 = self.policy_linear_2(p2)
+-
+-        v2 = self.value_linear_1(v1)
+-        v2 = torch.relu(v2)
+-        v2 = self.value_linear_2(v2)
+-        v2 = torch.tanh(v2)
+-        return p2, v2
+-
+-
+ class PaperLoss(nn.Module):
+     def __init__(self):
+         super(PaperLoss, self).__init__()
+         self.l1 = torch.nn.L1Loss()
+         self.lsm = nn.LogSoftmax(dim=0)
+-        self.sm = nn.Softmax(dim=0)
+ 
+     def forward(self, v, z, logit_p, pi):
+         """
+@@ -242,16 +191,11 @@ class PaperLoss(nn.Module):
+         :param logit_p: the nn output logits
+         :param pi: the mcts target pi
+         :return:
+-        value loss
+-        policy loss
+-        probability prediction difference
+         """
+         lsm = self.lsm(logit_p)
+         ret1 = self.l1(v, z)
+         ret2 = - torch.sum(pi * lsm)
+-        # I collect the l1 p difference because the ret2 is not interpretable due to variable dimensions
+-        ret3 = (self.sm(logit_p) - pi).abs().mean().item()
+-        return ret1, ret2, ret3
++        return ret1, ret2
+ 
+ 
+ def states_to_batch_tensor(states, is_cuda):
+Only in demodir/yesterday: performance.py
+diff -up -r demodir/yesterday/permatree.py demodir/today/permatree.py

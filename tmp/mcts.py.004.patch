@@ -1,0 +1,42 @@
+--- demodir/yesterday/mcts.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/mcts.py	2019-11-29 23:50:49.000000000 -0600
+@@ -93,39 +84,6 @@ class MCTS:
+             else:
+                 ts.z = -z
+ 
+-    def find_winner(self, mcts_node):
+-        state=mcts_node.checker_state
+-        outcome = state.first_player_evaluate()
+-
+-        # TODO not continuous outcome currently
+-        if outcome == 0:
+-            z = 0
+-        elif outcome>0:
+-            z=1
+-        else:
+-            z=-1
+-        # else:
+-        #     # truth table:
+-        #     #      flipped  not flipped
+-        #     # o>0    -1          1
+-        #     # o<0     1         -1
+-        #
+-        #     a = state.flipped
+-        #     b = outcome > 0
+-        #     z = a ^ b
+-        #     z = z * 2 - 1
+-
+-        if z == 1:
+-            print("First player won.")
+-        elif z == -1:
+-            print("Second player won")
+-        else:
+-            assert (z == 0)
+-            print("Draw")
+-
+-        self.permaTree.root.checker_state.print_board()
+-        return z
+-
+     def play(self):
+         """
+         moves the root of the tree

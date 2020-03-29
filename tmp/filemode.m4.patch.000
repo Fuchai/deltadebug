@@ -1,0 +1,21 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/m4/filemode.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/m4/filemode.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,11 +1,12 @@
+-# filemode.m4 serial 2
+-dnl Copyright (C) 2002 Free Software Foundation, Inc.
++# filemode.m4 serial 7
++dnl Copyright (C) 2002, 2005, 2006 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+ 
+ AC_DEFUN([gl_FILEMODE],
+ [
+-  dnl Prerequisites of lib/filemode.c.
+-  AC_REQUIRE([AC_HEADER_STAT])
++  AC_REQUIRE([AC_STRUCT_ST_DM_MODE])
++  AC_LIBOBJ([filemode])
++  AC_CHECK_DECLS_ONCE([strmode])
+ ])
+Only in dbg/find6/find/gnulib-cvs/gnulib/m4: filenamecat.m4
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/file-type.m4 dbg/find6/find/gnulib-cvs/gnulib/m4/file-type.m4

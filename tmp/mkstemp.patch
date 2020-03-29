@@ -1,0 +1,25 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/mkstemp	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/mkstemp	2020-01-28 23:39:42.000000000 -0600
+@@ -3,17 +3,16 @@ mkstemp() function: create a private tem
+ 
+ Files:
+ lib/mkstemp.c
+-lib/tempname.c
+-m4/ulonglong.m4
+-m4/stdint_h.m4
+-m4/inttypes_h.m4
+-m4/uintmax_t.m4
+ m4/mkstemp.m4
+ 
+ Depends-on:
++extensions
++stdlib
++tempname
+ 
+ configure.ac:
+ gl_FUNC_MKSTEMP
++gl_STDLIB_MODULE_INDICATOR([mkstemp])
+ 
+ Makefile.am:
+ 
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/modechange dbg/find6/find/gnulib-cvs/gnulib/modules/modechange

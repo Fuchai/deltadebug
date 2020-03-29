@@ -1,0 +1,273 @@
+diff -up -r /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/dd.py /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/dd.py
+--- /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/dd.py	2020-03-27 23:28:29.781827661 -0500
++++ /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/dd.py	2020-03-27 23:28:23.049670193 -0500
+@@ -7,14 +7,6 @@ import shutil
+ 
+ class Delta:
+     def __init__(self, test_binary=None, root_directory=None, yesterday_directory=None, today_directory=None):
+-        """
+-
+-        :param test_binary: the binary that tests the repository. The binary will accept the path as the only argument
+-        and returns 0 for correct, 1 for buggy and -1 for indeterminate
+-        :param root_directory: the directory that contains both today's and yesterday's code
+-        :param yesterday_directory: yesterday it works
+-        :param today_directory: today it does not work
+-        """
+         os.chdir(Path(__file__).parent)
+         self.test_binary = Path(test_binary).resolve()
+         self.root_directory = Path(root_directory).resolve()
+@@ -23,22 +15,11 @@ class Delta:
+         self.debug_flag = False
+ 
+     def pre_run(self):
+-        """
+-        run the test binary on yesterday and today to check the properties
+-
+-        :return:
+-        """
+         ytd_ret = self.test_ytd()
+         today_ret = self.test_today()
+ 
+-        assert ytd_ret == 0, "Yesterday's code did not work?"
+-        assert today_ret == 1, "Today's code did not break?"
+ 
+     def test_ytd(self):
+-        """
+-        Test yesterday's directory. Patches are applied to yesterday, so it will be used to test patched code
+-        :return:
+-        """
+         ytd_run = subprocess.run([str(self.test_binary), str(self.yesterday_directory)])
+         if self.debug_flag:
+             print("yesterday test return code", ytd_run.returncode)
+@@ -50,7 +31,7 @@ class Delta:
+             print("yesterday test return code", today_run.returncode)
+         return today_run.returncode
+ 
+-    def debug(self, algo=1, create_patch=True, print_results=True):
++    def debug(self, create_patch=True, print_results=True):
+         """
+         Delta debug.
+ 
+@@ -58,7 +39,6 @@ class Delta:
+         :param create_patch: If you want to create a patch for the minimal set of failure inducing changes
+         :param print_results: If you want to print out the results of the incremental patches in the minimal set
+         of failure inducing changes
+-        :return:
+         """
+         self.create_tmp_folder()
+         os.chdir(self.tmp_dir)
+@@ -77,13 +57,8 @@ class Delta:
+ 
+         if self.debug_flag:
+             print(incrementals)
++        minimal_patches = self.algo1(incrementals, set())
+ 
+-        if algo==1:
+-            minimal_patches = self.algo1(incrementals, set())
+-        elif algo==2:
+-            minimal_patches = self.algo2(incrementals, set(), 2)
+-        else:
+-            raise Exception("Your algorithm choice is not supported, only 1 or 2")
+ 
+         if self.debug_flag:
+             print(minimal_patches)
+@@ -99,13 +74,7 @@ class Delta:
+             print("The minimal patch is created at location", minimal_patch_path)
+ 
+     def algo1(self, patches, fixed):
+-        """
+-        Algorithm 1 presented in the paper. Does not handle inconsistencies.
+ 
+-        :param patches: The set of patches. c in paper.
+-        :param fixed: The fixed changes that will be applied to the subset. r in paper.
+-        :return: A possibly smaller set of patches.
+-        """
+         if len(patches) == 1:
+             return patches
+ 
+@@ -158,25 +127,6 @@ class Delta:
+                 if complement_tis == 0 and tis[i] == 0:
+                     return self.algo2(ci, complement | fixed, 2) | self.algo2(complement, ci | fixed, 2)
+ 
+-        #
+-        #
+-        #     if tis[0] == 0 and tis[1] == 0:
+-        #         return self.algo2(cis[0], cis[1] | fixed, 2) | self.algo2(cis[1], cis[0] | fixed, 2)
+-        # else:
+-        #     complements = [set(patches) - ci for ci in cis]
+-        #     for i, complement in enumerate(complements):
+-        #         ci = cis[i]
+-        #         if self.test_patches(complement) == 0 and tis[i] == 0:
+-        #             return self.algo2(ci, complement | fixed, 2) | self.algo2(complement, ci | fixed, 2)
+-
+-        # case 4
+-        # if n == 2:
+-        #     if tis[0] == -1 and tis[1] == 0:
+-        #         return self.algo2(cis[0], cis[1] | fixed, 2)
+-        #     elif tis[0] == 0 and tis[1] == -1:
+-        #         return self.algo2(cis[1], cis[0]|fixed, 2)
+-        # else:
+-
+         # case 4
+         for i, complement in enumerate(complements):
+             ci = cis[i]
+@@ -227,9 +177,8 @@ class Delta:
+                 subprocess.run(["patch", "-p0", "-d/"], stdin=combined, stdout=subprocess.DEVNULL)
+ 
+             # apply, test ytd, and revert
+-        ret_code = self.test_ytd()
++            ret_code = self.test_ytd()
+ 
+-        with combined_path.open("r") as combined:
+             # with combined_path.open("r") as combined:
+             if self.debug_flag:
+                 subprocess.run(["patch", "-R", "-p0", "-d/"], stdin=combined)
+@@ -251,13 +200,9 @@ def quick_main():
+     yd = "patches/expcp"
+     td = "patches/expcp2"
+     root = "patches"
+-    # yd = "/home/jasonhu/Desktop/rootdir/today"
+-    # td = "/home/jasonhu/Desktop/rootdir/yesterday"
+-    # root = "/home/jasonhu/Desktop/rootdir"
+-
+     delta = Delta(tb, root, yd, td)
+     delta.pre_run()
+-    delta.debug(algo=1)
++    delta.debug()
+ 
+ 
+ def main():
+diff -up -r /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/.gitignore /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/.gitignore
+--- /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/.gitignore	2020-03-27 14:30:08.490322225 -0500
++++ /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/.gitignore	2020-03-27 14:58:34.816568016 -0500
+@@ -1,3 +1,4 @@
+ .idea/*
+ *.xml
+-*.iml
+\ No newline at end of file
++*.iml
++tmp/*
+diff -up -r /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/patches/expcp2/a /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/patches/expcp2/a
+--- /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/patches/expcp2/a	2020-03-27 14:30:08.494322171 -0500
++++ /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/patches/expcp2/a	2020-03-27 23:14:09.301574298 -0500
+@@ -10,3 +10,4 @@ asdfasdfasdfads
+ 
+ file change one
+ fc2
++asdfasdfasdfasd
+\ No newline at end of file
+diff -up -r /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/patches/expcp2/b /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/patches/expcp2/b
+--- /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/patches/expcp2/b	2020-03-27 14:30:08.494322171 -0500
++++ /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/patches/expcp2/b	2020-03-27 23:14:09.233572681 -0500
+@@ -12,3 +12,5 @@ asdfasdfasdfads
+ asdfasdf
+ a
+ asdfasdf
++
++asdwfwef5e5wf
+\ No newline at end of file
+diff -up -r /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/patches/expcp2/c /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/patches/expcp2/c
+--- /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/patches/expcp2/c	2020-03-27 14:30:08.494322171 -0500
++++ /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/patches/expcp2/c	2020-03-27 23:14:09.265573442 -0500
+@@ -9,4 +9,5 @@ asdfasdfasdfads
+ 12312312asdfasdfasdf
+ 
+ 
+-asdfasdfasdfadsasdf
+\ No newline at end of file
++asdfasdfasdfadsasdf
++w5w5w5w5w5
+\ No newline at end of file
+diff -up -r /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/test_dummy.py /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/test_dummy.py
+--- /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/test_dummy.py	2020-03-27 14:30:08.494322171 -0500
++++ /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/test_dummy.py	2020-03-27 14:58:34.816568016 -0500
+@@ -3,8 +3,8 @@
+ import sys
+ from os import listdir
+ 
+-
+ def main():
++    """ this is the original test dummy"""
+     source_dir = sys.argv[1]
+ 
+     for f in listdir(source_dir):
+diff -up -r /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/tmp/b.000.patch /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/tmp/b.000.patch
+--- /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/tmp/b.000.patch	2020-03-27 22:22:13.222609279 -0500
++++ /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/tmp/b.000.patch	2020-03-27 22:29:44.273052697 -0500
+@@ -1,5 +1,5 @@
+---- /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/b	2020-03-27 22:18:39.749727778 -0500
+-+++ /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/b	2020-03-27 14:30:08.494322171 -0500
++--- /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/b	2020-03-27 19:16:53.766614000 -0500
+++++ /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/b	2020-03-27 19:16:53.766614000 -0500
+ @@ -6,4 +6,9 @@
+  123123123
+  123123123
+@@ -12,5 +12,5 @@
+ +asdfasdf
+ +a
+ +asdfasdf
+-Only in /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2: bug
+-diff -u -r /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/c /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/c
++Only in /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2: bug
++diff -u -r /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/c /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/c
+diff -up -r /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/tmp/bigpatch /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/tmp/bigpatch
+--- /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/tmp/bigpatch	2020-03-27 22:22:13.166607991 -0500
++++ /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/tmp/bigpatch	2020-03-27 22:29:44.217051598 -0500
+@@ -1,6 +1,6 @@
+-diff -u -r /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/b /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/b
+---- /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/b	2020-03-27 22:18:39.749727778 -0500
+-+++ /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/b	2020-03-27 14:30:08.494322171 -0500
++diff -u -r /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/b /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/b
++--- /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/b	2020-03-27 19:16:53.766614000 -0500
+++++ /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/b	2020-03-27 19:16:53.766614000 -0500
+ @@ -6,4 +6,9 @@
+  123123123
+  123123123
+@@ -13,10 +13,10 @@ diff -u -r /home/jasonhu/Desktop/pydd/de
+ +asdfasdf
+ +a
+ +asdfasdf
+-Only in /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2: bug
+-diff -u -r /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/c /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/c
+---- /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/c	2020-03-27 22:18:39.761728051 -0500
+-+++ /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/c	2020-03-27 14:30:08.494322171 -0500
++Only in /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2: bug
++diff -u -r /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/c /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/c
++--- /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/c	2020-03-27 19:16:53.766614000 -0500
+++++ /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/c	2020-03-27 19:16:53.766614000 -0500
+ @@ -8,13 +8,5 @@
+  123123123123
+  12312312asdfasdfasdf
+diff -up -r /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/tmp/c.000.patch /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/tmp/c.000.patch
+--- /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/tmp/c.000.patch	2020-03-27 22:22:13.222609279 -0500
++++ /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/tmp/c.000.patch	2020-03-27 22:29:44.273052697 -0500
+@@ -1,5 +1,5 @@
+---- /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/c	2020-03-27 22:18:39.761728051 -0500
+-+++ /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/c	2020-03-27 14:30:08.494322171 -0500
++--- /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/c	2020-03-27 19:16:53.766614000 -0500
+++++ /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/c	2020-03-27 19:16:53.766614000 -0500
+ @@ -8,13 +8,5 @@
+  123123123123
+  12312312asdfasdfasdf
+diff -up -r /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/tmp/combined /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/tmp/combined
+--- /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/tmp/combined	2020-03-27 22:22:34.875107411 -0500
++++ /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/tmp/combined	2020-03-27 22:29:44.301053246 -0500
+@@ -1,5 +1,5 @@
+---- /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/c	2020-03-27 22:18:39.761728051 -0500
+-+++ /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/c	2020-03-27 14:30:08.494322171 -0500
++--- /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/c	2020-03-27 19:16:53.766614000 -0500
+++++ /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/c	2020-03-27 19:16:53.766614000 -0500
+ @@ -8,13 +8,5 @@
+  123123123123
+  12312312asdfasdfasdf
+diff -up -r /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/tmp/minimal_patch /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/tmp/minimal_patch
+--- /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/tmp/minimal_patch	2020-03-27 22:22:37.875176467 -0500
++++ /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/tmp/minimal_patch	2020-03-27 22:29:44.333053875 -0500
+@@ -1,5 +1,5 @@
+---- /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/c	2020-03-27 22:18:39.761728051 -0500
+-+++ /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/c	2020-03-27 14:30:08.494322171 -0500
++--- /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/c	2020-03-27 19:16:53.766614000 -0500
+++++ /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/c	2020-03-27 19:16:53.766614000 -0500
+ @@ -8,13 +8,5 @@
+  123123123123
+  12312312asdfasdfasdf

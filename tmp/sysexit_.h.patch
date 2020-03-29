@@ -1,0 +1,74 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/sysexit_.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/sysexit_.h	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+ /* exit() exit codes for some BSD system programs.
+-   Copyright (C) 2003 Free Software Foundation, Inc.
++   Copyright (C) 2003, 2006-2007 Free Software Foundation, Inc.
+ 
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+@@ -13,27 +13,42 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ /* Written by Simon Josefsson based on sysexits(3) man page */
+ 
+-#ifndef _SYSEXITS_H
+-#define _SYSEXITS_H
++#ifndef _GL_SYSEXITS_H
++#define _GL_SYSEXITS_H
+ 
+-#define EX_USAGE 64
+-#define EX_DATAERR 65
+-#define EX_NOINPUT 66
+-#define EX_NOUSER 67
+-#define EX_NOHOST 68
+-#define EX_UNAVAILABLE 69
+-#define EX_SOFTWARE 70
+-#define EX_OSERR 71
+-#define EX_OSFILE 72
+-#define EX_CANTCREAT 73
+-#define EX_IOERR 74
+-#define EX_TEMPFAIL 75
+-#define EX_PROTOCOL 76
+-#define EX_NOPERM 77
+-#define EX_CONFIG 78
++#if @HAVE_SYSEXITS_H@
+ 
+-#endif /* _SYSEXITS_H */
++# include @ABSOLUTE_SYSEXITS_H@
++
++/* HP-UX 11 <sysexits.h> ends at EX_NOPERM.  */
++# ifndef EX_CONFIG
++#  define EX_CONFIG 78
++# endif
++
++#else
++
++# define EX_OK 0 /* same value as EXIT_SUCCESS */
++
++# define EX_USAGE 64
++# define EX_DATAERR 65
++# define EX_NOINPUT 66
++# define EX_NOUSER 67
++# define EX_NOHOST 68
++# define EX_UNAVAILABLE 69
++# define EX_SOFTWARE 70
++# define EX_OSERR 71
++# define EX_OSFILE 72
++# define EX_CANTCREAT 73
++# define EX_IOERR 74
++# define EX_TEMPFAIL 75
++# define EX_PROTOCOL 76
++# define EX_NOPERM 77
++# define EX_CONFIG 78
++
++#endif
++
++#endif /* _GL_SYSEXITS_H */
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: sys_select_.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: sys_time_.h
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/tanl.c dbg/find6/find/gnulib-cvs/gnulib/lib/tanl.c

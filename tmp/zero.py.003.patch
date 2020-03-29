@@ -1,0 +1,136 @@
+--- demodir/yesterday/zero.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/zero.py	2019-11-29 23:50:49.000000000 -0600
+@@ -326,88 +168,66 @@ class AlphaZero:
+                 z = z.cuda()
+                 pi = pi.cuda()
+ 
+-            ret = self.loss_fn(values[ts], z, logits[ts], pi)
+-            vloss += ret[0]
+-            ploss += ret[1]
+-            pdiff += ret[2]
+-        vloss = vloss / len(sampled_tss)
+-        ploss = ploss / len(sampled_tss)
+-        pdiff = pdiff / len(sampled_tss)
+-        return vloss, ploss, pdiff
+-
+-    def get_policy_logits(self, policy_inputs_queue, dim_ts, logits):
+-        """
++            ret= self.loss_fn(ts.v, z, ts.logits, pi)
++            vloss+=ret[0]
++            ploss+=ret[1]
++        vloss=vloss/ self.neural_network_batch_size
++        ploss=ploss/self.neural_network_batch_size
++        return vloss, ploss
+ 
+-        :param policy_inputs_queue: a list of checker states that need policy logits
+-        :param dim_ts:
+-        :return:
+-        """
+-        assert (len(policy_inputs_queue) == len(dim_ts))
++    def policy_bonanza(self, policy_inputs_queue, dim_ts):
+         policy_tensor = states_to_batch_tensor(policy_inputs_queue, self.is_cuda)
+         policy_output, _ = self.nn(policy_tensor)
++        # slice and append
++        last_ts = None
++        tsbegin = None
+         for tsidx, ts in enumerate(dim_ts):
+-            logits[ts].append(policy_output[tsidx, :])
+-
+-        # policy_tensor = states_to_batch_tensor(policy_inputs_queue, self.is_cuda)
+-        # policy_output, _ = self.nn(policy_tensor)
+-        # # slice and append
+-        # last_ts = None
+-        # tsbegin = None
+-        # assert (len(policy_inputs_queue)==len(dim_ts))
+-        # for tsidx, ts in enumerate(dim_ts):
+-        #     if ts != last_ts:
+-        #         if last_ts is not None:
+-        #             # slice the policy output
+-        #             # not including tsidx
+-        #             last_ts.logits.append(policy_output[tsbegin: tsidx, :])
+-        #             # tss_policy_output[ts].append(policy_output[tsbegin: ts, :, :])
+-        #         last_ts = ts
+-        #         tsbegin = tsidx
+-        # # take care of the last ones
+-        # # tss_policy_output[ts].append(policy_output[tsbegin: ts, :, :])
+-        # # including tsidx
+-        # assert (tsidx + 1 == len(dim_ts))
+-        # ts.logits.append(policy_output[tsbegin: tsidx + 1, :])
++            if ts != last_ts:
++                if last_ts is not None:
++                    # slice the policy output
++                    # not including tsidx
++                    last_ts.logits.append(policy_output[tsbegin: tsidx, :])
++                    # tss_policy_output[ts].append(policy_output[tsbegin: ts, :, :])
++                last_ts = ts
++                tsbegin = tsidx
++        # take care of the last ones
++        # tss_policy_output[ts].append(policy_output[tsbegin: ts, :, :])
++        # including tsidx
++        assert (tsidx + 1 == len(dim_ts))
++        ts.logits.append(policy_output[tsbegin: tsidx + 1, :])
+ 
+     def train_one_round(self):
+         self.nn.train()
+         # sample self.batch_size number of time steps, bundle them together
+-        try:
+-            sampled_tss = random.sample(self.training_time_steps, k=self.time_step_sample_size)
+-        except ValueError:
+-            sampled_tss = self.training_time_steps
+-        vloss, ploss, pdiff = self.run_one_round(sampled_tss)
+-
+-        loss = self.value_policy_backward_coeff * vloss + ploss
++        sampled_tss = random.sample(self.time_steps, k=self.training_time_step_batch_size)
++        vloss, ploss = self.run_one_round(sampled_tss)
++        loss=vloss+ploss
+         loss.backward()
+         self.optim.step()
+-        return vloss.item(), ploss.item(), pdiff
+-
+-    def validate(self):
+-        vls = []
+-        pls = []
+-        pdiff = []
+-        for i in range(self.total_validation_batches):
+-            # if i % self.print_period==0:
+-            #     print("Validating batch", i)
+-            vl, pl, pd = self.validate_one_round()
+-            vls.append(vl)
+-            pls.append(pl)
+-            pdiff.append(pd)
+-        return np.sum(vls) / self.total_validation_batches, \
+-               np.sum(pls) / self.total_validation_batches, \
+-               np.sum(pdiff) / self.total_validation_batches
++        return vloss.item(), ploss.item()
+ 
+     def validate_one_round(self):
+         with torch.no_grad():
+             self.nn.eval()
+             # sample self.batch_size number of time steps, bundle them together
+-            try:
+-                sampled_tss = random.sample(self.validation_time_steps, k=self.time_step_sample_size)
+-            except ValueError:
+-                sampled_tss = self.validation_time_steps
+-            vloss, ploss, pdiff = self.run_one_round(sampled_tss)
+-        return vloss.item(), ploss.item(), pdiff
++            sampled_tss = random.sample(self.time_steps, k=self.training_time_step_batch_size)
++            vloss, ploss = self.run_one_round(sampled_tss)
++            loss = vloss + ploss
++        return vloss.item(), ploss.item()
++
++    def time_steps_to_tensor(self, batch_tss):
++        # what is the strategy for training time neural network call?
++        # I suppose we should do one pass on all values, then we do passes over the probabilities
++        # sometimes a batch represent different time steps
++        # sometimes a batch represents the same time step but different children of the time step
++        # cast and view bonanza.
++        # keep track of the loss coefficient.
++        # beware not to keep too many boards in the memory at once: when doing probability, do n boards at once
++
++        # compatible with our next design that the probability head is independent from value head, but no other
++        # design compatibility
++
++        return None
+ 
+     def log_print(self, message):
+         string = str(message)

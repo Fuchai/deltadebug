@@ -1,0 +1,9 @@
+diff -up -r /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/patches/expcp2/b /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/patches/expcp2/b
+--- /home/jasonhu/Desktop/pydd/tmp/copy/demodir/yesterday/patches/expcp2/a	2020-03-27 14:30:08.494322171 -0500
++++ /home/jasonhu/Desktop/pydd/tmp/copy/demodir/today/patches/expcp2/a	2020-03-27 23:14:09.301574298 -0500
+@@ -10,3 +10,4 @@ asdfasdfasdfads
+ 
+ file change one
+ fc2
++asdfasdfasdfasd
+\ No newline at end of file

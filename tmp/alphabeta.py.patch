@@ -1,0 +1,11 @@
+--- demodir/yesterday/alphabeta.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/alphabeta.py	2019-11-29 23:50:49.000000000 -0600
+@@ -131,7 +131,6 @@ class AlphaBeta(Checker):
+             assert self.root_node.state is self.state
+         if len(self.root_node.children)==0:
+             self.root_node.make_children()
+-        # bug with flipping incorrectly.
+         child = self.root_node.find_child(human_action.get_flipped_state())
+         self.root_node = child
+         self.state = self.root_node.state
+diff -up -r demodir/yesterday/checker.py demodir/today/checker.py

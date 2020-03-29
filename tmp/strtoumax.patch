@@ -1,0 +1,29 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/strtoumax	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/strtoumax	2020-01-28 23:39:42.000000000 -0600
+@@ -4,17 +4,17 @@ strtoumax() function: convert string to
+ Files:
+ lib/strtoumax.c
+ m4/ulonglong.m4
+-m4/stdint_h.m4
+-m4/inttypes_h.m4
+-m4/uintmax_t.m4
+ m4/strtoumax.m4
+ 
+ Depends-on:
+ strtoimax
+ strtoull
++inttypes
++stdint
+ 
+ configure.ac:
+ gl_FUNC_STRTOUMAX
++gl_INTTYPES_MODULE_INDICATOR([strtoumax])
+ 
+ Makefile.am:
+ 
+@@ -25,4 +25,3 @@ GPL
+ 
+ Maintainer:
+ Paul Eggert
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/strverscmp dbg/find6/find/gnulib-cvs/gnulib/modules/strverscmp

@@ -1,0 +1,122 @@
+--- dbg/find14/find/configure.in.bak	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/configure.in.bak	2020-01-28 23:39:42.000000000 -0600
+@@ -1,16 +1,21 @@
+ dnl Process this file with autoconf to produce a configure script.
+-AC_INIT
++AC_INIT([GNU findutils], 4.3.3-CVS, [bug-findutils@gnu.org])
++AC_CONFIG_AUX_DIR(build-aux)
++AM_INIT_AUTOMAKE
++
+ AC_CONFIG_SRCDIR([find/pred.c])
+ AC_CONFIG_HEADERS([config.h])
+ AC_CANONICAL_HOST
+ AC_CONFIG_MACRO_DIR(gnulib/m4)
+ 
+ dnl Set of available languages.
+-ALL_LINGUAS="be ca da de el eo es et fi fr ga gl hr hu id it ja ko lg ms nl pl pt_BR ro ru sk sl sr sv tr zh_CN"
+-
+-AM_INIT_AUTOMAKE(findutils, 4.2.18-CVS)
++ALL_LINGUAS="be bg ca da de el eo es et fi fr ga gl hr hu id it ja ko lg ms nl pl pt pt_BR ro ru rw sk sl sr sv tr vi zh_CN zh_TW"
+ 
+ AC_SUBST(INCLUDES)dnl
++AC_SUBST(AUXDIR,$ac_aux_dir)
++dnl check for --with-fts
++FIND_WITH_FTS
++
+ AC_ARG_ENABLE(id-cache,
+ [  --enable-id-cache       cache all UIDs & GIDs; avoid if using NIS or Hesiod],
+   AC_DEFINE(CACHE_IDS, 1, [Define if you want find -nouser and -nogroup to make tables of
+@@ -23,6 +28,10 @@ AC_ARG_ENABLE(debug,
+ 	AS_HELP_STRING(--enable-debug,Enable debugging output which is likely to be interesting to people debugging findutils),
+ 	[ac_cv_debug=$enableval],[ac_cv_debug=no])
+ 
++AC_ARG_ENABLE(leaf-optimisation,
++	AS_HELP_STRING(--enable-leaf-optimisation,Enable an optimisation which saves lstat calls to identify subdirectories on filesystems having traditional Unix semantics),
++	[ac_cv_leaf_optimisation=$enableval],[ac_cv_leaf_optimisation=yes])
++
+ AC_ARG_ENABLE(d_type-optimization,
+ 	AS_HELP_STRING(--enable-d_type-optimization,Make use of the file type data returned in struct dirent.d_type by readdir()),
+ 	[ac_cv_d_type=$enableval],[ac_cv_d_type=yes])
+@@ -44,6 +53,14 @@ else
+    AC_DEFINE(DEBUG_STAT, 1, [Define if you want to see a message every time find calls the stat() system call])
+ fi
+ 
++AC_MSG_CHECKING([for leaf optimisation])
++if test x$ac_cv_leaf_optimisation = xno; then
++   AC_MSG_RESULT([no])
++else
++   AC_MSG_RESULT([yes])
++   AC_DEFINE(LEAF_OPTIMISATION, 1, [Define if you want to use the leaf optimisation (this can still be turned off with -noleaf)])
++fi
++
+ 
+ 
+ dnl Checks for programs.
+@@ -71,6 +88,19 @@ AC_SYS_LARGEFILE
+ 
+ gl_INIT
+ 
++
++
++dnl Older versions of gnulib/m4/nls.m4 provide AM_MKINSTALLDIRS.
++dnl The current version of gnulib does not, but the version of 
++dnl po/Makefile.in.in that comes with gettext-0.14.6 expects
++dnl that @MKINSTALLDIRS@ will be expanded.
++AM_MKINSTALLDIRS
++
++dnl lib/regexprops needs to be a native program, because we need to 
++dnl run it in order to generate the documentation about the properties
++dnl of regular expressions.  See lib/Makefile.am.
++AM_CONDITIONAL(CROSS_COMPILING, [[test "x$cross_compiling" = xyes]])
++
+ dnl Try to get a POSIX.1 environment.
+ 
+ dnl Checks for libraries.  If getpwnam() isn't present in the 
+@@ -80,7 +110,8 @@ AC_CHECK_FUNC(getpwnam, [],
+ 
+ dnl Checks for header files.
+ AC_HEADER_STDC
+-AC_CHECK_HEADERS(fcntl.h string.h limits.h unistd.h errno.h stdlib.h stddef.h)
++dnl Assume unistd.h is present - coreutils does too.
++AC_CHECK_HEADERS(fcntl.h string.h limits.h errno.h stdlib.h stddef.h)
+ AC_CHECK_HEADERS(unistd.h sys/types.h inttypes.h fcntl.h locale.h stdint.h)
+ AC_CHECK_HEADERS(sys/param.h mntent.h sys/mnttab.h sys/mntio.h sys/mkdev.h)
+ dnl find.c needs sys/utsname.h because it calls uname(2).
+@@ -147,8 +178,9 @@ gl_FUNC_ALLOCA
+ 
+ dnl Use gl_INCLUDED_REGEX so that findutils will build on systems like
+ dnl Solaris, which lacks those functions in libc (see GNU Savannah bug
+-dnl #11710)
+-gl_INCLUDED_REGEX([gnulib/lib/regex.c]) 
++dnl #11710) (Sun Sep  4 20:15:11 2005: gl_INCLUDED_REGEX no longer seems
++dnl to be available in gnulib CVS)
++gl_REGEX
+ 
+ AC_PREREQ(2.59)
+ 
+@@ -182,14 +214,23 @@ AC_CHECK_MEMBER(struct dirent.d_type,,,[
+ 
+ dnl internationalization macros
+ AM_GNU_GETTEXT([external])
++AM_GNU_GETTEXT_VERSION(0.14.5)
++
++dnl regextype.c and regexprops.c are designed to be usable outside findutils,
++dnl but findutils doesn't want to support all the regex types in gnulib,
++dnl and wants to support an additional one (RE_SYNTAX_EMACS|RE_DOT_NEWLINE).
++dnl Hence they need to know if they are being compiled into findutils or not.
++AC_DEFINE([FINDUTILS], 1, [Define if we are compiling GNU findutils])
++
+ 
+ # This is necessary so that .o files in LIBOBJS are also built via
+ # the ANSI2KNR-filtering rules.
+ #LIBOBJS=`echo $LIBOBJS|sed 's/\.o /\$U.o /g;s/\.o$/\$U.o/'`
+ ##AC_CONFIG_SUBDIRS(gnulib)
+-AC_CONFIG_FILES(gnulib/Makefile gnulib/lib/Makefile gnulib/m4/Makefile)
++AC_CONFIG_FILES(gnulib/Makefile gnulib/lib/Makefile)
+ AC_CONFIG_FILES(m4/Makefile)
+ AC_CONFIG_FILES([Makefile 
++         tests/Makefile
+ 	find/Makefile find/testsuite/Makefile
+ 	xargs/Makefile xargs/testsuite/Makefile
+ 	locate/Makefile locate/testsuite/Makefile
+diff -up -r dbg/find14/find/COPYING dbg/find6/find/COPYING

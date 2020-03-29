@@ -1,0 +1,2459 @@
+--- dbg/find14/find/ChangeLog	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/ChangeLog	2020-01-28 23:39:42.000000000 -0600
+@@ -1,3 +1,2164 @@
++2007-04-14  James Youngman  <jay@gnu.org>
++
++	* doc/.cvsignore: Ignore getdate.texi
++
++	* find/defs.h: #include "buildcmd.h" near the top of the file, not
++	in the middle.
++
++	* all: Pass O_LARGEFILE when opening directories.
++
++	* all: Changes to allow us to use the FTS_CWDFD mode of fts().
++	These are quite extensive changes, and are detailed below.
++
++	* find/defs.h (struct exec_val): New member dirfd, the directory
++	in which the exec should take place.
++	(is_fts_enabled): Tell the caller which flags are passed to
++	fts_open().
++	(get_start_dirfd): New function.  Returns value of start_desc.
++	(get_current_dirfd): New function.  Returns the fd of the
++	directory fts is currently traversing.  If this is the current
++	directory, AT_FDCWD is returned.
++	(complete_pending_execdirs): takes a new argument, indicating
++	where the exec is to take place.  Ugh.
++	(get_info): the file name is taken from state.rel_pathname, so
++	we don't need it as a function argument.
++	(enum DebugOption): Added DebugExec ("-D exec").
++	(struct state): Added cwd_dir_fd, the directory we are examining
++	with fts().  If fts() is not in use, this is AT_FDCWD.  Also added
++	execdirs_outstanding, which is a boolean which tells us if there
++	are any not-yet-execed -execdir or -okdir actions (with +).  This
++	is not really used yet.
++	* find/ftsfind.c (set_close_on_exec): New function.
++	(get_current_dirfd): Return an fd open on the directory that fts()
++	is currently examining.
++	(left_dir): Signal that our previous ides of which dirctory fts is
++	searching is now out of date.
++	(inside_dir): Indicate which directory fts is now searching.
++	(complete_execdirs_cb): Callback for run_in_dir() to complete
++	pending execdirs in this directory.
++	(show_outstanding_execdirs): Supports "-D exec"
++	consider_visiting(): Do not allow building-up of pending execdirs,
++	as a workaround to Savannah bug #18466.
++	(ftsoptions): Make this a static module variable.
++	* find/parser.c (insert_exec_ok): New parameter describing which
++	directory the exec should occur in.
++	(parse_version): for FTS, add a list of options being used.
++	* find/pred.c (pred_and, pred_comma): No need to pass the relative
++	path name to get_info(), it can pull it from state.rel_pathname.
++	(pred_delete): use unlinkat().
++	(pred_empty): use openat().
++	(new_impl_pred_exec): Accept an fd parameter describing where the
++	exec is to take place.
++	(pred_executable, pred_writable, pred_readable): Use run_in_dir()
++	to ensure that access() is called in a working directory which is
++	suitable for the pathname we pass in.
++	(prep_child_for_exec): In the child process, change to the
++	appropriate directory becore the exec().
++	* find/util.c (debugassoc): Support "-D exec".
++	(get_info): No longer need to pass the relative path to
++	get_statinfo().
++	(do_complete_pending_execdirs): Refactored body of what used to be
++	complete_pending_execdirs().
++	(complete_pending_execdirs): Pull body out into
++	do_complete_pending_execdirs() and call that only if there is work
++	to do.
++	(fallback_stat, optionh_stat, optionp_stat, optionl_stat): Use fstatat().
++	(get_start_dirfd): New access function for starting_desc.
++	* find/testsuite/find.gnu/execdir-hier.exp: New test
++	* find/testsuite/find.gnu/execdir-hier.xo: Expected outut for new test
++	* lib/dircallback.c, lib/dircallback.h: New function,
++	run_in_dir(), which runs a callback function in a specified
++	directory.	
++	* lib/listfile.c: Use run_in_dir() to call readlink() in the right
++	directory.
++	(get_link_name_at): Call get_link_name_cb via run_in_dir.
++	(get_link_name_cb): New callback function, wrappting
++	get_link_name().
++	
++	* find/testsuite/find.gnu/execdir-pwd.exp: Since we have disabled
++	thebuilding-up of command lines for -execdir, Savannah bug #18466
++	has been neutralised (but not fixed - we just don't allow the
++	problem circumstance to occur).
++	
++2007-04-09  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi: Change fully-specified @node directives to
++	single-argument @node directives in order to accomodate the
++	inclusion of getdate.texi.
++
++	* doc/find.texi: Document -newerXY.
++
++	* doc/find.texi (Security Considerations): updated to describe
++	differences in the fts-based implementation.
++
++	* find/find.1: Indicate that testing the birth time where this is
++	not supported produces a negative result for files where the birth
++	time is not known (or a fatal error if the file of interest is a
++	reference file).
++	
++2007-04-08  James Youngman  <jay@gnu.org>
++
++	* configure.in: Set @AUXDIR@ (to the location of the build-aux
++	directory).
++	* build-aux/check-testfiles.sh: New script, which checks that all
++	the DejaGnu test files have been included in the distribution and
++	(more helpfully) lists any that are missing.
++	* Makefile.am (findutils-check-testfiles): Use
++	build-aux/check-testfiles.sh.
++	* locate/testsuite/Makefile.am (EXTRA_DIST_EXP): distribute 
++	locate/testsuite/locate.gnu/sv-bug-14535.exp. 
++
++	* config.rpath, depcomp, missing: Moved into build-aux/.
++	* configure.in(AC_CONFIG_AUX_DIR): Find aux files in $SRCDIR/build-aux,
++	not in $SRCDIR.
++
++2007-03-31  James Youngman  <jay@gnu.org>
++
++	* find/tree.c (build_expression_tree): Issue more specific error
++	messages; distinguish the case where the predicate is invalid from
++	the cases where a required argument is missing, and a supplied
++	argument is invalid.
++
++	* import-gnulib.config (gnulib_version): Update to 2007-03-30
++	version of gnulib.
++
++2007-03-28  James Youngman  <jay@gnu.org>
++
++	* find/defs.h (set_stat_placeholders): utility function for
++	initialising the sturct stat fields that NetBSD doesn't always set
++	(like st_birthtime where the file is on a filesystem not
++	supporting birthtime).
++	* find/util.c: set_stat_placeholders(): new function
++	(get_statinfo): Call set_stat_placeholders().
++	(optionh_stat, optionl_stat, optionp_stat): ditto
++	* find/find.c (main, wd_sanity_check, safely_chdir_lstat,
++	process_dir): use set_stat_placeholders().
++	* find/parser.c (parse_anewer, parse_cnewer, parse_newer,
++	parse_newerXY): ditto.
++	(get_stat_Ytime): Support birth time ('B').
++	(parse_newerXY): Support st_birthtime.
++	* find/fstype.c (set_fstype_devno): Use set_stat_placeholders().
++	* find/pred.c (pred_xtype): Use set_stat_placeholders().
++	(pred_newerXY): Support birth time.
++	(pred_fprintf, format_date): ditto ("%Bx").
++
++2007-03-25  James Youngman  <jay@gnu.org>
++
++	* xargs/xargs.c (main): For "xargs --show-limits" where stdin is a
++	terminal, warn the user that the program specified (or /bin/echo)
++	will be run at least once, if that is what will happen.
++
++2007-03-24  James Youngman  <jay@gnu.org>
++
++	* import-gnulib.sh: Added option -d, allowing the user to use a
++	local version of gnulib, perhaps because they have local changes.
++	
++2007-03-13  James Youngman  <jay@gnu.org>
++
++	* find/parser.c (parse_quit): Estimated success rate of -quit is
++	100%.
++
++2007-03-08  James Youngman  <jay@gnu.org>
++
++	* find/find.1 (TESTS): Document -newerXY, indicate that reference
++	files are only examined once.
++	(HISTORY): Indicate when various features were added
++	(BUGS): Indicate that -ok ignores LC_COLLATE.
++
++2007-03-07  James Youngman  <jay@gnu.org>
++
++	* import-gnulib.config: (gnulib_version): Use gnulib version
++	2007-03-05
++	(modules): Added getdate
++
++	* find/Makefile.am (LDADD): Added @LIB_CLOCK_GETTIME@ for
++	clock_gettime(), if it is available.
++
++	* find/defs.h: (enum xval): New enumeration, representing the
++	value of X used in the -newerXY test.  It is stored in the reftime
++	member of 'union args'.
++	(struct predicate): reftime is also used by -newerXY.
++	(enum arg_type): Added ARG_SPECIAL_PARSE for -newerXY, because the
++	parsing function needs to look at the name of the test.
++	(struct options): start_time is now a struct timespec, not a
++	time_t. 
++
++	* find/parser.c: (parse_newerXY): New parsing function for
++	-newerXY, a feature copied from FreeBSD (also present other BSD
++	implementations too)
++	(get_stat_Ytime): New function; returns st_atime, st_mtime or
++	st_ctime from struct stat, as a timespec, as required according to
++	the value of Y in -newerXY.
++	(found_parser): Factored the tail out of find_parser.
++	(find_parser): Moved tail into found_parser.  Add special handling
++	for -newerXY.
++	(do_parse_xmin): New argument xv, indicating the value to which
++	predicate->reftime.xval should be set.
++	(parse_amin): Pass XVAL_ATIME to do_parse_xmin.
++	(parse_cmin): Pass XVAL_CTIME to do_parse_xmin.
++	(parse_mmin): Pass XVAL_MTIME to do_parse_xmin.
++	(parse_newer): Set args.reftime.xval to XVAL_MTIME.
++	
++	* find/pred.c (pred_table): added pred_XY.
++	(pred_fls): options.start_time is now a struct timespec, so just
++	pass the tv_sec member to list_file.
++	(pred_ls): ditto
++	(pred_newerXY): New function, implementing -newerXY.
++
++	* find/tree.c (costlookup): pred_newerXY needs stat information.
++	(build_expression_tree): For predicates of type ARG_SPECIAL_PARSE,
++	pass them in the name of the predicate (that is, don't advance
++	argc).
++
++	* find/util.c (now): New function for setting options.start_time.
++	Use nanoseconds where it is available.
++	(set_option_defaults): Use now() rather than time().
++
++2007-03-03  James Youngman  <jay@gnu.org>
++
++	* import-gnulib.sh: Pass --with-tests to gnulib-tool so that relevant
++	gnulib unit tests are built and are run for "make check".  
++
++	* configure.in (AC_CONFIG_FILES): Add tests/Makefile (the makefile
++	for the gnulib unit tests).
++
++	* Makefile.am: Add 'tests' to SUBDIRS.
++
++	* .cvsignore: Add 'tests'.
++	
++	* import-gnulib.config (modules): Also use Gnulib modules
++	mbscasestr and mbsstr in order to perform correct string searching
++	in multibyte strings, in order to fix Savannah bug #14535.
++
++	* locate/testsuite/locate.gnu/sv-bug-14535.exp: new test case for
++	Savannah bug #14535.
++	
++	* locale/locate.c (visit_substring_match_nocasefold): Use mbsstr
++	rather than strstr, in order to correctly support multibyte
++	strings.  
++	(visit_substring_match_casefold): Use mbscasestr rather than
++	strstr in order to correctly support case-folding in a multibyte
++	environment (e.g. with UTF-8 characters outside the normal ASCII
++	range).  This fixes Savannah bug #14535.
++	(struct casefolder): No longer needed, removed
++	(visit_casefold): No longer needed, removed.
++	(lc_strcpy): No longer needed, removed.
++	(search_one_database): Removed redundant variable need_fold and
++	the code which used to set it.  It had controlled the adding of
++	the visitor function visit_casefold, but that function itself is
++	no longer required.  Also there is now no need to pass in a
++	lower-case argument to visit_substring_match_casefold, so don't
++	pass that in the context argument.
++
++	* locate/locate.c (usage): Fixed typo.
++	
++2007-03-01  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi (Multiple Files): Document the construct
++	-exec sh -c 'cmd "$@" final-args' {} + - fixing Savannah bug
++	#18554.
++	
++2007-02-28  James Youngman  <jay@gnu.org>
++
++	* import-gnulib.config: New file.  Specifies which version of
++	Gnulib we need to check out and build from.
++	
++	* import-gnulib.sh: Use import-gnulib.config.
++	
++	* README-CVS: Describe the new method of building from CVS.
++	
++	* lib/gnulib-version.h, lib/gnulib-version.sh: New files; code for
++	reporting which version of Gnulib we built findutils from.
++	
++	* lib/Makefile.am: Build gnulib-version.c out of
++	./gnulib-version.config by using lib/gnulib-version.sh.
++	
++	* Makefile.am: Ship import-gnulib.config and import-gnulib.sh.
++	
++	* .cvsignore: Ignore gnulib-cvs
++	
++	* lib/.cvsignore: Ignore gnulib-version.c
++	
++	* find/parser.c, locate/code.c, locate/locate.c, xargs/xargs.c:
++	Report which version of Gnulib we were built from.
++
++2007-02-25  James Youngman  <jay@gnu.org>
++
++	* find/find.c (process_dir): Removed duplicated (shadow)
++	declaration of did_stat.  Assert that we did not use subdirs_left
++	if subdirs_unreliable is true.
++
++	* find/parser.c (parse_size): Removed unused variable rate.
++	(parse_time): Removed unused variable num_days_approx.
++	(get_num): Removed unused variables ok and suffixes.
++
++	* find/pred.c (do_fprintf): Indicate that the function needs a
++	return value (referring to Savannah bug #19146).
++
++	* find/tree.c (predlist_dump): Commented out unused function
++	(predlist_merge_nosort): Commented out unused function
++	(getrate): Returns type is float, so return 1.0f not 1.0.
++	(calculate_derived_rates): Removed unused variable rate.  Use a
++	switch statement rater than ifs.
++
++	* find/util.c (usage): Removed unused variable i.
++
++	* lib/buildcmd.c (bc_do_insert): Removed unused variable
++	need_prefix.
++	(bc_init_controlinfo): annotate a line (with #warning) which is
++	probably a bug.
++
++	* locate/locate.c: #include <grp.h> for the benefit of the
++	setgroups() call in drop_privs.
++	(slocate_db_pathname): Commented out unused variable.
++	(set_max_db_age): error command has no format directive, so
++	remove the unused extra argument.
++	(looking_at_slocate_db): Removed unused variables magic and
++	lenwanted.  Fix bug where result is indeterminate (due to falling
++	off the end of the function) if the first character is a nondigit.
++	(search_one_database): Eliminate (spurious) compiler warning
++	rlating to possible use before initialisation of slocate_seclevel.
++
++	* xargs/xargs.c (get_char_oct_or_hex_escape): Eliminate spurious
++	compiler warning on variable p.
++	(main): Removed unused varible env_too_big
++
++
++2007-02-24  James Youngman  <jay@gnu.org>
++
++	* find/parser.c (pred_sanity_check): define this function even for
++	_NDEBUG, but do nothing in that case.
++	(estimate_timestamp_success_rate): correct (invert) the sense of
++	the subtraction used to find the file's age.
++
++	* import-gnulib.sh (findutils_modules): Import Gnulib modules
++	xstrtod and timespec.
++
++	* find/parser.c (get_comp_type): Refactored out of get_num.
++	(get_num): call get_comp_type to find the comparison type.
++	(get_relative_timestamp): new function replacing get_num_days.
++	(get_num_days): Remove.
++	(do_parse_xmin): Support fractional arguments and
++	nanosecond timestamps.
++	(parse_used): ditto
++	(parse_time): ditto
++
++	* xargs/xargs.c (read_line): Give a warning message if a NUL is
++	found in the input (this function is called only when -0 is not in
++	effect).
++
++	* xargs/xargs.c (nullwarning_given): New variable indicating if
++	the NULL character warning had already been issued.
++
++	* doc/find.texi (Multiple Files): Describe how trailing blanks are
++	handled when -L is in effect.
++	
++	* xargs/xargs.c (read_line): Use an enum rather than
++	preprocessor macro values for the lexer state.
++
++	* lib/savedirinfo.c (free_dirinfo): Fixed memory leak (trivial
++	patch from Supriya Kannery)
++
++2007-01-22  James Youngman  <jay@gnu.org>
++
++	* .cvsignore (install-sh): Ignore, since the install-sh file is no
++	longer held in the findutils CVS repository.
++	
++	* find/testsuite/config/unix.exp (find_start): allow a test to be
++	skipped for either the old or the new find executable.
++	* find/testsuite/find.gnu/execdir-pwd.exp,
++	find/testsuite/Makefile.am: 
++	New test, covering Savannah bug #18466.  This test currently fails 
++	for the ftsfind binary and passes for the oldfind binary.  Due to 
++	a limitation in  the way that we perform the test, we can't tell
++	the test suite to expect a failure in the new binary but not the
++	old.  Therefore we skip the test for the old binary. 
++
++	* lib/regeprops.c (describe_regex_syntax): fixed a typo in the text
++	* doc/find.texi (Multiple Files): fixed a typo
++
++2007-01-16  James Youngman  <jay@gnu.org>
++
++	(ctime_format): format the time manually (rather than using ctime)
++	in order to include the sub-second part of the time.
++	(weekdays, months): new static variables used by ctime_format.
++	(format_date): append a the sub-second part of the timestamp to
++	the seconds part of date/time output.
++	
++2007-01-15  James Youngman  <jay@gnu.org>
++
++	* find/defs.h (time_val): define struct; use timespec to hold time
++	in the 'reftime' member.
++	(args): use struct timespec instead of time_t for predicates
++	-newer, -anewer, -cnewer.  * find/parser.c (includes): include
++	stat-time.h.
++	(parse_anewer, parse_cnewer, parse_newer): use struct timespec to
++	hold timestamps.  * find/pred.c (compare_ts): new function for
++	comparing timestamps in struct timespec.
++	(pred_anewer, pred_cnewer, pred_newer): use compare_ts() to
++	compare timestamps (hence takinng acoung of sub-second
++	granularity).
++	* find/ftsfind.c: Various improvements to comments.
++	(is_fts_enabled): Newline before function name to comply with GNU
++	coding standard.
++
++2007-01-13  James Youngman  <jay@gnu.org>
++
++	* lib/regexprops.c (describe_regex_syntax): fixed typo
++	
++	* xargs/xargs.c (read_line): Fixed Savannah bug# 18714; VT and FF
++	are not separators, according to POSIX (in the POSIX locale).
++
++	* xargs/testsuite/Makefile.am,
++	  xargs/testsuite/input/formfeeds.xi, 
++	  xargs/testsuite/input/verticaltabs.xi, 
++	  xargs/testsuite/xargs.posix/sv-bug-18714.exp, 
++	  xargs/testsuite/xargs.posix/sv-bug-18714.xo, 
++	  xargs/testsuite/xargs.posix/sv-bug-18714b.exp, 
++	  xargs/testsuite/xargs.posix/sv-bug-18714b.xo: Tests for Savannah
++	  bug #18714.
++
++	* xargs/xargs.c (usage): Removed suprious "[" in --help output
++	(fixes Savannah bug #18384).
++
++	* locate/locate.c: Implement the option --max-database-age.
++	(main) Accept the option. 
++	(set_max_db_age): Parse the argument.
++
++	* locate/locate.c (dolocate): If the database is more than N days
++	old, indicate its actual age in the warning message we produce.
++
++	* locate/locate.1, docs/find.texi: Document --max-database-age
++
++	* THANKS: Thank Dean Gaudet for the idea of -sparse.
++
++	* po/findutils.pot: Updated from Translation Project
++
++        * po/ga.po, po/pl.po, po/nl.po, po/tr.po, po/hu.po: Updated from
++	the Translation Project
++
++2007-01-09  Ralf Wildenhues  <Ralf.Wildenhues@gmx.de> 
++
++	* doc/find.texi: Fix some typos. (trivial change)
++
++2007-01-07  James Youngman  <jay@gnu.org>
++
++	* find/parser.c (parse_perm), find/testsuite/find.gnu/perm000.exp,
++	  find/testsuite/find.gnu/perm000.xo: -perm /000 is now quivalent
++	  to -perm -000, as dscussed in Savannah bug #14748.  The warning
++	  message we issue when the user does this now explains that the
++	  defintion changed as we promised it would in 2005.
++
++	* xargs/xargs.c (read_line): Correctly handle quoted empty
++	arguments occurring first or last on a line (by adding an empty
++	argument to the output).  Fixes Savannah bug #18713.
++
++	* xargs/testsuite/xargs.sysv/sv-bug-18713.exp,
++	xargs/testsuite/xargs.sysv/sv-bug-18713.xo,
++	xargs/testsuite/input/empty.xi: Test case for Savannah bug #18713.
++	 
++
++2006-12-29  James Youngman  <jay@gnu.org>
++
++	* find/testsuite/config/unix.exp:
++	Verify that find_start is invoked with wither a p (pass) or an f
++	(fail) argument.
++
++	* lib/listfile.c, lib/listfile.h:
++	define find_blocksize() and provide a declaration for get_link_name()
++
++	* find/testsuite/config/unix.exp: Updated copyright years.
++
++	* find/testsuite/find.gnu/execdir-one.exp, find/testsuite/find.gnu/execdir-root-only.exp, find/testsuite/find.gnu/sv-bug-12230.exp, find/testsuite/find.gnu/sv-bug-17782.exp, find/testsuite/config/unix.exp:
++	Avoid tests using -execdir if $PATH contains a relative directory
++
++	* find/parser.c:
++	Also flag $PATH values containing relative directories as being dangerous.
++
++	* find/parser.c, find/defs.h, find/util.c:
++	Instead of selecting the old or new exec handling code with the NEW_EXEC macro, just use the new code all the time
++
++	* locate/testsuite/config/unix.exp:
++	Fixed Savannah bug #13252, test suite failure caused by the fact that 'file normalize' is not available in Tcl 8.3
++
++	* NEWS, find/pred.c:
++	Fixed Savannah bug #18433, compilation failure with configure --enable-debug
++
++2006-12-28  James Youngman  <jay@gnu.org>
++
++	* NEWS: Document addition of %S.
++
++	* find/defs.h, find/find.1, find/parser.c, find/pred.c:
++	Implemented %S (sparseness) printf format, and general refactoring and cleanup of printf predicate
++
++2006-12-01  James Youngman  <jay@gnu.org>
++
++	* NEWS, configure.in: Begin work on findutils 4.2.30
++
++	* find/find.c:
++	Fix compilation error for oldfind if --enable-debug was passed to configure
++
++	* NEWS, configure.in: Prepare for work on findutils-4.3.3
++
++2006-11-25  James Youngman  <jay@gnu.org>
++
++	* find/testsuite/Makefile.am: Added test case for Savannah bug #17782
++
++	* doc/textinfo.tex: Removed; we now use the version supplied 
++	by automake.
++	
++	* m4/mkinstalldirs.m4: Added this file.  It's an excerpt from an
++	old version of gnulib's m4/nls.po file.  The current version of
++	gnulib does not expand MKINSTALLDIRS, but gettext-0.14.6's version
++	of po/Makefile.in.in expects it to be expanded.  This m4 file
++	fills the gap.
++
++2006-11-20  James Youngman  <jay@gnu.org>
++
++	* po/et.po, po/bg.po, po/pl.po, po/nl.po, po/tr.po: Updated
++	translations for Bulgarian, Estonian, Dutch, Polish and Turkish.
++
++2006-11-08  James Youngman <jay@gnu.org>
++
++	* find/testsuite/Makefile.am:
++	Oops, indicate the right directory for the new test files
++
++	* ChangeLog, depcomp, doc/texinfo.tex, find/ftsfind.c, find/testsuite/Makefile.am, find/testsuite/find.gnu/sv-bug-18222.exp, find/testsuite/find.gnu/sv-bug-18222.xo, install-sh:
++	Savannah bug#18222 - test case
++
++	* ChangeLog, lib/buildcmd.c:
++	Fixed Svannah bug #17782 ('./' prefix added at start of arg while it should be added at the start of the expansion of {})
++
++	* find/ftsfind.c (process_all_startpoints): Set
++	state.starting_path_length for every pathname argument.
++	This fixes Savannah bug #18222.
++
++	* find/pred.c (pred_prune): -prune should have an effect only if we are
++	 currently considering a directory (Savannah bug #15531).
++	
++2006-10-15  James Youngman <jay@gnu.org>
++
++	* lib/buildcmd.c: Fixed Savannah bug #17782, in which "find
++	-execdir echo "foo {}" runs 'echo ./foo filename' instead of the
++	correct command 'echo foo ./filename'.
++	
++	* po/hu.po, po/sl.po: Updated Hungarian and Slovenian po files
++
++2006-08-21  James Youngman <jay@gnu.org>
++
++	* find/parser.c, find/testsuite/Makefile.am, find/testsuite/find.gnu/sv-bug-17490.exp:
++	Fixed Savannah bug #17490, which was a coiredump when -regex ZZZ was the final test on the command line
++
++2006-08-20  James Youngman <jay@gnu.org>
++
++	* find/parser.c: Merged the fix for the trailing % in "find -printf".
++
++2006-08-20  Paul Eggert  <eggert@cs.ucla.edu>
++
++	Port recent fixes for symbolic modes involving X from gnulib,
++	and clarify the documentation in this area.
++	* doc/find.texi: Use "file mode bits" when talking about
++	all the file mode bits (including setuid, setgid, and sticky),
++	and "permissions" when talking only about permissions bits
++	(read, write, execute/search).  Use "execute/search" to
++	talk about the x bit, since it means both.  You do not need
++	permission to the linked-to file to follow a symlink for
++	syscalls like "stat", but you do need search permission for
++	the directories you traverse.  Clarify the explanation of
++	-perm.  Use "that" instead of "which" when "which" isn't
++	quite correct English.
++	(Mode Bits): Renamed from Permissions.  All uses changed.
++	* doc/perm.texi: Sync from coreutils 6.0.
++	* find/defs.h (struct perm_val.val): Now an array of two items,
++	one for non-directories, and one for directories.  This is
++	to handle symbolic modes like +X correctly.
++	* find/parser.c (parse_perm): Likewise.  Also, adjust to
++	latest gnulib interface for mode_adjust.
++	* find/pred.c (pred_perm): Likewise.
++	* find/testsuite/Makefile.am (EXTRA_DIST_XO): Add find.posix/perm-X.xo.
++	(EXTRA_DIST_EXP): Add find.posix/perm-X.exp.
++	* find/testsuite/find.posix/perm-X.exp: New file.
++	* find/testsuite/find.posix/perm-X.so: New file.
++
++12006-08-19  Paul Eggert  <eggert@cs.ucla.edu>
++
++	Port to latest gnulib, and simplify the bootstrapping procedure.
++	* intl: Remove this directory and everything in it.
++	* depcomp, install-sh, missing, mkinstalldirs, doc/texinfo.tex:
++	Remove these files from CVS, as they are now gotten from gnulib.
++	* README-CVS: Don't recommend "autoreconf -i", as it doesn't work
++	for us.
++	* import-gnulib.sh (findutils_files): New var.  Grab this stuff
++	from gnulib.
++	(findutils_modules): Add fopen-safer; remove stdio-safer.  This
++	adjusts to latest gnulib.
++	(modules): Remove obsolete reference to intl_modules.
++	* .cvsignore: Remove stamp-h; add stamp-h1.
++	* doc/.cvsignore: Add regexprops.texi.
++	* find/.cvsignore: Add oldfind.
++	* lib/.cvsignore: Add .deps, regexprops.
++	* m4/.cvsignore: Add Makefile.
++	* po/.cvsignore: Add stamp-po.
++
++2006-08-19  James Youngman <jay@gnu.org>
++
++	* locate/testsuite/config/unix.exp, locate/testsuite/locate.gnu/bigprefix1.exp:
++	Explicit checks for parefixes which are within range of a short, but outside the one-byte range
++
++	* locate/testsuite/locate.gnu/bigprefix1.exp, locate/testsuite/locate.gnu/exceedshort.exp, locate/testsuite/locate.gnu/space1st.exp:
++	New file.
++
++	* locate/testsuite/Makefile.am, locate/testsuite/locate.gnu/exceedshort.exp, locate/testsuite/locate.gnu/space1st.exp:
++	Patch from Tavis Ormandy; check frcode handles initial space end encodes paths with more than 2^16 characters in the common prefix (trivial change)
++
++	* locate/frcode.c: Changes to avoid overflows
++
++2006-08-11  James Youngman <jay@gnu.org>
++
++	* locate/frcode.c:
++	Avoid producing an invalid database if the first item begins with a space
++
++2006-08-10  James Youngman <jay@gnu.org>
++
++	* find/pred.c, import-gnulib.sh, lib/listfile.c:
++	Updated callers of the gnnulib filemode module so that they work with the 2006-07-09 version of gnulib
++
++	* config.rpath: Updated config.rpath from autotools
++
++2006-08-08  James Youngman <jay@gnu.org>
++
++	* locate/locatedb.h:
++	Automatically verify (at compile time) that the frcode datastream
++	cannot get desynchronised.
++
++	* find/ftsfind.c:
++	Fixed Savannah bug #10494 (-maxdepth does not yield the same stat savinf in ftsfind as oldfind)
++
++	* find/ftsfind.c: display fts_level for find -D search
++
++	* find/util.c: Support find -D search
++
++	* locate/locate.c:
++	If the user specified -E but the database is an slocate database, do
++	not produce a list of files they cannot stat.  Issue an error message
++	explaining the problem.
++
++	* locate/locate.c:
++	Issue states messages in a way which indicates more clearly what's
++	happening when the numbers are reduced because not every filename
++	matched the pattern.
++
++	* locate/locate.c: Better error checking in drop_privs().
++
++2006-08-07  James Youngman <jay@gnu.org>
++
++	* NEWS, locate/locate.c, locate/locatedb.h:
++	Added support for slocate database format
++
++	* xargs/xargs.c:
++	Removed unused code (tivial patch from Miloslav Trmac).
++
++	* xargs/xargs.c: Removed unused code.
++
++	* doc/find.texi:
++	Clarify that the output format for locate -S differs from BSD's.
++
++	* NEWS, find/find.1:
++	Savannah bug #15360: explain global vs. positional options more clearly in the manual page
++
++	* NEWS: Typo in subsection header (* should be **).
++
++	* NEWS, find/find.1:
++	Savannah bug #15360: explain global vs. positional options more clearly in the manual page
++
++	* doc/find.texi: Fixed some clumsy phrasing
++
++	* NEWS, configure.in:
++	Now diverging again from the released tarball, so change once more to -CVS version number suffixes
++
++2006-08-06  James Youngman <jay@gnu.org>
++
++	* locate/locate.c: Fixed a typo in a comment.
++
++	* NEWS, configure.in: Moving on towards 4.3.2...
++
++	* find/testsuite/config/unix.exp:
++	Check that we can see the find.o file in the right position relative
++	to $base_dir to ensure that we are indeed testing the program we just built.
++
++	* find/testsuite/config/unix.exp:
++	Be more paranoid about whether we're really checking the right version
++	of find.
++
++	* NEWS, configure.in: Prepare for release of 4.3.1
++
++	* doc/find.texi: Document the -O and -D options
++
++	* find/defs.h, find/find.1, find/util.c:
++	'find -D help' now explains the available debugging options
++
++	* po/be.po, po/bg.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
++	Make dist changed all the po files again
++
++2006-08-05  James Youngman <jay@gnu.org>
++
++	* NEWS: Described more changes in 4.3.1.
++
++	* locate/testsuite/config/unix.exp:
++	Set the  environment variable so that updatedb knows where to find it; it's not in BINDIR yet during 'make check'
++
++	* po/be.po, po/bg.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
++	Make dist changed all the po files again :)
++
++	* po/et.po, po/vi.po: UPdated the Estonian and Vietnamese translations
++
++	* NEWS, configure.in: Prepare for release of findutils-4.2.28
++
++	* po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po, po/be.po, po/bg.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po:
++	Make dist changed all the po files again :)
++
++	* configure.in: Added Bulgarian translation.
++
++	* po/bg.po: Include Bulgarian translation
++
++	* configure.in: Added Bulgarian translation.
++
++	* po/et.po, po/vi.po: Updated Estonian and Vietnamese translations
++
++	* NEWS: Removed spurious comma.
++
++	* NEWS: Listed the updated translations.
++
++	* find/parser.c, lib/buildcmd.c, lib/buildcmd.h, xargs/xargs.c:
++	Fixed Savannah bug#16738, find does not subtract environment size in find .. -exec {} +
++
++	* NEWS: Updated the list of bugfixes etc.
++
++2006-06-15  James Youngman <jay@gnu.org>
++
++	* NEWS: Described recent changes
++
++	* configure.in: fix to how we invoke the gnulib regex module
++
++	* find/find.1:
++	Savannah bug #16269: avoid confusion over what type of quotes to use
++	in an example.
++
++	* find/parser.c: Option -nowarn should not itself produce a warning
++
++	* find/defs.h: Remoevd useless declaration of last_pred
++
++2006-06-14  James Youngman <jay@gnu.org>
++
++	* po/be.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
++	Updated translation files ga pl sv tr nl ca vi bg fr
++
++	* locate/updatedb.sh:
++	Fixed Savannah bug #16579 (su false should be su -c false)
++
++2006-04-01  James Youngman <jay@gnu.org>
++
++	* find/find.c:
++	Fixed Savannah bug #15800: "Hard link count is wrong" reports wrong
++	directory name.
++
++2006-03-31  James Youngman <jay@gnu.org>
++
++	* po/hu.po: Updated Hungarian translation
++
++2006-01-04  James Youngman <jay@gnu.org>
++
++	* find/testsuite/find.posix/sizetype.exp, find/testsuite/find.posix/sizetype.xo, find/testsuite/find.posix/typesize.exp, find/testsuite/find.posix/typesize.xo:
++	Additional tests for -type -size and -size -type
++
++	* NEWS, doc/find.texi, find/defs.h, find/find.1, find/find.c, find/ftsfind.c, find/parser.c, find/pred.c, find/testsuite/Makefile.am, find/testsuite/config/unix.exp, find/testsuite/find.gnu/depth-d.exp, find/tree.c, find/util.c, po/be.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
++	Initial implementation of a cost-based optimiser
++
++2005-12-23  James Youngman <jay@gnu.org>
++
++	* find/parser.c: Refactor of parse_[acm]time
++
++	* find/defs.h, find/find.c, find/finddata.c, find/ftsfind.c, find/tree.c, find/util.c:
++	last_pred can be a static in tree.c rather than a global variable
++
++	* find/tree.c, find/finddata.c:
++	Moved some global data out of finddata.o and into static variables in tree.c
++
++	* NEWS, find/find.c, find/fstype.c, find/ftsfind.c, find/parser.c, find/pred.c, lib/buildcmd.c, lib/buildcmd.h, lib/regexprops.c, lib/regextype.c, lib/regextype.h, lib/savedirinfo.c, locate/locate.c, xargs/xargs.c:
++	Fixed many compilation warnings
++
++	* find/find.c, find/ftsfind.c, find/util.c:
++	Evaluating the predicates can change the contents of the data structure (for example to add another exec item)
++
++	* find/defs.h, find/find.c, find/ftsfind.c, find/tree.c, find/util.c:
++	Re-factored a lot of common expression-handling code out of find.c and ftsfind.c, mainly into tree.c
++
++	* find/find.c, find/ftsfind.c, find/tree.c:
++	Savannah bug #15271: more helpful error messages for cases where there is a missing expression
++
++2005-12-20  James Youngman <jay@gnu.org>
++
++	* NEWS, doc/find.texi, find/defs.h, find/find.1, find/find.c, find/ftsfind.c, find/testsuite/Makefile.am, find/testsuite/find.posix/sv-bug-15235.exp, find/testsuite/find.posix/sv-bug-15235.xo, find/tree.c, find/util.c:
++	Savannah bug #15195: more helpful error messages for 'find . ( )' or 'find . \!'
++
++	* ChangeLog: Added entries for recent changes.
++
++	* find/defs.h, find/find.c, find/ftsfind.c, find/testsuite/find.posix/bracket-depth.exp, find/util.c:
++	Further fix to bug# 15235: a leading comma is a filename not an expression
++
++	* find/defs.h, find/parser.c, find/testsuite/Makefile.am, find/testsuite/find.posix/empty-parens.exp, find/tree.c:
++	Accept 'find ( -depth )' but reject 'find ( )'
++
++	* po/be.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po, po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po, po/zh_TW.po:
++	did make dist
++
++	* find/testsuite/find.gnu/delete.exp:
++	Use the new find program, and the new way of locating it (/ instead of )
++
++	* find/testsuite/Makefile.am: Added bracket-depth.exp.
++
++	* NEWS, configure.in: We have moved on from 4.3.0
++
++	* find/defs.h, find/find.c, find/ftsfind.c, find/testsuite/Makefile.am, find/testsuite/find.gnu/delete.exp, find/testsuite/find.posix/files-not-expressions1.exp, find/testsuite/find.posix/files-not-expressions1.xo, find/testsuite/find.posix/files-not-expressions2.exp, find/testsuite/find.posix/files-not-expressions2.xo, find/testsuite/find.posix/files-not-expressions3.exp, find/testsuite/find.posix/files-not-expressions3.xo, find/util.c:
++	Avoid getting confused by filename arguments of which the first
++	character looks like a predicate, for example ',x' or '!x' or
++	'(x' (Savannah bug #15235).
++
++2005-12-20  James Youngman <jay@gnu.org>
++
++	* find/defs.h, find/find.c, find/ftsfind.c,
++	find/testsuite/find.posix/bracket-depth.exp, find/util.c: Further
++	fix to bug# 15235: a leading comma is a filename not an expression
++
++	* find/defs.h, find/parser.c, find/testsuite/Makefile.am,
++	find/testsuite/find.posix/empty-parens.exp, find/tree.c: Accept
++	'find ( -depth )' but reject 'find ( )'
++
++	* find/testsuite/find.gnu/delete.exp: Use the new find program,
++	and the new way of locating it ($OLDFIND/$FTSFIND instead of $FIND)
++
++	* find/testsuite/Makefile.am: Added bracket-depth.exp.
++
++	* NEWS, configure.in: We have moved on from 4.3.0
++
++	* find/defs.h, find/find.c, find/ftsfind.c,
++	find/testsuite/Makefile.am, find/testsuite/find.gnu/delete.exp,
++	find/testsuite/find.posix/files-not-expressions1.exp,
++	find/testsuite/find.posix/files-not-expressions1.xo,
++	find/testsuite/find.posix/files-not-expressions2.exp,
++	find/testsuite/find.posix/files-not-expressions2.xo,
++	find/testsuite/find.posix/files-not-expressions3.exp,
++	find/testsuite/find.posix/files-not-expressions3.xo, find/util.c:
++	Avoid getting confused by filename arguments of which the first
++	character looks like a predicate, for example ',x' or '!x' or '(x'
++	(Savannah bug #15235).
++
++2005-12-19  James Youngman <jay@gnu.org>
++
++	* find/testsuite/config/unix.exp:
++	Run every test twice, once with the old (non-fts) binary and once with
++	the new (fts-enabled) binary.
++
++2005-12-19 Eric Blake <ebb9@byu.net>
++
++	* find/testsuite/Makefile.am,
++	find/testsuite/find.posix/sv-bug-15235.xo, 
++	find/testsuite/find.posix/sv-bug-15235.exp: New tests for Savannah
++	bug 15235.
++	
++	* NEWS, find/find.1, doc/find.texi (Invoking find): Document bug
++	fix for Savannah bug 15235.
++
++2005-12-16  James Youngman <jay@gnu.org>
++
++	* xargs/xargs.1, xargs/xargs.c: Fixed bug# 15211, that xargs
++	--show-limits is not documented in the manpage or in the usage
++	message
++
++2005-12-12  James Youngman <jay@gnu.org>
++
++	* find/testsuite/find.gnu/access.exp:
++	Don't leave junk files lying around the place
++
++	* README-CVS: Update the the instructions for getting gnulib; the
++	CVS arrangements at Savannah have changed.
++
++	* ChangeLog, NEWS, doc/find.texi, doc/perm.texi, find/defs.h, find/parser.c:
++	Merged changes from 4.2.x branch again
++
++	* NEWS, doc/find.texi, find/defs.h, find/find.c, find/ftsfind.c,
++	find/parser.c, find/pred.c, find/util.c, lib/listfile.c,
++	lib/listfile.h: Initial code to allow control over how -ls quote
++	(or does not quote) control characters; not enabled yet
++
++2005-12-11  James Youngman <jay@gnu.org>
++
++	* ChangeLog, THANKS, xargs/xargs.c:
++	Fixed spelling errors in Bob Proulx's name.  Sorry, Bob.
++
++2005-12-10  James Youngman <jay@gnu.org>
++
++	* doc/perm.texi:
++	Aaron Hawley: Updated perm.texi from the coreutils distribution
++
++	* find/parser.c:
++	Avoid using entries which have the same name as POSIX library
++	functions (fprintf, printf, exec) as the implementation is allowed to
++	#define these.  That generates hard-to-grok compilation errors.
++
++2005-12-10  Andreas Metzler <gnu@downhill.at.eu.org>
++
++	* ChangeLog, NEWS, configure.in, find/defs.h, find/parser.c:
++	Applied patch from Andreas Metzler fixing Savannah bug #15181:
++	implicit declaration of parse_openparen
++
++2005-12-08  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi: Typo and spelling corrections from Aaron Hawley
++
++2005-12-05  James Youngman  <jay@gnu.org>
++
++	* Released findutils-4.2.27
++
++2005-12-05  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi, find/find.1, locate/locate.1, xargs/xargs.1:
++	Savannah patch #3775 from Aaron Hawley: reconciling man pages
++	differences; did not apply the patch, but resolved all the
++	remaining issues manually by updating the documentation (mostly
++	the Texinfo documentation, which was missing a number of specific
++	technical statements about the behaviour of various options)
++
++2005-12-04  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi: Document --show-limits
++
++	* xargs/xargs.c:
++	Correctly display the size of the argument buffer we really allocated.
++
++	* doc/find.texi, find/find.1, find/parser.c, find/pred.c, NEWS:
++	Savannah bug #14748 (which this change does NOT fix): issue
++	warning of future changes in the behaviour of -perm /000
++
++2005-11-30  James Youngman  <jay@gnu.org>
++
++	* xargs/xargs.c:
++	Typo correction from Benno Schulenberg <benno@nietvergeten.nl>
++	(trivial change)
++
++2005-11-29  James Youngman  <jay@gnu.org>
++
++	* xargs/xargs.c:
++	Typo "Ilegal"; change to "Invalid" since this is not really illegal!
++	Bug report by Primoz Peterlin.
++
++	* lib/regexprops.c, xargs/xargs.c:
++	Prefer the word 'Invalid' or the phrase 'not allowed' over
++	'Illegal', as per the GNU coding standards, and as per the
++	suggestion from Benno Schulenberg
++
++2005-11-24  James Youngman  <jay@gnu.org>
++
++	* NEWS, lib/buildcmd.c, lib/buildcmd.h: Merge to trunk from 4.2.x fixes
++
++	* lib/buildcmd.h:
++	Deleted inaccurate comment about the default value of ctl->args_per_exec.
++
++	* NEWS, lib/buildcmd.c, lib/buildcmd.h:
++	Be more conservative about the total number of arguments we will
++	allow (to avoid exec limits on Linux/PPC)
++
++2005-11-23  James Youngman  <jay@gnu.org>
++
++	* NEWS: Bug #14921 has been fixed.
++
++	* find/fstype.c:
++	Savannah bug #14921: when a Linux bind filesystem is in use, find
++	would expand '-printf %F' to 'none' if a bind mount targetted the same
++	filesystem as the one containing the file to be described.
++
++	* NEWS: Updated to describe recent changes
++
++	* doc/find.texi, find/find.1: Documented find -printf %M
++
++	* lib/buildcmd.c, xargs/testsuite/Makefile.am,
++	xargs/testsuite/xargs.posix/arg_max_32bit_linux_bug.exp,
++	xargs/testsuite/xargs.posix/arg_max_32bit_linux_bug.xo,
++	xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.exp,
++	xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.xo:
++	Ensure that the test suite still passes even if the current
++	system's value of ARG_MAX is different from the development/test
++	system
++
++	* lib/buildcmd.c: reindent and untabify
++
++	* configure.in: The CVS code is moving on from the previous release.
++
++2005-11-22  James Youngman  <jay@gnu.org>
++
++	* ChangeLog: Updated with recent changes.
++
++2005-11-21  James Youngman  <jay@gnu.org>
++
++	* locate/testsuite/config/unix.exp:
++	Even if we expect locate to return a nonzero status, the test should
++	still fail if updatedb fails!
++
++	* locate/testsuite/locate.gnu/ignore_case2.exp:
++	Set the current directory for updatedb.  This test case is supposed to
++	fail because the filename is not matched, not because updatedb fails!
++
++	* locate/updatedb.sh:
++	Check the binaries actually exist in the place we expect.
++
++2005-11-20  James Youngman  <jay@gnu.org>
++
++	* locate/locate.1, xargs/xargs.1: Escape '-' as '\-' where appropriate.
++
++	* find/find.1:
++	Escape '-' as '\-' where appropriate.   Fixes last part of bug #14556.
++
++2005-11-19  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi, find/find.1:
++	Applied edited form of Andreas Metzler's -perm /mode documentation
++	patch resolving Savannah bug #14619.
++
++	* lib/extendbuf.c:
++	In the success case, extendbuf() should preserve the previous value of
++	errno.  Fixes Savannah bug #14842.
++
++	* xargs/testsuite/Makefile.am: Added new test files
++
++	* find/find.1:
++	Correctly indicate the default regular expression syntax (fixes
++	Savannah bug #14836).
++
++	* NEWS, configure.in: Released findutils-4.2.26
++
++	* ChangeLog, NEWS, lib/buildcmd.c,
++	xargs/testsuite/inputs/16383-ys.xi,
++	xargs/testsuite/inputs/32767-ys.xi,
++	xargs/testsuite/xargs.posix/arg_max_32bit_linux_bug.exp,
++	xargs/testsuite/xargs.posix/arg_max_32bit_linux_bug.xo,
++	xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.exp,
++	xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.xo: Applied
++	bugfix from Jim Meyering (tiny change), where many short arguments
++	would cause xargs (and probably find -exec .. {} +) to fail
++	because execve() returns E2BIG, which we should avoid
++
++	* xargs/testsuite/inputs/16383-ys.xi,
++	xargs/testsuite/inputs/32767-ys.xi,
++	xargs/testsuite/xargs.posix/arg_max_32bit_linux_bug.exp,
++	xargs/testsuite/xargs.posix/arg_max_32bit_linux_bug.xo,
++	xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.exp,
++	xargs/testsuite/xargs.posix/arg_max_64bit_linux_bug.xo: New file.
++
++2005-11-18  Jim Meyering  <jim@meyering.net> (tiny change)
++
++        * lib/buildcmd.c (bc_push_arg): When exec'ing, don't exceed
++        Linux's limit on the maximum number of command line arguments.
++
++2005-11-11  James Youngman  <jay@gnu.org>
++
++	* NEWS, find/find.c, find/fstype.c: Savannah bug #14922: if we need the
++	list of mounted filesystems but it is not available, exit fatally
++	with a message.  If it is not available but we don't need it,
++	there is no need for an error.
++
++2005-10-31  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi:
++	Removed redundant additional description of "--regextype".
++
++2005-10-08  James Youngman  <jay@gnu.org>
++
++	* find/find.c, lib/regextype.c: Fixed Savannah bug #14616, which
++	was that c99 code had crept in and it didn't compile on c89
++	compilers
++
++	* doc/find.texi: Savannah patch #4371 from Andreas Metzler; the
++	argument of -I is mandatory
++
++2005-09-21  James Youngman  <jay@gnu.org>
++
++	* xargs/xargs.1, xargs/xargs.c: Clarified the -E option
++
++2005-09-20  James Youngman  <jay@gnu.org>
++
++	* NEWS, configure.in, doc/find.texi, xargs/xargs.1, xargs/xargs.c:
++	Documentation clarification: -L and -I take a mandatory argument;
++	-l and -i do not
++
++2005-09-17  James Youngman  <jay@gnu.org>
++
++	* xargs/xargs.c:
++	Fixed Savannah bug #14550 - if environment is too large to allow
++	exec() to work, we cannot even use "xargs --help".
++
++	* find/find.1:
++	Avoid the use of -perm +mode, using -perm /mode instead.  From comment
++	by Andreas Metzler (though I didn't read the patch).
++
++	* ChangeLog, doc/find.texi, find/find.1, xargs/xargs.1:
++	Typo fix from A Costa (tiny change)
++
++	* NEWS: Corrections for find manual page - symbolic permissions.
++
++	* find/find.1:
++	Corrected an inaccuracy in the EXAMPLES section - in symbolic modes,
++	'o' stands for 'others' and 'u' stands for 'user' (i.e. the owner).
++
++2005-09-17  A Costa <agcosta@gis.net>  (tiny change)
++
++	docs/find.texi: Fixed typo
++	find/find.1: Fixed typo
++	xargs/xargs.1: Fixed typo
++	
++2005-09-17  James Youngman  <jay@gnu.org>
++
++	* NEWS: Corrections for find manual page - symbolic permissions.
++
++	* find/find.1:
++	Corrected an inaccuracy in the EXAMPLES section - in symbolic modes,
++	'o' stands for 'others' and 'u' stands for 'user' (i.e. the owner).
++
++2005-09-06  James Youngman  <jay@gnu.org>
++
++	* xargs/xargs.c: Typo in "IEEE" in a comment.
++
++2005-09-04  James Youngman  <jay@gnu.org>
++
++	* find/defs.h, find/find.c, find/parser.c, find/pred.c, 
++	Work around compilation failure with GCC 4 and AIX 5.1, in which
++	open is #defined to open64
++
++2005-09-03  James Youngman  <jay@gnu.org>
++
++	* find/testsuite/find.gnu/quit.exp: Fixed Savannah bug#14390, by
++	avoiding an accidental assumption in quit.exp that directory
++	entries are returned by readir() in any particular order
++
++	* NEWS, configure.in, doc/find.texi, xargs/testsuite/Makefile.am,
++	xargs/testsuite/inputs/helloworld.xi,
++	xargs/testsuite/xargs.gnu/delim-o.exp,
++	xargs/testsuite/xargs.gnu/delim-o.xo, xargs/xargs.1,
++	xargs/xargs.c: Added the --delimiter option to xargs, resolving
++	Savannah support request sr #102914
++
++	* ChangeLog, NEWS, configure.in: Released findutils-4.2.25
++
++
++2005-09-02  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi, find/find.1:
++	Improved documentation in response to Savannah bug #14376
++
++2005-09-01  James Youngman  <jay@gnu.org>
++
++	* po/ChangeLog, ChangeLog: Updated with recent changes.
++
++	* locate/locate.c: Removed unused struct stringbuf.soffs.
++
++	* doc/find.texi: Typo fix from Jim Meyering (trivial change)
++
++2005-09-01  Jim Meyering  <jim@meyering.net>
++
++        * locate/locate.c (struct stringbuf) [soffs]: Remove unused member.
++        (locate): Remove initialization, too.
++
++2005-09-01  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi: Typo fix from Jim Meyering (trivial change)
++
++2005-08-30  James Youngman  <jay@gnu.org>
++
++	* find/defs.h, find/find.c, find/fstype.c, find/pred.c:
++	Attempted fix for compilation when AFS is #defined
++
++2005-08-13  James Youngman  <jay@gnu.org>
++
++	* find/find.1: Remind the user to quote the pattern argument to -iname.
++
++2005-08-12  James Youngman  <jay@gnu.org>
++
++	* NEWS: Corrected typo.
++
++2005-08-09  James Youngman  <jay@gnu.org>
++
++	* NEWS: Indicate that regexprops.texi is built on Cygin now that
++	Savannah bug #14025 has been fixed.
++
++	* lib/Makefile.am, lib/regexprops.c: Fixed compilation failure on
++	Cygwin - Savannah Bug #14025 (tiny change, three lines), reported
++	and fixed by Eric Blake
++
++	* find/testsuite/Makefile.am,
++	find/testsuite/find.posix/sv-bug-14070.exp,
++	find/testsuite/find.posix/sv-bug-14070.xo: Added new test case for
++	SourceForge bug #14070
++
++	* find/testsuite/find.posix/sv-bug-14070.exp,
++	find/testsuite/find.posix/sv-bug-14070.xo: New file.
++
++	* find/defs.h, find/ftsfind.c, find/pred.c, find/util.c:
++	Ensure we can still build with --enable-debug
++
++	* find/testsuite/config/unix.exp,
++	find/testsuite/find.gnu/execdir-one.exp,
++	find/testsuite/find.gnu/execdir-root-only.exp,
++	find/testsuite/find.gnu/sv-bug-12230.exp: If . is on $PATH,
++	indicate that the -execdir tests cannot be carried out, as opposed
++	to indicating that those tests fail
++
++2005-08-07  James Youngman  <jay@gnu.org>
++
++	* NEWS: Indicated that some test suite files have been renamed.
++
++	* xargs/testsuite/Makefile.am, xargs/testsuite/inputs/eof.xi,
++	xargs/testsuite/inputs/eof1.xi,
++	xargs/testsuite/xargs.sysv/eof.exp,
++	xargs/testsuite/xargs.sysv/eof.xo,
++	xargs/testsuite/xargs.sysv/eof1.exp,
++	xargs/testsuite/xargs.sysv/eof1.xo,
++	xargs/testsuite/xargs.posix/lc_l2.exp,
++	xargs/testsuite/xargs.posix/lc_l2.xo,
++	xargs/testsuite/xargs.sysv/l2.exp,
++	xargs/testsuite/xargs.sysv/l2.xo,
++	xargs/testsuite/xargs.sysv/lc_l2.exp,
++	xargs/testsuite/xargs.sysv/lc_l2.xo,
++	xargs/testsuite/xargs.posix/L2.exp,
++	xargs/testsuite/xargs.posix/l2.exp,
++	xargs/testsuite/xargs.posix/L2.xo,
++	xargs/testsuite/xargs.posix/l2.xo,
++	xargs/testsuite/xargs.posix/uc_L2.exp,
++	xargs/testsuite/xargs.posix/uc_L2.xo: Work around problems with
++	CVS clients on case-insentitive operating systems
++
++	* debian/Changelog: Removed Changelog file since changelog is the
++	one we should be using and having both files upsets Cygwin
++	systems which cannot tell the dirrerence between changelog and
++	Changelog
++
++	* find/ftsfind.c:
++	If DEBUG is defined, show the symbolic names fro fts_info values.
++
++	* find/ftsfind.c: Added additional diagnostics.
++
++2005-08-01  James Youngman  <jay@gnu.org>
++
++	* ABOUT-NLS, INSTALL, Makefile.am, configure.in, depcomp,
++	doc/texinfo.tex, install-sh, missing, mkinstalldirs: By adding the
++	missing AM_GNU_GETTEXT_VERSION call, allowed autopoint to update
++	those files of which it has updated copies.
++
++	* po/Makevars.template, po/Makefile.in.in, po/findutils.pot:
++	Using AM_GNU_GETTEXT_VERSION, allowed gettext to update the infrastructure
++
++	* po/Rules-quot, po/boldquot.sed, po/en@boldquot.header, po/en@quot.header, po/insert-header.sin, po/quot.sed:
++	Files added by autopoint now that we are using AM_GNU_GETTEXT_VERSION
++
++	* find/testsuite/Makefile.am: Added find.gnu./perm-slash.{exp,xo}.
++
++2005-07-31  James Youngman  <jay@gnu.org>
++
++	* find/testsuite/excuses.txt: We now have tests for -perm.
++
++	* NEWS, configure.in, find/parser.c,
++	find/testsuite/find.gnu/perm-slash.exp,
++	find/testsuite/find.gnu/perm-slash.xo: Fixed bug which caused find
++	-perm /440 to be treated the same as find -perm 440
++
++	* find/testsuite/Makefile.am:
++	Generic tests for -perm -NNN and -perm NNN
++
++	* find/testsuite/excuses.txt: New file - list of test cases that
++	still need to be written, along with excuses why they haven't been
++	done yet
++
++	* find/testsuite/find.posix/perm-vanilla.exp,
++	find/testsuite/find.posix/perm-vanilla.xo: Generic tests for -perm
++	-NNN and -perm NNN
++
++	* find/testsuite/find.gnu/inum.exp:
++	Ensure that the test would fail if -inum just always returned true
++
++	* find/testsuite/Makefile.am, find/testsuite/find.gnu/ilname.exp,
++	find/testsuite/find.gnu/ilname.xo,
++	find/testsuite/find.gnu/inum.exp, find/testsuite/find.gnu/inum.xo,
++	find/testsuite/find.gnu/lname.exp,
++	find/testsuite/find.gnu/lname.xo,
++	find/testsuite/find.gnu/xtype.exp,
++	find/testsuite/find.gnu/xtype.xo,
++	find/testsuite/find.posix/links.exp,
++	find/testsuite/find.posix/links.xo: New test cases for -ilname,
++	-inum, -lname, -xtype
++
++	* find/testsuite/Makefile.am, find/testsuite/find.gnu/delete.exp,
++	find/testsuite/find.gnu/delete.xo,
++	find/testsuite/find.gnu/iregex1.exp,
++	find/testsuite/find.gnu/iregex1.xo,
++	find/testsuite/find.gnu/regex1.exp,
++	find/testsuite/find.gnu/regex1.xo,
++	find/testsuite/find.gnu/regex2.exp,
++	find/testsuite/find.gnu/regex2.xo,
++	find/testsuite/find.gnu/samefile-copy.exp,
++	find/testsuite/find.gnu/samefile-copy.xo,
++	find/testsuite/find.gnu/samefile-link.exp,
++	find/testsuite/find.gnu/samefile-link.xo,
++	find/testsuite/find.gnu/samefile-same.exp,
++	find/testsuite/find.gnu/samefile-same.xo,
++	find/testsuite/find.gnu/samefile-symlink.exp,
++	find/testsuite/find.gnu/samefile-symlink.xo: Further test cases
++
++	* find/find.1: Indicate that -delete implies -depth (find.texi
++	already mentioned this).
++
++	* find/testsuite/Makefile.am:
++	Brought the list of .exp and .xo files in Makefile.am into sync with
++	the actual contents of the CVS repository.
++
++	* find/testsuite/Makefile.am, find/testsuite/find.gnu/depth-d.exp,
++	find/testsuite/find.gnu/depth-d.xo,
++	find/testsuite/find.gnu/empty.exp,
++	find/testsuite/find.gnu/empty.xo,
++	find/testsuite/find.gnu/execdir-one.exp,
++	find/testsuite/find.gnu/execdir-one.xo,
++	find/testsuite/find.gnu/false.exp,
++	find/testsuite/find.gnu/false.xo,
++	find/testsuite/find.gnu/follow-basic.exp,
++	find/testsuite/find.gnu/follow-basic.xo,
++	find/testsuite/find.gnu/gnu-or.exp,
++	find/testsuite/find.gnu/gnu-or.xo,
++	find/testsuite/find.gnu/gnuand.exp,
++	find/testsuite/find.gnu/gnuand.xo,
++	find/testsuite/find.gnu/gnunot.exp,
++	find/testsuite/find.gnu/gnunot.xo,
++	find/testsuite/find.gnu/iname.exp,
++	find/testsuite/find.gnu/iname.xo,
++	find/testsuite/find.gnu/ipath.exp,
++	find/testsuite/find.gnu/ipath.xo,
++	find/testsuite/find.gnu/iwholename.exp,
++	find/testsuite/find.gnu/iwholename.xo,
++	find/testsuite/find.gnu/path.exp, find/testsuite/find.gnu/path.xo,
++	find/testsuite/find.gnu/print0.exp,
++	find/testsuite/find.gnu/print0.xo,
++	find/testsuite/find.gnu/quit.exp, find/testsuite/find.gnu/quit.xo,
++	find/testsuite/find.gnu/true.exp, find/testsuite/find.gnu/true.xo,
++	find/testsuite/find.gnu/wholename.exp,
++	find/testsuite/find.gnu/wholename.xo,
++	find/testsuite/find.posix/and.exp,
++	find/testsuite/find.posix/and.xo,
++	find/testsuite/find.posix/exec-one.exp,
++	find/testsuite/find.posix/exec-one.xo,
++	find/testsuite/find.posix/grouping.exp,
++	find/testsuite/find.posix/grouping.xo,
++	find/testsuite/find.posix/name.exp,
++	find/testsuite/find.posix/name.xo,
++	find/testsuite/find.posix/posixnot.exp,
++	find/testsuite/find.posix/posixnot.xo,
++	find/testsuite/find.posix/prune.exp,
++	find/testsuite/find.posix/prune.xo: Added new test cases for many
++	of the actions and tests of find
++
++	* find/find.c (default_prints):
++	not a static function, so do not declare it as one.
++
++	* m4/withfts.m4: Fixed underquoted definition of FIND_WITH_FTS.
++	[this change is currently on a branch only]
++
++2005-07-30  James Youngman  <jay@gnu.org>
++
++	* find/finddata.c, find/ftsfind.c, find/parser.c, find/pred.c,
++	find/util.c, m4/Makefile.am, m4/withfts.m4: Initial attempt to
++	convert find to use gnulib's fts()
++	[this change is currently on a branch only]
++	
++	* find/finddata.c, find/ftsfind.c, m4/withfts.m4: New file.
++	[this change is currently on a branch only]
++	
++	* NEWS, configure.in, find/Makefile.am, find/defs.h, find/find.c,
++	import-gnulib.sh: Initial attempt to convert find to use gnulib's
++	fts() [this change is currently on a branch only]
++
++2005-07-29  James Youngman  <jay@gnu.org>
++
++	* NEWS, configure.in
++	Prepared for the release of findutils-4.2.24
++
++	* ChangeLog: Updated with recent changes.
++
++	* NEWS, find/find.1, doc/find.texi:
++	Indicate that -ok and -okdir redirect stdin from /dev/null.
++
++	* NEWS: Explain the directory link count change more throroughly.
++
++	* NEWS: Fixed bug #13973.
++
++	* find/pred.c (pred_fprintf): Fix Savannah bug #13973: Modify the
++	handling of -printf %Y so that it no longer modifies stat_buf
++
++	* find/testsuite/find.gnu/printf-symlink.exp,
++	find/testsuite/find.gnu/printf-symlink.xo: Detect Savannah bug
++	#13973: pollution of stat_buf by the %Y directive (trivial change
++	from Andreas Metzler)
++
++	* INSTALL, depcomp, doc/texinfo.tex, install-sh, missing, mkinstalldirs:
++	Updated auxilliary files from the automake-1.9 distribution
++
++	* configure.in:
++	Introduce new Automake conditional, CROSS_COMPILING, true when we are corss compiling
++
++	* find/find.c:
++	If we decline to follow a symbolic link due to the safety check, issue a more self-explanatory warning message
++
++	* lib/Makefile.am: Don't build regexprops if we are cross compiling
++
++	* doc/Makefile.am:
++	Depend on the regex.h file rather than the 'regexprops' binary,
++	because the header file will always exist even if we are doing "make
++	dist".  Otherwise "make distcheck" fails because it tries to rebuild
++	find.info while the source-directory is read-only.
++
++2005-07-28  James Youngman  <jay@gnu.org>
++
++	* find/find.1:
++	Say "other users" rather than "rest of the world" when talking about
++	Unix permissions.  Fixes Savannah bug #4246.
++
++2005-07-27  James Youngman  <jay@gnu.org>
++
++	* xargs/testsuite/Makefile.am: Added new test case 'childfail.exp'.
++
++	* doc/find.texi:
++	Updated the description of the safe-dir-change operation to reflect
++	what find now does on systems that lack O_NOFOLLOW.
++
++	* NEWS, find/parser.c: Indicate in the output of find --version if
++	the leaf optimisation is enabled or not
++
++	* find/find.c: Fixed typo.
++
++	* find/find.c: If the link count of a directory starts off less
++	than two, disable the leaf optimisation for this directory.
++
++2005-07-26  James Youngman  <jay@gnu.org>
++
++	* lib/regexprops.c: Further small corrections from Karl.
++
++	* doc/find.texi:
++	Reordered the sections in the manual to put the "Common Tasks" and
++	"Worked Examples" chapters together.
++
++	* configure.in, find/find.c: Allow the leaf optimisation to be
++	disabled by default with the configure option
++	--disable-leaf-optimisation
++
++	* find/find.c: Removed old code for antuqie version of savedir().
++
++	* lib/regextype.c: Put the syntaxes in alphabetical order.
++
++	* lib/regexprops.c: Karl made some more readability suggestions.
++
++2005-07-24  James Youngman  <jay@gnu.org>
++
++	* doc/Makefile.am: If the regexprops program has changed we should
++	re-run it, since it will probably now produce different output
++
++	* lib/regextype.h:
++	Allow the caller to detect if one regex type is identical to another.
++
++	* configure.in:
++	Define the preprocessor macro FINDUTILS for that code int he lib/
++	directory can be slightly more reusable.
++
++	* lib/regextype.c:
++	Allow the caller to detect if one regex type is identical to another.
++
++	* lib/regexprops.c:
++	Made Texinfo style corrections suggested by Karl Berry.
++
++2005-07-22  James Youngman  <jay@gnu.org>
++
++	* xargs/testsuite/xargs.posix/childfail.exp, xargs/xargs.c: Fix
++	Savannah bug #13878, in which xargs deals incorrectly with child
++	failure, returning 0 when it should return 123
++
++2005-07-17  James Youngman  <jay@gnu.org>
++
++	* find/find.1: (tiny change) Corrections by Greg Wooledge
++
++2005-07-16  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi: Updates following comments by Dave Gilbert.
++
++	* NEWS: Corrected a typo.
++
++	* doc/find.texi:
++	Added in the example about updating an aggregate timestamp file.
++
++2005-07-15  James Youngman  <jay@gnu.org>
++
++	* po/da.po: Updated Danish translation from translation project
++
++2005-07-14  James Youngman  <jay@gnu.org>
++
++	* NEWS, doc/Makefile.am, doc/find.texi, lib/Makefile.am,
++	lib/regexprops.c, lib/regextype.c, lib/regextype.h: Added
++	--regextype and -regextype options to locate and find
++	respectively, and documented these
++
++	* doc/find.texi: We use GNU Emacs regexps by default now.
++
++	* doc/find.texi:
++	We require GNU sort in order for locate to handle newlines correctly,
++	not just GNU find.
++
++2005-07-10  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi:
++	Applied several documentation improvement patches from Aaron Hawley
++
++	* ChangeLog, NEWS: Updated with recent changes.
++
++	* NEWS: Recent gnulib changed have fixed -iregex
++
++	* doc/find.texi, xargs/xargs.1:
++	Tiny patch from Andreas Metzler: xargs -I is like xargs -i, but the latter is deprecated
++
++2005-07-06  James Youngman  <jay@gnu.org>
++
++	* find/defs.h, find/find.c, find/parser.c, find/pred.c:
++	Fixed Savannah bug #13650; programs run by -exec cannot read stdin
++
++2005-07-04  James Youngman  <jay@gnu.org>
++
++	* NEWS: *** empty log message ***
++
++	* doc/find.texi:
++	Added a "Worked Examples" section.   It currently only contains a
++	(long) example about deleting files.
++
++	* .cvsignore: Some extra stuff to ignore.
++
++2005-07-03  James Youngman  <jay@gnu.org>
++
++	* find/Makefile.am: Don't need regexprops.c really...
++
++	* lib/regextype.c, lib/regextype.h:
++	New files for selecting regex type based on a keyword
++
++	* locate/locate.1: Documented the fact that we now use Emacs-style
++	regexps, not POSIX EREs, for compatibility with find -regex.
++
++	* lib/Makefile.am, locate/locate.c, doc/find.texi,
++	find/Makefile.am, find/defs.h, find/find.1, find/find.c,
++	find/parser.c: Fixed Savannah bug #13495: find now uses
++	Emacs-style regexps by default
++
++2005-07-02  James Youngman  <jay@gnu.org>
++
++	* configure.in, find/defs.h, find/fstype.c, find/parser.c,
++	intl/dcigettext.c, lib/buildcmd.c, lib/listfile.c,
++	lib/savedirinfo.c, locate/locate.c, xargs/xargs.c: Assume unistd.h
++	is present - avoid using HAVE_UNISTD_H
++
++2005-07-01  Jim Meyering  <jim@meyering.net>
++
++        With `-fprint F' or `-fprintf F', don't write diagnostics
++        to F when stderr is closed.
++
++        * find/parser.c: Include "stdio-safer.h".
++        (open_output_file): Use fopen_safer, not fopen.
++        * import-gnulib.sh (findutils_modules): Add stdio-safer.
++
++2005-07-01  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi:
++	Aaron pointed out a potentially-confusing sentence.  I fixed it.
++
++	* find/defs.h, find/find.1, find/find.c, find/parser.c,
++	find/pred.c, find/util.c: Allow consistency-checking of the
++	predicates, checking for example that actions all have side
++	effects
++
++2005-06-29  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi: Applied patch from Aaron Hawley (Savannah patch
++	#3751: Typos and small suggestions to find.texi)
++
++2005-06-27  James Youngman  <jay@gnu.org>
++
++	* ChangeLog, locate/locate.c: Applied patch from Bas Van Gompel to
++	move match counting into a (new) visitor function
++
++	* NEWS, configure.in: No longer 4.2.23, as we're moving on now
++
++2005-06-24  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
++
++	* locate/locate.c (visit_count, visit_limit): New functions.
++	(locate): Use visit_limit or visit_count. Simplify main loop.
++	(main) Bail out early when limit is reached.
++
++2005-06-20  James Youngman  <jay@gnu.org>
++
++	* xargs/xargs.c:
++	Removed some code which had already been disabled via the preprocessor.
++
++2005-06-19  Dmitry V. Levin <ldv@altlinux.org>
++
++	* lib/savedirinfo.c: Fix two compilation warnings (which would 
++	prevent compilation if "-Wall -Werror" is in effect).
++	
++2005-06-19  James Youngman  <jay@gnu.org>
++
++	* ChangeLog: Indicate that we made (are making) a release.
++
++	* ChangeLog, NEWS, configure.in: Preparing to release 4.2.23
++
++	* doc/find.texi: Fixed Texinfo syntax error in previous change
++
++	* doc/find.texi, xargs/xargs.1:
++	Document the fact that the -i and -L options are currently
++	incompatible (Savannah bug 13041).
++
++	* locate/updatedb.1, locate/updatedb.sh: Fix Savannah bug 13411 -
++	reject trailing slashes in updatedb's --prunepaths, bacsue these
++	will never be matched
++
++	* NEWS: Released findutils-4.2.23.
++
++	* doc/find.texi, xargs/xargs.1:
++	Document the fact that the -i and -L options are currently
++	incompatible (Savannah bug 13041).
++
++	* locate/updatedb.1, locate/updatedb.sh: Fix Savannah bug 13411 -
++	reject trailing slashes in updatedb's --prunepaths, because these
++	will never be matched.
++
++2005-06-18  Martin Buchholz (trivial patch applied by James Youngman)
++
++	* find/defs.h, find/find.c, find/parser.c, doc/find.texi: Fix
++	typos/spelling errors (mostly in source code comments).
++
++2005-06-18  Dmitry V. Levin  <ldv@altlinux.org>
++
++	Additional documentation tweaks for -execdir/-okdir actions.
++	* find/parser.c (parse_help): Mention -execdir and -ordir options.
++	* doc/find.texi, find/find.1: Additionally document new options.
++	
++2005-06-12  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
++
++        * locate/locate.c: Implement --all (-A).
++	
++        * NEWS, doc/find.texi, locate/locate.1: Document locate --all (-A)
++	
++2005-06-12  James Youngman  <jay@gnu.org>
++
++	* find/find.c, NEWS:
++	Savannah bug #13381 (Debian bug 313081): if we have O_NOFOLLOW,
++	safely_chdir() does not need to call stat().  However, process_dir()
++	used to rely on using that stat information.  To work around this
++	problem, there is now an output parameter in safely_chdir() which
++	indicates if the stat buffer is valid.
++	This bug has possible security implications.
++
++	* find/find.1, doc/find.texi:
++	Applied patch from Andreas Metzler, improving the wording for the
++	documentation of the %k and %b format directives.  This patch does
++	not require a copyright assignment as it consists of several
++	copies of the same small wording change.
++
++2005-06-11  James Youngman  <jay@gnu.org>
++
++	* find/find.1: Corrected spelling error 'writeable' to 'writable'.
++
++	* find/find.1, locate/locate.1:
++	Fixed Savannah bug #13363, typos in manpages (trivial change)
++
++2005-06-10  James Youngman  <jay@gnu.org>
++
++	* find/find.c, lib/savedirinfo.c, lib/savedirinfo.h: Switch to a
++	new scheme for saving directory entry data which is extensible to
++	allow additional data to be saved.
++
++2005-06-09  James Youngman  <jay@gnu.org>
++
++	* locate/testsuite/config/unix.exp:
++	Use the new normalize_dir procedure throughout.
++
++	* locate/testsuite/config/unix.exp: Move the normalisation into a
++	procedure.  Don't rely on the "file normalize" command being
++	available (it's new in Tcl 8.4).
++
++2005-06-08  James Youngman  <jay@gnu.org>
++
++	* ChangeLog, NEWS, configure.in: Updated for recent changes
++
++	* doc/find.texi:
++	Explain that you should put the argument of -name in quotes.
++
++	* find/find.1:
++	Added a new "NON-BUGS" section pointing out things that look like bugs
++	but are caused by mistakes or misunderstandings.
++
++	* doc/find.texi, locate/locate.1: Applied Bas van Gompel's patch
++	which allows the database to be read from stdin.
++
++	* locate/locate.c:
++	Read the database in by using the "visitor" pattern.  Modified file
++	header comment to indicate that we no longer use the efficient
++	algorith described in ;login:.  Emit an error message if the
++	LOCATE_PATH variable implies that we should read stdin twice.
++	Most of this code is from Bas van Gompel.
++
++	* AUTHORS: Credit Bas van Gompel for his work on locate.
++
++	* lib/printquoted.h: Appled patch from Bas - fixing compiler warning.
++
++2005-06-07  James Youngman  <jay@gnu.org>
++
++	* ChangeLog, NEWS, configure.in: Updates prior to release
++
++	* config.rpath: Added file required for 'make dist'
++
++	* po/be.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po,
++	po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po,
++	po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po,
++	po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po,
++	po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/rw.po, po/sk.po,
++	po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po, po/zh_CN.po:
++	updated the po files for release
++
++	* xargs/testsuite/Makefile.am:
++	Added in all the test files from Dmitry V. Levin.
++
++2005-06-08  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
++
++	* NEWS, locate/locate.1, doc/find.texi: Document usage of `-'
++	to refer to stdin in database-path for locate.
++	* locate/locate.c: Change prototype for visitors and processors
++	throughout. Move reading the database and generating base_name
++	into visitors. Allow `-' to refer to stdin in database-path.
++
++        * lib/printquoted.h: Include stdio.h.
++
++2005-06-07  James Youngman  <jay@gnu.org>
++
++	* COPYING, debian/copyright, depcomp, doc/texinfo.tex,
++	find/defs.h, find/find.c, find/fstype.c, find/parser.c,
++	find/pred.c, find/testsuite/config/unix.exp, find/tree.c,
++	find/util.c, import-gnulib.sh, intl/Makefile.in,
++	intl/bindtextdom.c, intl/config.charset, intl/dcgettext.c,
++	intl/dcigettext.c, intl/dcngettext.c, intl/dgettext.c,
++	intl/dngettext.c, intl/explodename.c, intl/finddomain.c,
++	intl/gettext.c, intl/gettext.h, intl/gettextP.h,
++	intl/hash-string.h, intl/intl-compat.c, intl/l10nflist.c,
++	intl/libgettext.h, intl/libgnuintl.h, intl/loadinfo.h,
++	intl/loadmsgcat.c, intl/localcharset.c, intl/locale.alias,
++	intl/localealias.c, intl/ngettext.c, intl/plural.c, intl/plural.y,
++	intl/ref-add.sin, intl/ref-del.sin, intl/textdomain.c,
++	lib/buildcmd.c, lib/buildcmd.h, lib/extendbuf.c, lib/extendbuf.h,
++	lib/forcefindlib.c, lib/listfile.c, lib/listfile.h,
++	lib/modetype.h, lib/nextelem.c, lib/nextelem.h, lib/printquoted.c,
++	lib/printquoted.h, lib/qmark.c, lib/savedirinfo.c,
++	lib/savedirinfo.h, lib/strspn.c, lib/wait.h, lib/waitpid.c,
++	locate/bigram.c, locate/code.c, locate/frcode.c, locate/locate.c,
++	locate/locatedb.h, locate/testsuite/config/unix.exp,
++	locate/updatedb.sh, missing, po/fetch-po-files,
++	xargs/testsuite/config/unix.exp, xargs/xargs.c: 
++	Updated the FSF's postal address
++
++	* ChangeLog: Corrected Bas's email address.
++
++	* locate/locate.c: Updated copyright years.
++
++2005-06-07  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
++
++         * locate/locate.c: Fold case once, only when needed.
++  
++2005-06-07  James Youngman  <jay@gnu.org>
++
++	* NEWS: Updated with recent changes.
++
++	* mdate-sh: Use the mdate-sh from automake
++
++	* find/parser.c, find/pred.c, find/tree.c, find/util.c,
++	lib/Makefile.am, lib/forcefindlib.c, lib/listfile.c,
++	lib/listfile.h, locate/code.c, locate/locate.c, find/defs.h,
++	find/find.c: Fix Savannah bug #13324: Fix compiler warnings for
++	GCC-3.4
++
++	* locate/locate.c:
++	Fixed Savannah bug #13325: Quoting of output filenames in locate
++	should match find.
++
++	* find/parser.c:
++	Fixed Savannah bug #13319: C9X-ism in parser.c (declaration after
++	statements).
++
++	* find/pred.c, lib/Makefile.am, lib/listfile.c, lib/nextelem.c,
++	lib/printquoted.c, lib/printquoted.h, lib/qmark.c, NEWS,
++	doc/find.texi, find/defs.h, find/find.1, find/parser.c: Fixed
++	Savannah bug #13303, find should filter out non-printable
++	characters if outputting to tty
++
++2005-05-30  James Youngman  <jay@gnu.org>
++
++	* locate/locate.c: rename new_locate() to locate() since
++	  old_locate() has gone the way of the dodo.
++
++2005-05-29  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
++
++        Add a ``--print'' (``-p'') option. (to cancel side-effects of -c/-S)
++        Allow ``--statistics'' in combination with non-options.
++        * doc/find.texi: Add documentation for locate --print (-p), and the
++        use of non-options with --statistics.
++        * locate/locate.1: ditto.
++        * locate/locate.c: Read each database only once.
++
++2005-05-23  Paul Eggert  <eggert@cs.ucla.edu>
++
++	Adjust to recent gnulib changes.
++	* import-gnulib.sh: Get config.rpath from gnulib/build-aux,
++	not gnulib/config.
++	* find/parser.c (parse_perm): Ignore umask when parsing
++	symbolic permissions.  Adjust to new modechange API.
++
++2005-05-16  James Youngman  <jay@gnu.org>
++
++	* find/find.c, find/parser.c, find/pred.c, find/tree.c:
++	Trivial change: don't use i18n support for debug-only messages
++
++	* ChangeLog: Added ChangeLog entry crediting Dmitry
++
++2005-05-09  James Youngman  <jay@gnu.org>
++
++	* find/parser.c:
++	The previous change fixed Savannah bug #12999.  This change doesn't do
++	anything, it's only intended to be a place to record the Savannah bug
++	ID we've just fixed.
++
++	* find/parser.c:
++	Oops.  Initialise the variable which indicates which regex syntax to
++	use.  We use POSIX basic regular expressions.
++
++	* find/parser.c:
++	Suggestion by Ed Avis: point out that "-name foo/bar" will almost
++	always evaluate to false.   Suggest to the user what alternatives they
++	might find useful.
++
++2005-05-02  James Youngman  <jay@gnu.org>
++
++	* AUTHORS:
++	Added Dimitry (his new test suite contribution required a copyright
++	assignment).
++
++2005-05-03  Dmitry V. Levin
++
++	* Added xargs test suite tests by Dmitry V. Levin, together with
++	  bugfixes which ensure that the tests pass.
++
++2005-04-18  James Youngman  <jay@gnu.org>
++
++	* Added test suite tests for Bas van Gompel's changes.
++
++2005-04-18  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
++
++        * doc/find.texi: Document locate --non-existing (-E).
++        * locate/locate.1: Ditto.
++        * locate/locate.c: Implement --non-existing (-E).
++   
++2005-04-04  James Youngman  <jay@gnu.org>
++
++	* configure.in, import-gnulib.sh:
++	We no longer need gnulib/m4/Makefile.am
++
++	* po/vi.po: Updated Vietnamese translation
++
++	* locate/updatedb.sh:
++	Savannah bug #12491: Only use the "-s" option to "su" if it is
++	supported.
++
++2005-04-01  James Youngman  <jay@gnu.org>
++
++	* locate/locate.1, locate/updatedb.1, xargs/xargs.1: Trivial
++	change from A Costa <agcosta@gis.net>, fixing typos in manual
++	pages for xargs, locate and updatedb; fixes Savannah bug #12500,
++	Debian bug #301934
++
++2005-03-22  James Youngman  <jay@gnu.org>
++
++	* import-gnulib.sh: Include the new gnulib module stat-macros
++
++	* configure.in:
++	CVS code is (will shortly be) no longer identical to the 4.2.20 release
++
++2005-03-17  James Youngman  <jay@gnu.org>
++
++	* configure.in: Preprare for release of 4.2.20.
++
++	* NEWS: Updated prior to release of 4.2.20.
++
++	* ChangeLog: Updated with recent changes.
++
++	* THANKS: Thank Bas van Gompel, but only once.
++
++	* THANKS: Thank Bas van Gompel and Aaron S. Hawley.
++
++	* po/vi.po: Updated Vietnamese PO file
++
++2005-03-10  James Youngman  <jay@gnu.org>
++
++	* po/nl.po: Updated Dutch PO file
++
++2005-03-08  Bas van Gompel  <patch-findutils.buzz@bavag.tmfweb.nl>
++
++	* import-gnulib.sh: Re-enable creation of gnulib/m4/Makefile.am.
++
++2005-03-07  James Youngman  <jay@gnu.org>
++
++	* Released findutils-4.2.19.
++
++	* find/testsuite/find.posix/sizes.exp:
++	Use 2>/dev/null instead of 2>&1, because Tcl understands the former
++	but not the latter.
++
++	* find/testsuite/Makefile.am: Also distribute sv-bug-12181.xo.
++
++	* find/testsuite/Makefile.am: Distribute sv-bug-12181.
++
++	* find/testsuite/Makefile.am: Distribute sv-bug-12230.
++
++	* NEWS: Updated with new news.
++
++	* ChangeLog: Brought up to date.
++
++	* lib/buildcmd.c, find/testsuite/find.gnu/sv-bug-12230.exp: Fixed
++	Savannah bug #12230, in which '-exec echo == {} +' is always run,
++	even if there were no matched files.
++
++2005-03-06  James Youngman  <jay@gnu.org>
++
++	* ChangeLog: Added latest changes.
++
++	* po/pt.po, configure.in: Added Portuguese translation
++
++2005-03-04  James Youngman  <jay@gnu.org>
++
++	* configure.in: Modernized the way we call AC_INIT and
++	AM_INIT_AUTOMAKE
++
++	* locate/locate.c, find/pred.c, find/find.c:
++	Eliminated some compiler warnings
++
++	* find/pred.c: Clarified the meaning of a comment.
++
++	* find/testsuite/Makefile.am: Added sizes.exp, sizes.xo.
++
++	* find/testsuite/find.posix/sizes.xo,
++	find/testsuite/find.posix/sizes.exp: Added tests for -size
++	predicate
++
++2005-03-03  James Youngman  <jay@gnu.org>
++
++	* find/find.c:
++	safely_chdir_lstat(): if we didn't end up in the right place, and then
++	fchdir() fails, we can't return to the directory we started in.
++	Therefore, issue a fatal error message and exit.
++
++2005-03-01  James Youngman  <jay@gnu.org>
++
++	* find/find.c, find/testsuite/find.posix/sv-bug-12181.exp,
++	find/testsuite/find.posix/sv-bug-12181.xo: Fixed SourceForge bug
++	12181 (find -H symlink-to-dir reports 'Too many Symbolic links')
++	and bug 12044 (find still hangs on dead NFS filesystems on
++	Solaris)
++
++2005-02-28  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi: Typo: O_NOFOLLOW, not O_FOLLOW
++
++	* import-gnulib.sh:
++	Suggestion from Martin Buchholz; unset CDPATH to prevent "cd" echoing
++	the new directory.
++
++2005-02-27  James Youngman  <jay@gnu.org>
++
++	* README: Indicate how the reader can verify the release.
++
++2005-02-26  James Youngman  <jay@gnu.org>
++
++	* po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/vi.po,
++	po/zh_CN.po, po/be.po, po/ca.po, po/da.po, po/de.po, po/el.po,
++	po/eo.po, po/es.po, po/et.po, po/fi.po, po/findutils.pot,
++	po/fr.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po,
++	po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po,
++	po/pt_BR.po, po/ro.po, po/ru.po: Added new Vietnamese translation
++
++	* configure.in: Added new Vietnamese translation.
++
++2005-02-25  James Youngman  <jay@gnu.org>
++
++	* po/ga.po: Updated Irish po file
++
++2005-02-23  James Youngman  <jay@gnu.org>
++
++	* Makefile.am: Fix Savannah bug #12064 - 'make distclean' deletes
++	regex.c but should not.
++
++	* find/testsuite/Makefile.am,
++	find/testsuite/find.gnu/printf-h.exp,
++	find/testsuite/find.gnu/printf-h.xo: Added test case for Savannah
++	bug #12085 (-printf %h).
++
++	* NEWS, doc/find.texi, find/find.1, find/pred.c:
++	%h now expands to '.' instead of nothing.
++
++2005-02-22  James Youngman  <jay@gnu.org>
++
++	* find/find.c:
++	Fixed Savannah bug #12099 (misinterpretation of system versions
++	leading to possible incorrect disabling of O_NOFOLLOW).  Reported by
++	Dmitry V. Levin.
++
++	* find/pred.c:
++	For the %h format, don't bail out early as the format might contain
++	something else too.
++
++2005-02-21  James Youngman  <jay@gnu.org>
++
++	* find/find.c: Fixed accidental C99 dependency.
++
++2005-02-20  James Youngman  <jay@gnu.org>
++
++	* po/be.po, po/ca.po, po/da.po, po/de.po, po/el.po, po/eo.po,
++	po/es.po, po/et.po, po/fi.po, po/findutils.pot, po/fr.po,
++	po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/it.po,
++	po/ja.po, po/ko.po, po/lg.po, po/ms.po, po/nl.po, po/pl.po,
++	po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po, po/sl.po, po/sr.po,
++	po/sv.po, po/tr.po, po/zh_CN.po: Updated italian translation
++
++	* doc/find.texi: Corrected a typo.
++
++	* find/find.c:
++	Read the mounted device list afer parsing the command line, so that
++	for example "find --version" still works (in response to Savannah bug
++	#12044).
++
++	* configure.in: We've moved on from findutils-4.2.18.
++
++2005-02-19  James Youngman  <jay@gnu.org>
++
++	* NEWS: Corrected the summary of the "find -depth" bug.
++
++2005-02-16  James Youngman  <jay@gnu.org>
++
++	* NEWS, configure.in: Prepared for release of 4.2.18.
++
++	* ChangeLog: Updated prior to release of 4.2.18.
++
++	* find/testsuite/Makefile.am:
++	Distribute the test cases for the recent "find -depth" bug.
++
++	* find/testsuite/find.posix/depth1.exp, find/testsuite/find.posix/depth1.xo:
++	Added test case for find -depth bug reported by Joseph S. Myers
++
++	* find/find.c:
++	If -depth is in effect, processing of the subdirectories invalidates
++	the information in 'state'.  Therefore once we get around to
++	processing the predicates, restore the information that we keep in
++	'state' and in 'stat_buf'.
++
++2005-02-15  James Youngman  <jay@gnu.org>
++
++	* ChangeLog: Updated with recent changes
++
++	* find/find.1:
++	Emphasise that -L causes find to recurse into subdirectories pointed
++	to by symbolic links.
++
++	* find/find.1:
++	Patch to find.1 from Aaron Hawley <Aaron.Hawley@uvm.edu>:
++
++	* Notes about -H actually apply to -L.
++	* Said paragraph is duplicated two paragraphs later.
++	* Typos: nno, ibmue, surrpounding
++
++2005-02-15  Aaron Hawley  <Aaron.Hawley@uvm.edu>
++
++	* find/find.1: Notes about -H actually apply to -L.  Said
++	paragraph is duplicated two paragraphs later.  Also typos: nno,
++	ibmue, surrpounding
++
++2005-02-13  James Youngman  <jay@gnu.org>
++
++	* find/find.1: Miscellaneous small clarifications and improvements.
++
++	* doc/find.texi: Added Info nodes and menus under "Changing the
++	Current Working Directory" so that it doesn't generate such a huge
++	Info page.
++
++	* find/find.c: Parenthesise #if defined(...).
++
++2005-02-13  Dmitry V. Levin  <ldv@altlinux.org>
++	
++	* find/find.c: remove test code snippet (time(NULL) was used to
++	place a marker for spotting with strace(), but was not actually
++	needed).
++
++	* find/find.c (safely_chdir_nofollow): must not fall back on
++	safely_chdir_lstat() because that will expose it to race condition
++	exploits, making it pointless.
++
++	* find/find.c (safely_chdir_lstat): Move
++        complete_pending_execdirs() up into safely_chdir(), because we
++	need to do that in either case.
++
++2005-02-12  James Youngman  <jay@gnu.org>
++
++	* configure.in, doc/find.texi, find/defs.h, find/find.c,
++	find/parser.c: Fix for Savannah bug #11879, that
++	init_mounted_dev_list() causes find to hang on systems which are
++	clients to dead NFS servers
++
++2005-02-10  James Youngman  <jay@gnu.org>
++
++	* doc/find.texi: Talk about the problem where find will not work
++	if you have a filesystem mounted from an unresponsive NFS server.
++
++2005-02-09  James Youngman  <jay@gnu.org>
++
++	* find/find.1: Indicate that $TZ affects from printf-format
++	results, and add extra cross-references in the SEE ALSO section.
++
++2005-02-08  James Youngman  <jay@gnu.org>
++
++	* xargs/testsuite/Makefile.am: Distribute the .xe files also.
++
++	* Makefile.am: Check that we have the right number of .xe files in
++	the distribution also.
++
++	* ChangeLog, NEWS, configure.in
++	Preparing to release findutils-4.2.17
++
++2005-02-07  James Youngman  <jay@gnu.org>
++
++	* find/testsuite/config/unix.exp: Re-sort the .xo file using the
++	calling user's locale, because our 'pre-sorted' .so output file
++	may not be sorted with the same collating order as 'sort' used to
++	order the output of "find.  Bug spotted by Vin Shelton and Dimitry
++	V. Levin.
++
++	* find/testsuite/Makefile.am:
++	New test, find/testsuite/find.gnu/follow-arg-parent-symlink.exp.
++
++	* find/testsuite/find.gnu/follow-arg-parent-symlink.exp,
++	find/testsuite/find.gnu/follow-arg-parent-symlink.xo, find/find.c:
++	Fix for starting point /foo/bar/baz where bar is a symlink but baz
++	is not - we should chdir into bar there even if it is a symbolic
++	link
++
+ 2005-02-07  James Youngman  <jay@gnu.org>
+ 
+ 	* find/testsuite/Makefile.am:
+@@ -1371,7 +3532,7 @@
+ 
+ 	* xargs/xargs.c:
+ 	Fixed Debian bug #176201, "xargs enviroment size limited to 20k", by
+-	reading a patch offered by Bob Prolux and implementing something
++	reading a patch offered by Bob Proulx and implementing something
+ 	substantially similar myself.
+ 
+ 2004-01-03  James Youngman  <jay@gnu.org>
+@@ -1460,7 +3621,7 @@
+ 
+ 	* TODO: Removed the TODO items which have now been done.
+ 
+-	* THANKS: Added Bruno Haible and Bob Prolux.
++	* THANKS: Added Bruno Haible and Bob Proulx.
+ 
+ 	* xargs/xargs.c: xargs/xargs.c (DO_MULTIBYTE): New macro.
+ 	(mbstrstr): New function.
+@@ -1494,25 +3655,7 @@
+ 	* NEWS, configure.in:
+ 	Updated version number to 4.2.0-CVS [not ready for release yet]
+ 
+-	* configure.in, doc/.cvsignore, doc/Makefile.in, find/.cvsignore, find/Makefile.am, find/Makefile.in, find/defs.h, find/find.c, find/fstype.c, find/parser.c, find/pred.c, find/testsuite/.cvsignore, find/testsuite/Makefile.in, find/testsuite/config/unix.exp, find/tree.c, find/util.c, import-gnulib.sh, intl/bindtextdom.c, intl/dcgettext.c, intl/dcigettext.c, intl/dcngettext.c, intl/dgettext.c, intl/dngettext.c, intl/explodename.c, intl/finddomain.c, intl/gettext.c, intl/intl-compat.c, intl/l10nflist.c, intl/loadmsgcat.c, intl/localcharset.c, intl/localealias.c, intl/ngettext.c, intl/plural.y, intl/textdomain.c, lib/.cvsignore, lib/Makefile.am, lib/Makefile.in, lib/alloca.c, lib/ansi2knr.1, lib/ansi2knr.c, lib/argmatch.c, lib/argmatch.h, lib/basename.c, lib/basename.h, lib/dirname.c, lib/dirname.h, lib/error.c, lib/error.h, lib/fileblocks.c, lib/filemode.c, lib/filemode.h, lib/fnmatch.c, lib/fnmatch.h, lib/getline.c, lib/getline.h, lib/getopt.c, lib/getopt.h, lib/getopt1.c, lib/human.c, lib/human.h, lib/idcache.c, lib/listfile.c, lib/malloc.c, lib/memcmp.c, lib/memcpy.c, lib/memset.c, lib/mktime.c, lib/modechange.c, lib/modechange.h, lib/modetype.h, lib/nextelem.c, lib/pathmax.h, lib/posix/.cvsignore, lib/posix/Makefile.am, lib/posix/Makefile.in, lib/posix/regex.h, lib/quotearg.c, lib/quotearg.h, lib/realloc.c, lib/regex.c, lib/regex.h, lib/rpmatch.c, lib/savedir.c, lib/savedir.h, lib/stpcpy.c, lib/strcasecmp.c, lib/strdup.c, lib/strftime.c, lib/strncasecmp.c, lib/strspn.c, lib/strstr.c, lib/strtol.c, lib/strtoul.c, lib/strtoull.c, lib/strtoumax.c, lib/waitpid.c, lib/xalloc.h, lib/xgetcwd.c, lib/xmalloc.c, lib/xstat.in, lib/xstrdup.c, lib/xstrtol.c, lib/xstrtol.h, lib/xstrtoul.c, lib/xstrtoul.h, lib/xstrtoumax.c, lib/yesno.c, locate/.cvsignore, locate/Makefile.am, locate/Makefile.in, locate/bigram.c, locate/code.c, locate/frcode.c, locate/locate.c, locate/locatedb.h, locate/testsuite/.cvsignore, locate/testsuite/Makefile.in, locate/testsuite/config/unix.exp, locate/updatedb.sh, m4/.cvsignore, m4/ChangeLog, m4/Makefile.am, m4/Makefile.am.in, m4/Makefile.in, m4/README, m4/afs.m4, m4/assert.m4, m4/c-bs-a.m4, m4/check-decl.m4, m4/codeset.m4, m4/d-ino.m4, m4/d-type.m4, m4/error.m4, m4/fnmatch.m4, m4/fnmatchcase.m4, m4/fstypename.m4, m4/getline.m4, m4/gettext.m4, m4/glibc.m4, m4/glibc21.m4, m4/iconv.m4, m4/inttypes_h.m4, m4/isc-posix.m4, m4/jm-glibc-io.m4, m4/jm-macros.m4, m4/jm-mktime.m4, m4/lcmessage.m4, m4/libintl.m4, m4/link-follow.m4, m4/ls-mntd-fs.m4, m4/lstat-slash.m4, m4/lstat.m4, m4/malloc.m4, m4/mbstate_t.m4, m4/memcmp.m4, m4/prereq.m4, m4/progtest.m4, m4/readdir.m4, m4/realloc.m4, m4/regex.m4, m4/st_dm_mode.m4, m4/st_mtim.m4, m4/stat.m4, m4/strerror_r.m4, m4/strftime.m4, m4/timespec.m4, m4/uintmax_t.m4, m4/ulonglong.m4, m4/xstrtoumax.m4, po/POTFILES.in, po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sv.po, po/tr.po, xargs/.cvsignore, xargs/Makefile.am, xargs/Makefile.in, xargs/testsuite/.cvsignore, xargs/testsuite/Makefile.in, xargs/testsuite/config/unix.exp, xargs/xargs.c, .cvsignore, Makefile.am, Makefile.in, NEWS, README-CVS, aclocal.m4, config.h.in, configure:
+-	Merged changes made for version 4.1.20 onto the trunk
+-
+-	* README-CVS, find/defs.h, find/find.c, find/pred.c, lib/listfile.c:
+-	Update code to reflect gnulib's changes to the arguments of human_readable().   Drop support for "FIND_BLOCK_SIZE" environment variable
+-
+-2003-05-26  James Youngman  <jay@gnu.org>
+-
+-	* lib/wait.h: re-added wiat.h.
+-
+-	* configure.in, lib/Makefile.am:
+-	Corrections to allow compilation on MacOS X
+-
+-	* po/pl.po, po/pt_BR.po, po/ru.po, po/sv.po, po/tr.po, xargs/.cvsignore, xargs/Makefile.am, xargs/testsuite/.cvsignore, xargs/xargs.c, .cvsignore, doc/.cvsignore, find/.cvsignore, find/Makefile.am, find/defs.h, find/testsuite/.cvsignore, intl/bindtextdom.c, intl/dcgettext.c, intl/dcigettext.c, intl/dcngettext.c, intl/dgettext.c, intl/dngettext.c, intl/explodename.c, intl/finddomain.c, intl/gettext.c, intl/intl-compat.c, intl/l10nflist.c, intl/loadmsgcat.c, intl/localcharset.c, intl/localealias.c, intl/ngettext.c, intl/plural.y, intl/textdomain.c, lib/.cvsignore, lib/listfile.c, lib/nextelem.c, locate/.cvsignore, locate/Makefile.am, locate/bigram.c, locate/code.c, locate/frcode.c, locate/locate.c, locate/testsuite/.cvsignore, po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po:
+-	Changes to allow compilation on non-GNU systems (i.e. for the macros that gnulib decides to #define to be effective)
+-
+-2003-05-24  James Youngman  <jay@gnu.org>
+-
+-	* import-gnulib.sh, po/da.po, po/de.po, po/es.po, po/et.po, po/findutils.pot, po/fr.po, po/gl.po, po/id.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sv.po, po/tr.po:
++	* configure.in, doc/.cvsignore, doc/Makefile.in, find/.cvsignore, find/Makefile.am, find/Makefile.in, find/defs.h, find/find.c, find/fstype.c, find/parser.c, find/pred.c, find/testsuite/.cvsignore, find/testsuite/Makefile.in, find/testsuite/config/unix.exp, find/tree.c, find/util.c, import-gnulib.sh, intl/bindtextdom.c, intl/dcgettext.c, intl/dcigettext.c, intl/dcngettext.c, intl/dgettext.c, intl/dngettext.c, intl/explodename.c, intl/finddomain.c, intl/gettext.c, intl/intl-compat.c, intl/l10nflist.c, intl/loadmsgcat.c, intl/localcharset.c, intl/localealias.c, intl/ngettext.c, intl/plural.y, intl/textdomain.c, lib/.cvsignore
+ 	also need stpcpy (e.g. for Solaris)
+ 
+ 	* intl/dcigettext.c:
+@@ -2791,242 +4934,7 @@ Tue Mar 23 13:18:08 1993  David J. MacKe
+ Fri Dec 11 08:17:07 1992  Jim Meyering  (meyering@comco.com)
+ 
+ 	* defs.h: Remove dcl of process_path.
+-	* find.c: Put dcl of process_path here.  Make a few functions
+-	and file-scope variables static.
+-	* parser.c, tree.c: Declare most functions static.
+-
+-	* locate.c: Use `required_argument' macro in dcl of longopts.
+-	* bigram.c, code.c, locate.c, xargs.c: Make most functions and
+-	file-scope variables static.
+-
+-	* parser.c, xargs.c: Guard ctype.h macros with isascii.
+-
+-	* find.c: Add declarations for opt_expr and mark_stat.
+-	* tree.c (set_new_parent): Add empty default clause to enum swicth.
+-	* locate.c (main): Parenthesize for gcc -Wall.
+-	* xargs.c (push_arg): Parenthesize for gcc -Wall.
+-
+-Tue Nov 24 08:04:36 1992  David J. MacKenzie  (djm@goldman.gnu.ai.mit.edu)
+-
+-	* find.c, fstype.c, parser.c, pred.c, util.c, listfile.c,
+-	nextelem.c, xargs.c, bigram.c, code.c, locate.c: Use
+-	HAVE_STRING_H, not USG.
+-
+-	* pred.c: Use SYSDIR and NDIR instead of USG.
+-	Define direct as dirent, not vice-versa.
+-
+-Fri Oct  9 02:15:17 1992  David J. MacKenzie  (djm@kropotkin.gnu.ai.mit.edu)
+-
+-	* xargs.c (main): Set orig_arg_max before possibly cutting
+-	down arg_max.
+-
+-Thu Sep 10 19:25:35 1992  David J. MacKenzie  (djm@nutrimat.gnu.ai.mit.edu)
+-
+-	* parser.c: Always declare getgrent and getpwent.
+-
+-Mon Aug 24 12:54:16 1992  David J. MacKenzie  (djm@nutrimat.gnu.ai.mit.edu)
+-
+-	* xargs.c: Include sys/types.h before unistd.h.  Use ARG_MAX
+-	if it's defined.
+-	* find.c, nextelem.c: Add missing decls.
+-	From bde@runx.oz.au (Bruce Evans).
+-
+-Thu Jul 23 15:06:07 1992  David J. MacKenzie  (djm@nutrimat.gnu.ai.mit.edu)
+-
+-	* Version 3.7.
+-
+-Tue Jul 14 00:16:52 1992  David J. MacKenzie  (djm@apple-gunkies.gnu.ai.mit.edu)
+-
+-	* pathmax.h: New file.
+-	* bigram.c, code.c, locate.c: Use it.  Use xmalloc instead of malloc.
+-
+-Sat Jul 11 22:31:46 1992  David J. MacKenzie  (djm@nutrimat.gnu.ai.mit.edu)
+-
+-	* nextelem.c: New file.
+-	* locate.c (main): Use it to support a database path.
+-
+-Fri Jul  3 02:12:09 1992  David J. MacKenzie  (djm@wookumz.gnu.ai.mit.edu)
+-
+-	* listfile.c, pred.c: Change FOO_MISSING to HAVE_FOO.
+-
+-	* parser.c [_POSIX_SOURCE]: Define endpwent and endgrent as empty.
+-	* listfile.c [!HAVE_ST_RDEV]: Print blanks.
+-	From Jeffrey Siegal (jbs@congruent.com).
+-
+-	* locate.c (locate): Check for EOF at top of loop, not middle.
+-	* updatedb.sh: Remove duplication hack.
+-	From Jay Plett.
+-
+-Wed Jun 10 15:04:23 1992  David J. MacKenzie  (djm@wookumz.gnu.ai.mit.edu)
+-
+-	* pred.c (pred_amin, pred_atime, pred_cmin, pred_ctime,
+-	pred_mmin, pred_mtime, pred_used): Cast l_val to time_t before
+-	comparing it to a time_t.  From fpm@crash.cts.com (Frank Maclachlan).
+-
+-	* locate.c (locate): Take the database path as an arg.
+-	(main): Take an option to specify the database path.
+-	(usage): New function.
+-
+-	* updatedb.sh: Don't read from and write to the file-list file
+-	in the same statement.
+-
+-Thu Jun  4 15:27:07 1992  David J. MacKenzie  (djm@geech.gnu.ai.mit.edu)
+-
+-	* Version 3.6.
+-
+-Wed May 20 00:05:13 1992  David J. MacKenzie  (djm@churchy.gnu.ai.mit.edu)
+-
+-	* xargs.c: Include sys/param.h before limits.h, not after.
+-
+-	* listfile.c: If we include a header file specifically to get
+-	major et al., assume we have them.
+-
+-Tue May 12 01:09:33 1992  David J. MacKenzie  (djm@churchy.gnu.ai.mit.edu)
+-
+-	* locate.c (locate): Don't give fnmatch FNM_PERIOD (it's useless).
+-
+-	* parser.c (parse_path): New function.
+-	* pred.c (pred_path): New function.
+-	* tree.c (opt_expr): Move -path like -name.
+-
+-	* updatedb.sh: Duplicate the last entry in the file list so it
+-	doesn't get ignored.
+-
+-Mon May 11 22:24:40 1992  David J. MacKenzie  (djm@churchy.gnu.ai.mit.edu)
+-
+-	* updatedb.sh: Allow many vars to be overridden in the environment.
+-
+-	* locate.c, updatedb.sh: FCODES -> LOCATE_DB.
+-
+-Wed Apr 22 15:24:00 1992  David J. MacKenzie  (djm@churchy.gnu.ai.mit.edu)
+-
+-	* updatedb.sh: Use binprefix when calling find.
+-
+-	* locate.c (locate): Use LOCATE_DB environ variable if set.
+-
+-	* find.c (scan_directory): Allow for dirs having negative
+-	st_size (NFS mount points on VAX 4.3BSD+NFS).
+-	From metcalf@catfish.lcs.mit.edu (Chris Metcalf).
+-
+-Sat Apr 18 15:42:52 1992  David J. MacKenzie  (djm@wookumz.gnu.ai.mit.edu)
+-
+-	* fstype.c: Rename FS_* to FSTYPE_*.  Support Dynix's
+-	name for the mount table.
+-
+-Sun Mar  8 23:21:25 1992  David J. MacKenzie  (djm@nutrimat.gnu.ai.mit.edu)
+-
+-	* listfile.c (list_file): Allow a slop factor for deciding what
+-	is in the future.
+-
+-Tue Feb 25 16:24:15 1992  David J. MacKenzie  (djm@wookumz.gnu.ai.mit.edu)
+-
+-	* Version 3.5.
+-
+-Sat Feb 22 08:43:01 1992  David J. MacKenzie  (djm@wookumz.gnu.ai.mit.edu)
+-
+-	* tree.c (set_new_parent): Initialize need_stat field.
+-
+-	* defs.h (struct predicate): Define p_name unconditionally.
+-
+-Fri Feb 21 15:28:43 1992  David J. MacKenzie  (djm@wookumz.gnu.ai.mit.edu)
+-
+-	* tree.c (opt_expr): Preserve expression precedence when
+-	rearranging expression tree. 
+-	(set_new_parent): New function.
+-	(mark_stat): Set need_stat whether or not it's been set
+-	earlier in the expression.
+-	All from Tim Wood.
+-
+-Mon Feb 17 10:20:38 1992  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+-
+-	* updatedb.sh: Use current value of TMPDIR if already set.
+-	From Dana Jacobsen (jacobsd@cs.orst.edu).
+-
+-	* pred.c: Include pwd.h and grp.h after unistd.h, not before.
+-	Apparently needed on ISC 2.2.  From Juha Takala <jta@piuha.sah.vtt.fi>.
+-
+-Thu Feb 13 10:52:31 1992  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+-
+-	* modetype.h: Don't define S_IFMT, because doing so breaks pred_type
+-	on plain POSIX.1 systems.
+-
+-Sat Feb  8 00:58:13 1992  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+-
+-	* Version 3.4.
+-
+-Fri Feb  7 21:35:58 1992  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+-
+-	* defs.h: Don't declare process_path.
+-	* find.c [DEBUG_STAT] (debug_stat): New function.
+-	(main) [DEBUG_STAT]: Call it.
+-	(process_path): Return a value.
+-	(scan_directory): Count number of subdirs seen so far.
+-	* parser.c (pred_and, pred_close, pred_comma, pred_negate,
+-	pred_open, pred_or): Don't need stat.
+-	* util.c (get_new_pred_chk_op): Implicit AND doesn't need stat.
+-
+-Fri Jan 17 21:51:18 1992  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+-
+-	* Version 3.3.
+-
+-Tue Dec 24 02:16:49 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+-
+-	* wait.h, listfile.c, xargs.c, bigram.c, code.c, locate.c:
+-	Change POSIX ifdefs to HAVE_UNISTD_H and _POSIX_VERSION. 
+-
+-Wed Dec 18 16:37:17 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+-
+-	* listfile.c: Use MAJOR_IN_MKDEV and MAJOR_IN_SYSMACROS to
+-	find major and minor.
+-
+-	* code.c, bigram.c, locate.c, xargs.c: Use LIMITS_H_MISSING
+-	instead of LIMITS_MISSING.
+-
+-Sat Dec  7 06:13:26 1991  David J. MacKenzie  (djm at frob.eng.umd.edu)
+-
+-	* parser.c (parse_prune): No stat needed for prune.
+-	(insert_fprintf, make_segment): Possibly no stat needed,
+-	depending on which information is printed.
+-
+-	* xargs.c (usage): Document long-named options as starting
+-	with -- instead of +.
+-
+-	* parser.c [!POSIX]: Declare getgrent and getpwent.
+-
+-	* fstype.c (filesystem_type): Only check MNTTYPE_IGNORE if
+-	it's defined.  From Rainer Orth.
+-
+-	* Add leaf node optimization suggested by Matthew Farwell
+-	<dylan@ibmpcug.co.uk>.  Add -noleaf option to disable it.
+-	Adapt parts of Tim Wood's work to current sources.
+-	* find.c (scan_directory): New function, from code in process_path.
+-	(process_path): Take an arg indicating whether the pathname
+-	is a leaf non-directory, instead of a redundant current level.
+-	* parser.c (parse_noleaf): New function.
+-	(parse_print, parse_name, etc.): Set need_stat = false.
+-
+-Wed Nov  2 13:34:32 1990  Tim Wood at home	(tim at axolotl.UUCP)
+-
+-	* pred.c: Call stat() if an AND, OR or NOT node tells you to.
+-	* find.c: Limit calls to stat().
+-
+-Wed Oct  3 17:30:39 1990  Tim Wood at home	(tim at axolotl.UUCP)
+-
+-	* tree.c (opt_expr): New function to rearrange predicates within
+-	a conjunction/disjunction so that non-inode (-name, -regex) ones
+-	are executed first.  
+-	* pred.c: Make some supporting tree structure changes for opt_expr().
+-
+-Sat Dec  7 00:36:06 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+-
+-	* xargs.c (do_exec): Simplify test for which exit
+-	status to use if exec fails.
+-
+-Fri Dec  6 18:24:06 1991  David J. MacKenzie  (djm at wookumz.gnu.ai.mit.edu)
+-
+-	* listfile.c (list_file): POSIX_ME_HARDER -> POSIXLY_CORRECT.
+-
+-Thu 24 Oct 1991 21:33:21  Jim Meyering (meyering at churchy.gnu.ai.mit.edu)
++	* find.c: Put dcl of p
+ 
+ 	* pred.c (pred_fprintf): Don't print "\n" unless it's in the
+ 	format string.
+Only in dbg/find14/find: compile
+Only in dbg/find14/find: config.guess
+diff -up -r dbg/find14/find/config.h dbg/find6/find/config.h

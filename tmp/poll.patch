@@ -1,0 +1,39 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/poll	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/poll	2020-01-28 23:39:42.000000000 -0600
+@@ -7,27 +7,29 @@ lib/poll_.h
+ m4/poll.m4
+ 
+ Depends-on:
++sys_select
++sys_time
+ 
+ configure.ac:
+ gl_FUNC_POLL
+ 
+ Makefile.am:
+ BUILT_SOURCES += $(POLL_H)
+-EXTRA_DIST += poll_.h
+ 
+-# We need the following in order to create an <poll.h> when the system
++# We need the following in order to create <poll.h> when the system
+ # doesn't have one.
+-all-local $(lib_OBJECTS): $(POLL_H)
+ poll.h: poll_.h
+-	cp $(srcdir)/poll_.h $@-t
+-	mv $@-t $@
++	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
++	  cat $(srcdir)/poll_.h; \
++	} > $@-t
++	mv -f $@-t $@
+ MOSTLYCLEANFILES += poll.h poll.h-t
+ 
+ Include:
+ #include <poll.h>
+ 
+ License:
+-GPL
++LGPL
+ 
+ Maintainer:
+ Paolo Bonzini  <bonzini@gnu.org>
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/posixtm dbg/find6/find/gnulib-cvs/gnulib/modules/posixtm

@@ -1,0 +1,22 @@
+--- demodir/yesterday/mcts.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/mcts.py	2019-11-29 23:50:49.000000000 -0600
+@@ -239,19 +199,9 @@ class MCTS:
+                 print(node.is_root())
+             Usa = (self.puct * edge.prior_probability * math.sqrt(sumnsb)) / (1 + Nsa)
+             QU.append(edge.mean_action_value + Usa)
+-            # if edge.is_first_player():
+-            #     QU.append(edge.mean_action_value + Usa)
+-            # else:
+-            #     QU.append(-edge.mean_action_value+ Usa)
+ 
+         # pick the edge that is returned by the argmax and return it
+         # make it node
+-        if node.is_root():
+-            epsilon=0.25
+-            d_samples=np.random.dirichlet((0.03,)*len(QU)).tolist()
+-            for quidx in range(len(QU)):
+-                QU[quidx]=QU[quidx]*(1-epsilon)+d_samples[quidx]*epsilon
+-
+         maxqu = -float('inf')
+         maxedx = None
+         for edx, qu in enumerate(QU):

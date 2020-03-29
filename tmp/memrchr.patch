@@ -1,0 +1,25 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/memrchr	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/memrchr	2020-01-28 23:39:42.000000000 -0600
+@@ -3,18 +3,19 @@ memrchr() function: scan memory for a by
+ 
+ Files:
+ lib/memrchr.c
+-lib/memrchr.h
+ m4/memrchr.m4
+ 
+ Depends-on:
++string
+ 
+ configure.ac:
+ gl_FUNC_MEMRCHR
++gl_STRING_MODULE_INDICATOR([memrchr])
+ 
+ Makefile.am:
+ 
+ Include:
+-"memrchr.h"
++<string.h>
+ 
+ License:
+ LGPL
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/memset dbg/find6/find/gnulib-cvs/gnulib/modules/memset

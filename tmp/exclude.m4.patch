@@ -1,0 +1,20 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/m4/exclude.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/m4/exclude.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,13 +1,10 @@
+-# exclude.m4 serial 4
+-dnl Copyright (C) 2002, 2003 Free Software Foundation, Inc.
++# exclude.m4 serial 7
++dnl Copyright (C) 2002, 2003, 2005, 2006 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+ 
+ AC_DEFUN([gl_EXCLUDE],
+ [
+-  dnl Prerequisites of lib/exclude.c.
+-  AC_REQUIRE([AC_C_INLINE])
+-  AC_REQUIRE([AC_HEADER_STDC])
+-  AC_CHECK_FUNCS_ONCE(isascii)
++  AC_LIBOBJ([exclude])
+ ])
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/exitfail.m4 dbg/find6/find/gnulib-cvs/gnulib/m4/exitfail.m4

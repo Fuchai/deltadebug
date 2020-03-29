@@ -1,0 +1,29 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/argz	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/argz	2020-01-28 23:39:42.000000000 -0600
+@@ -13,14 +13,14 @@ gl_FUNC_ARGZ
+ 
+ Makefile.am:
+ BUILT_SOURCES += $(ARGZ_H)
+-EXTRA_DIST += argz_.h
+ 
+-# We need the following in order to create an <argz.h> when the system
++# We need the following in order to create <argz.h> when the system
+ # doesn't have one that works with the given compiler.
+-all-local $(lib_OBJECTS): $(ARGZ_H)
+ argz.h: argz_.h
+-	cp $(srcdir)/argz_.h $@-t
+-	mv $@-t $@
++	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
++	  cat $(srcdir)/argz_.h; \
++	} > $@-t
++	mv -f $@-t $@
+ MOSTLYCLEANFILES += argz.h argz.h-t
+ 
+ Include:
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: arpa_inet
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: arpa_inet-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: array-list
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: array-list-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: array-oset
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: array-oset-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/atexit dbg/find6/find/gnulib-cvs/gnulib/modules/atexit

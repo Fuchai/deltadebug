@@ -1,0 +1,26 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/getndelim2	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/getndelim2	2020-01-28 23:39:42.000000000 -0600
+@@ -6,15 +6,15 @@ Files:
+ lib/getndelim2.h
+ lib/getndelim2.c
+ m4/getndelim2.m4
+-m4/ssize_t.m4
+ 
+ Depends-on:
++ssize_t
++stdint
+ 
+ configure.ac:
+ gl_GETNDELIM2
+ 
+ Makefile.am:
+-EXTRA_DIST += getndelim2.h getndelim2.c
+ 
+ Include:
+ "getndelim2.h"
+@@ -24,4 +24,3 @@ GPL
+ 
+ Maintainer:
+ all
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/getnline dbg/find6/find/gnulib-cvs/gnulib/modules/getnline

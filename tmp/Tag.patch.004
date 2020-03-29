@@ -1,0 +1,6 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/CVS/Tag	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/CVS/Tag	2020-01-28 23:39:42.000000000 -0600
+@@ -1 +1 @@
+-D2005.02.12.00.00.00
++D2007.04.03.00.00.00
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/cycle-check dbg/find6/find/gnulib-cvs/gnulib/modules/cycle-check

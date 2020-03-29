@@ -1,0 +1,23 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/doc/Makefile	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/doc/Makefile	2020-01-28 23:39:42.000000000 -0600
+@@ -1,6 +1,6 @@
+-# $Id: Makefile,v 1.1 2004/09/19 13:17:06 karl Exp $
++# $Id: Makefile,v 1.4 2006/08/11 06:39:41 rwild Exp $
+ # Makefile for gnulib doc.  
+-# Copyright (C) 2004 Free Software Foundation, Inc.
++# Copyright (C) 2004, 2006 Free Software Foundation, Inc.
+ #
+ # Copying and distribution of this file, with or without modification,
+ # are permitted in any medium without royalty provided the copyright
+@@ -12,4 +12,9 @@ TEXI2HTML = $(MAKEINFO) --no-split --htm
+ %.html: %.texi
+ 	$(TEXI2HTML) -o $@ $< 
+ 
+-all: $(doc).info $(doc).html $(doc).dvi 
++all: info html dvi
++info: $(doc).info
++html: $(doc).html
++dvi: $(doc).dvi
++
++standards.info standards.html standards.dvi: standards.texi make-stds.texi
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/doc/make-stds.texi dbg/find6/find/gnulib-cvs/gnulib/doc/make-stds.texi

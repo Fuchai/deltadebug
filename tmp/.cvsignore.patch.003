@@ -1,0 +1,9 @@
+--- dbg/find14/find/lib/.cvsignore	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/lib/.cvsignore	2020-01-28 23:39:42.000000000 -0600
+@@ -1,2 +1,5 @@
++.deps
+ Makefile
+ Makefile.in
++regexprops
++gnulib-version.c
+diff -up -r dbg/find14/find/lib/.deps/buildcmd.Po dbg/find6/find/lib/.deps/buildcmd.Po

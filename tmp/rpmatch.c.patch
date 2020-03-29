@@ -1,0 +1,31 @@
+--- dbg/find14/find/gnulib/lib/rpmatch.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib/lib/rpmatch.c	2020-01-28 23:39:42.000000000 -0600
+@@ -1,6 +1,8 @@
+ /* Determine whether string value is affirmation or negative response
+    according to current locale's data.
+-   Copyright (C) 1996, 1998, 2000, 2002, 2003 Free Software Foundation, Inc.
++
++   Copyright (C) 1996, 1998, 2000, 2002, 2003, 2006 Free Software
++   Foundation, Inc.
+ 
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+@@ -14,11 +16,9 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+-#if HAVE_CONFIG_H
+-# include <config.h>
+-#endif
++#include <config.h>
+ 
+ #include <stddef.h>
+ #include <stdlib.h>
+Only in dbg/find6/find/gnulib/lib: same-inode.h
+Only in dbg/find6/find/gnulib/lib: save-cwd.c
+Only in dbg/find6/find/gnulib/lib: save-cwd.h
+Only in dbg/find6/find/gnulib/lib: save-cwd.o
+diff -up -r dbg/find14/find/gnulib/lib/savedir.c dbg/find6/find/gnulib/lib/savedir.c

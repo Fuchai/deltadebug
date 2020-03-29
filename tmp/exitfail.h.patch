@@ -1,0 +1,23 @@
+--- dbg/find14/find/gnulib/lib/exitfail.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib/lib/exitfail.h	2020-01-28 23:39:42.000000000 -0600
+@@ -15,6 +15,6 @@
+    You should have received a copy of the GNU General Public License
+    along with this program; see the file COPYING.
+    If not, write to the Free Software Foundation,
+-   59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ extern int volatile exit_failure;
+Binary files dbg/find14/find/gnulib/lib/exitfail.o and dbg/find6/find/gnulib/lib/exitfail.o differ
+Only in dbg/find14/find/gnulib/lib: exit.h
+Only in dbg/find6/find/gnulib/lib: fchmodat.c
+Only in dbg/find6/find/gnulib/lib: fchownat.c
+Only in dbg/find6/find/gnulib/lib: fchownat.o
+Only in dbg/find6/find/gnulib/lib: fchown-stub.c
+Only in dbg/find6/find/gnulib/lib: fcntl_.h
+Only in dbg/find6/find/gnulib/lib: fcntl--.h
+Only in dbg/find6/find/gnulib/lib: fcntl.h
+Only in dbg/find6/find/gnulib/lib: fcntl-safer.h
+Only in dbg/find6/find/gnulib/lib: fd-safer.c
+Only in dbg/find6/find/gnulib/lib: fd-safer.o
+diff -up -r dbg/find14/find/gnulib/lib/fileblocks.c dbg/find6/find/gnulib/lib/fileblocks.c

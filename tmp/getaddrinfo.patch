@@ -1,0 +1,35 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/getaddrinfo	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/getaddrinfo	2020-01-28 23:39:42.000000000 -0600
+@@ -1,23 +1,25 @@
+ Description:
+-Get address information.
++getaddrinfo() function: Get address information.
+ 
+ Files:
+ lib/getaddrinfo.h
+ lib/getaddrinfo.c
+ lib/gai_strerror.c
+ m4/getaddrinfo.m4
+-m4/sockpfaf.m4
+ 
+ Depends-on:
+-restrict
+-gettext
++gettext-h
++inet_ntop
++snprintf
++socklen
+ stdbool
++strdup
++sys_socket
+ 
+ configure.ac:
+ gl_GETADDRINFO
+ 
+ Makefile.am:
+-lib_SOURCES += getaddrinfo.h
+ 
+ Include:
+ "getaddrinfo.h"
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: getaddrinfo-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/getcwd dbg/find6/find/gnulib-cvs/gnulib/modules/getcwd

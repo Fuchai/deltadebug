@@ -1,0 +1,36 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/quotearg	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/quotearg	2020-01-28 23:39:42.000000000 -0600
+@@ -9,14 +9,16 @@ m4/mbrtowc.m4
+ m4/quotearg.m4
+ 
+ Depends-on:
++gettext-h
++stdbool
++wchar
++wctype
+ xalloc
+-gettext
+ 
+ configure.ac:
+ gl_QUOTEARG
+ 
+ Makefile.am:
+-lib_SOURCES += quotearg.h quotearg.c
+ 
+ Include:
+ "quotearg.h"
+@@ -26,4 +28,3 @@ GPL
+ 
+ Maintainer:
+ Paul Eggert
+-
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: rbtreehash-list
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: rbtreehash-list-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: rbtree-list
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: rbtree-list-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: rbtree-oset
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: rbtree-oset-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: read-file
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: read-file-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: readline
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/readlink dbg/find6/find/gnulib-cvs/gnulib/modules/readlink

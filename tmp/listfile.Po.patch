@@ -1,0 +1,231 @@
+--- dbg/find14/find/lib/.deps/listfile.Po	2020-01-28 23:48:54.000000000 -0600
++++ dbg/find6/find/lib/.deps/listfile.Po	2020-01-28 23:40:05.000000000 -0600
+@@ -5,9 +5,9 @@ listfile.o: listfile.c /usr/include/stdc
+  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+  /usr/include/x86_64-linux-gnu/bits/types.h \
+- /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/time.h \
+- /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h /usr/include/endian.h \
+- /usr/include/x86_64-linux-gnu/bits/endian.h \
++ /usr/include/x86_64-linux-gnu/bits/typesizes.h ../gnulib/lib/time.h \
++ ///usr/include/time.h /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h \
++ /usr/include/endian.h /usr/include/x86_64-linux-gnu/bits/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap-16.h \
+  /usr/include/x86_64-linux-gnu/sys/select.h \
+@@ -17,7 +17,7 @@ listfile.o: listfile.c /usr/include/stdc
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
+  /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+- /usr/include/x86_64-linux-gnu/sys/stat.h \
++ ../gnulib/lib/sys/stat.h ///usr/include/x86_64-linux-gnu/sys/stat.h \
+  /usr/include/x86_64-linux-gnu/bits/stat.h /usr/include/stdio.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdarg.h \
+@@ -30,29 +30,38 @@ listfile.o: listfile.c /usr/include/stdc
+  /usr/include/x86_64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
+  /usr/include/x86_64-linux-gnu/asm/errno.h \
+  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
+- ../gnulib/lib/human.h \
+- /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h \
+- /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h \
+- /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+- /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+- /usr/include/linux/limits.h \
+- /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+- /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+- /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdbool.h \
+- /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+- /usr/include/x86_64-linux-gnu/bits/wchar.h /usr/include/unistd.h \
++ ../gnulib/lib/fcntl.h ../gnulib/lib/unistd.h ///usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
+- /usr/include/x86_64-linux-gnu/bits/unistd.h ../gnulib/lib/pathmax.h \
+- /usr/include/string.h /usr/include/x86_64-linux-gnu/bits/string.h \
+- /usr/include/x86_64-linux-gnu/bits/string2.h /usr/include/stdlib.h \
+- /usr/include/x86_64-linux-gnu/bits/string3.h \
+- /usr/include/x86_64-linux-gnu/bits/waitflags.h \
++ /usr/include/x86_64-linux-gnu/bits/unistd.h ../gnulib/lib/stdlib.h \
++ ///usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+  /usr/include/x86_64-linux-gnu/bits/waitstatus.h ../gnulib/lib/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+- /usr/include/x86_64-linux-gnu/bits/stdlib.h
++ /usr/include/x86_64-linux-gnu/bits/stdlib.h ///usr/include/fcntl.h \
++ /usr/include/x86_64-linux-gnu/bits/fcntl.h \
++ /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
++ /usr/include/x86_64-linux-gnu/bits/uio.h \
++ /usr/include/x86_64-linux-gnu/bits/fcntl2.h ../gnulib/lib/openat.h \
++ /usr/include/dirent.h /usr/include/x86_64-linux-gnu/bits/dirent.h \
++ /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
++ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
++ /usr/include/linux/limits.h \
++ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdbool.h \
++ ../gnulib/lib/human.h \
++ /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h \
++ /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h \
++ /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
++ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
++ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
++ /usr/include/x86_64-linux-gnu/bits/wchar.h ../gnulib/lib/xalloc.h \
++ ../gnulib/lib/pathmax.h ../gnulib/lib/error.h ../gnulib/lib/filemode.h \
++ listfile.h ../gnulib/lib/string.h ///usr/include/string.h \
++ /usr/include/x86_64-linux-gnu/bits/string.h \
++ /usr/include/x86_64-linux-gnu/bits/string2.h \
++ /usr/include/x86_64-linux-gnu/bits/string3.h /usr/include/locale.h \
++ /usr/include/x86_64-linux-gnu/bits/locale.h
+ 
+ /usr/include/stdc-predef.h:
+ 
+@@ -74,7 +83,9 @@ listfile.o: listfile.c /usr/include/stdc
+ 
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h:
+ 
+-/usr/include/time.h:
++../gnulib/lib/time.h:
++
++///usr/include/time.h:
+ 
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h:
+ 
+@@ -100,7 +111,9 @@ listfile.o: listfile.c /usr/include/stdc
+ 
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
+ 
+-/usr/include/x86_64-linux-gnu/sys/stat.h:
++../gnulib/lib/sys/stat.h:
++
++///usr/include/x86_64-linux-gnu/sys/stat.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/stat.h:
+ 
+@@ -142,13 +155,53 @@ listfile.o: listfile.c /usr/include/stdc
+ 
+ /usr/include/asm-generic/errno-base.h:
+ 
+-../gnulib/lib/human.h:
++../gnulib/lib/fcntl.h:
+ 
+-/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h:
++../gnulib/lib/unistd.h:
+ 
+-/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h:
++///usr/include/unistd.h:
+ 
+-/usr/include/limits.h:
++/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
++
++/usr/include/x86_64-linux-gnu/bits/environments.h:
++
++/usr/include/x86_64-linux-gnu/bits/confname.h:
++
++/usr/include/getopt.h:
++
++/usr/include/x86_64-linux-gnu/bits/unistd.h:
++
++../gnulib/lib/stdlib.h:
++
++///usr/include/stdlib.h:
++
++/usr/include/x86_64-linux-gnu/bits/waitflags.h:
++
++/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
++
++../gnulib/lib/alloca.h:
++
++/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
++
++/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
++
++/usr/include/x86_64-linux-gnu/bits/stdlib.h:
++
++///usr/include/fcntl.h:
++
++/usr/include/x86_64-linux-gnu/bits/fcntl.h:
++
++/usr/include/x86_64-linux-gnu/bits/fcntl-linux.h:
++
++/usr/include/x86_64-linux-gnu/bits/uio.h:
++
++/usr/include/x86_64-linux-gnu/bits/fcntl2.h:
++
++../gnulib/lib/openat.h:
++
++/usr/include/dirent.h:
++
++/usr/include/x86_64-linux-gnu/bits/dirent.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+ 
+@@ -156,50 +209,46 @@ listfile.o: listfile.c /usr/include/stdc
+ 
+ /usr/include/linux/limits.h:
+ 
++/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdbool.h:
++
++../gnulib/lib/human.h:
++
++/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h:
++
++/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h:
++
++/usr/include/limits.h:
++
+ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
+ 
+-/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdbool.h:
+-
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
+ 
+ /usr/include/stdint.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/wchar.h:
+ 
+-/usr/include/unistd.h:
++../gnulib/lib/xalloc.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
++../gnulib/lib/pathmax.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/environments.h:
++../gnulib/lib/error.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/confname.h:
++../gnulib/lib/filemode.h:
+ 
+-/usr/include/getopt.h:
++listfile.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/unistd.h:
++../gnulib/lib/string.h:
+ 
+-../gnulib/lib/pathmax.h:
+-
+-/usr/include/string.h:
++///usr/include/string.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/string.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/string2.h:
+ 
+-/usr/include/stdlib.h:
+-
+ /usr/include/x86_64-linux-gnu/bits/string3.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/waitflags.h:
+-
+-/usr/include/x86_64-linux-gnu/bits/waitstatus.h:
+-
+-../gnulib/lib/alloca.h:
++/usr/include/locale.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
+-
+-/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+-
+-/usr/include/x86_64-linux-gnu/bits/stdlib.h:
++/usr/include/x86_64-linux-gnu/bits/locale.h:
+diff -up -r dbg/find14/find/lib/.deps/nextelem.Po dbg/find6/find/lib/.deps/nextelem.Po

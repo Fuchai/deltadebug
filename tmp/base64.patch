@@ -1,0 +1,15 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/base64	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/base64	2020-01-28 23:39:42.000000000 -0600
+@@ -8,7 +8,6 @@ m4/base64.m4
+ 
+ Depends-on:
+ stdbool
+-restrict
+ 
+ configure.ac:
+ gl_FUNC_BASE64
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: binary-io-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: bison-i18n
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: byteswap
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: byteswap-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/canon-host dbg/find6/find/gnulib-cvs/gnulib/modules/canon-host

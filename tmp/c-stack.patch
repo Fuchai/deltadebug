@@ -1,0 +1,26 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/c-stack	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/c-stack	2020-01-28 23:39:42.000000000 -0600
+@@ -7,8 +7,9 @@ lib/c-stack.c
+ m4/c-stack.m4
+ 
+ Depends-on:
+-gettext
++gettext-h
+ exitfail
++unistd
+ 
+ configure.ac:
+ gl_C_STACK
+@@ -24,4 +25,3 @@ GPL
+ 
+ Maintainer:
+ Paul Eggert
+-
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: c-strcase
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: c-strcaseeq
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: c-strcasestr
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: c-strcasestr-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: c-strcase-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: c-strstr
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: c-strstr-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/c-strtod dbg/find6/find/gnulib-cvs/gnulib/modules/c-strtod

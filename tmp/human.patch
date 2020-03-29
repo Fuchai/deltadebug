@@ -1,0 +1,37 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/human	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/human	2020-01-28 23:39:42.000000000 -0600
+@@ -5,24 +5,21 @@ with K/M/G suffix.
+ Files:
+ lib/human.h
+ lib/human.c
+-m4/ulonglong.m4
+-m4/stdint_h.m4
+-m4/inttypes_h.m4
+-m4/uintmax_t.m4
+ m4/human.m4
+ 
+ Depends-on:
+-gettext
++gettext-h
+ argmatch
+ error
+-xstrtol
++intprops
++xstrtoumax
+ stdbool
++stdint
+ 
+ configure.ac:
+ gl_HUMAN
+ 
+ Makefile.am:
+-lib_SOURCES += human.h human.c
+ 
+ Include:
+ "human.h"
+@@ -32,4 +29,3 @@ GPL
+ 
+ Maintainer:
+ Paul Eggert
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/iconv dbg/find6/find/gnulib-cvs/gnulib/modules/iconv

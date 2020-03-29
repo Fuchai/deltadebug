@@ -1,0 +1,22 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/posixtm	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/posixtm	2020-01-28 23:39:42.000000000 -0600
+@@ -8,12 +8,12 @@ m4/posixtm.m4
+ 
+ Depends-on:
+ mktime
++stdbool
+ 
+ configure.ac:
+ gl_POSIXTM
+ 
+ Makefile.am:
+-lib_SOURCES += posixtm.h posixtm.c
+ 
+ Include:
+ "posixtm.h"
+@@ -23,4 +23,3 @@ GPL
+ 
+ Maintainer:
+ Jim Meyering
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/posixver dbg/find6/find/gnulib-cvs/gnulib/modules/posixver

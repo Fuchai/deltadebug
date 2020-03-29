@@ -1,0 +1,25 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/dup2	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/dup2	2020-01-28 23:39:42.000000000 -0600
+@@ -6,9 +6,11 @@ lib/dup2.c
+ m4/dup2.m4
+ 
+ Depends-on:
++unistd
+ 
+ configure.ac:
+ gl_FUNC_DUP2
++gl_UNISTD_MODULE_INDICATOR([dup2])
+ 
+ Makefile.am:
+ 
+@@ -16,8 +18,7 @@ Include:
+ <unistd.h>
+ 
+ License:
+-GPL
++LGPL
+ 
+ Maintainer:
+ Paul Eggert, Jim Meyering
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/eealloc dbg/find6/find/gnulib-cvs/gnulib/modules/eealloc

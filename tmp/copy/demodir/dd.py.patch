@@ -1,0 +1,141 @@
+--- today/dd.py	2020-03-28 15:48:41.366667432 -0500
++++ yesterday/dd.py	2020-03-27 23:28:29.781827661 -0500
+@@ -7,6 +7,14 @@ import shutil
+ 
+ class Delta:
+     def __init__(self, test_binary=None, root_directory=None, yesterday_directory=None, today_directory=None):
++        """
++
++        :param test_binary: the binary that tests the repository. The binary will accept the path as the only argument
++        and returns 0 for correct, 1 for buggy and -1 for indeterminate
++        :param root_directory: the directory that contains both today's and yesterday's code
++        :param yesterday_directory: yesterday it works
++        :param today_directory: today it does not work
++        """
+         os.chdir(Path(__file__).parent)
+         self.test_binary = Path(test_binary).resolve()
+         self.root_directory = Path(root_directory).resolve()
+@@ -15,11 +23,22 @@ class Delta:
+         self.debug_flag = False
+ 
+     def pre_run(self):
++        """
++        run the test binary on yesterday and today to check the properties
++
++        :return:
++        """
+         ytd_ret = self.test_ytd()
+         today_ret = self.test_today()
+ 
++        assert ytd_ret == 0, "Yesterday's code did not work?"
++        assert today_ret == 1, "Today's code did not break?"
+ 
+     def test_ytd(self):
++        """
++        Test yesterday's directory. Patches are applied to yesterday, so it will be used to test patched code
++        :return:
++        """
+         ytd_run = subprocess.run([str(self.test_binary), str(self.yesterday_directory)])
+         if self.debug_flag:
+             print("yesterday test return code", ytd_run.returncode)
+@@ -31,7 +50,7 @@ class Delta:
+             print("yesterday test return code", today_run.returncode)
+         return today_run.returncode
+ 
+-    def debug(self, create_patch=True, print_results=True):
++    def debug(self, algo=1, create_patch=True, print_results=True):
+         """
+         Delta debug.
+ 
+@@ -39,6 +58,7 @@ class Delta:
+         :param create_patch: If you want to create a patch for the minimal set of failure inducing changes
+         :param print_results: If you want to print out the results of the incremental patches in the minimal set
+         of failure inducing changes
++        :return:
+         """
+         self.create_tmp_folder()
+         os.chdir(self.tmp_dir)
+@@ -57,8 +77,13 @@ class Delta:
+ 
+         if self.debug_flag:
+             print(incrementals)
+-        minimal_patches = self.algo1(incrementals, set())
+ 
++        if algo==1:
++            minimal_patches = self.algo1(incrementals, set())
++        elif algo==2:
++            minimal_patches = self.algo2(incrementals, set(), 2)
++        else:
++            raise Exception("Your algorithm choice is not supported, only 1 or 2")
+ 
+         if self.debug_flag:
+             print(minimal_patches)
+@@ -74,7 +99,13 @@ class Delta:
+             print("The minimal patch is created at location", minimal_patch_path)
+ 
+     def algo1(self, patches, fixed):
++        """
++        Algorithm 1 presented in the paper. Does not handle inconsistencies.
+ 
++        :param patches: The set of patches. c in paper.
++        :param fixed: The fixed changes that will be applied to the subset. r in paper.
++        :return: A possibly smaller set of patches.
++        """
+         if len(patches) == 1:
+             return patches
+ 
+@@ -127,6 +158,25 @@ class Delta:
+                 if complement_tis == 0 and tis[i] == 0:
+                     return self.algo2(ci, complement | fixed, 2) | self.algo2(complement, ci | fixed, 2)
+ 
++        #
++        #
++        #     if tis[0] == 0 and tis[1] == 0:
++        #         return self.algo2(cis[0], cis[1] | fixed, 2) | self.algo2(cis[1], cis[0] | fixed, 2)
++        # else:
++        #     complements = [set(patches) - ci for ci in cis]
++        #     for i, complement in enumerate(complements):
++        #         ci = cis[i]
++        #         if self.test_patches(complement) == 0 and tis[i] == 0:
++        #             return self.algo2(ci, complement | fixed, 2) | self.algo2(complement, ci | fixed, 2)
++
++        # case 4
++        # if n == 2:
++        #     if tis[0] == -1 and tis[1] == 0:
++        #         return self.algo2(cis[0], cis[1] | fixed, 2)
++        #     elif tis[0] == 0 and tis[1] == -1:
++        #         return self.algo2(cis[1], cis[0]|fixed, 2)
++        # else:
++
+         # case 4
+         for i, complement in enumerate(complements):
+             ci = cis[i]
+@@ -177,8 +227,9 @@ class Delta:
+                 subprocess.run(["patch", "-p0", "-d/"], stdin=combined, stdout=subprocess.DEVNULL)
+ 
+             # apply, test ytd, and revert
+-            ret_code = self.test_ytd()
++        ret_code = self.test_ytd()
+ 
++        with combined_path.open("r") as combined:
+             # with combined_path.open("r") as combined:
+             if self.debug_flag:
+                 subprocess.run(["patch", "-R", "-p0", "-d/"], stdin=combined)
+@@ -200,9 +251,13 @@ def quick_main():
+     yd = "patches/expcp"
+     td = "patches/expcp2"
+     root = "patches"
++    # yd = "/home/jasonhu/Desktop/rootdir/today"
++    # td = "/home/jasonhu/Desktop/rootdir/yesterday"
++    # root = "/home/jasonhu/Desktop/rootdir"
++
+     delta = Delta(tb, root, yd, td)
+     delta.pre_run()
+-    delta.debug()
++    delta.debug(algo=1)
+ 
+ 
+ def main():
+Only in today/: dd.py.orig
+Only in today/: dd.py.rej
+diff -up -r today/.gitignore yesterday/.gitignore

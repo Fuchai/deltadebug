@@ -1,0 +1,82 @@
+--- demodir/yesterday/test_checker.py	2020-03-28 20:51:37.174154259 -0500
++++ demodir/today/test_checker.py	2020-03-28 21:26:22.734301142 -0500
+@@ -17,20 +17,12 @@ class TestChecker(TestCase):
+         print(checker.state.get_legal_actions())
+         # player_play_verbose(checker.state)
+         original_state=checker.state
+-        checker.flip_board()
+-        checker.flip_board()
++        checker.flip_board().flip_board()
++
+         assert checker.state==original_state
+ 
+ 
+     def test_multi_jump(self):
+-        # fake_board = np.array([[1, 0, 0, 0, 0, 0, 0, 0],
+-        #                        [0, -1, 0, 0, 0, 0, 0, -1],
+-        #                        [1, 0, 0, 0, 0, 0, 0, 0],
+-        #                        [0, 0, 0, -1, 0, -1, 0, 0],
+-        #                        [0, 0, 0, 0, 0, 0, 0, 0],
+-        #                        [0, 0, 0, -1, 0, -1, 0, 0],
+-        #                        [0, 0, 0, 0, 0, 0, 0, 0],
+-        #                        [0, 0, 0, 0, 0, 0, 0, 0]])
+         fake_board=np.array([[ 1, 0, 0, 0, 0, 0, 0, 0],
+                              [ 0,-1, 0, 0, 0, 0, 0,-1],
+                              [ 1, 0, 0, 0, 0, 0, 0, 0],
+@@ -48,7 +40,7 @@ class TestChecker(TestCase):
+     def test_man_becomes_king(self):
+         fake_board = np.array([[0, 0, 0, 0, 0, 0, 0, 0],
+                                [0, 1, 0, 0, 0, 0, 0, 0],
+-                               [0, 0, -1, 0, 0, 0, 0, 0],
++                               [0, 0, -1, 0, 0, -1, 0, 0],
+                                [0, 1, 0, 0, 0, 0, 0, 0],
+                                [0, 0, 0, 0, -1, 0, -1, 0],
+                                [0, 0, 0, 0, 0, 0, 0, 0],
+@@ -82,7 +74,7 @@ class TestChecker(TestCase):
+                                [0, 0, 0, 0, -1, 0, 0, 0],
+                                [0, 0, 0, 0, 0, 0, 0, 0],
+                                [0, 0, -1, 0, -1, 0, 0, 0],
+-                               [0, 0, 0, 0, 0, 0, 0, 0],
++                               [0, 0, 0, 0, 0, 0, -1, 0],
+                                [-1, 0, 0, 0, 0, 0, -1, 0],
+                                [0, 0, 0, 0, 0, 0, 0, 2]])
+         path = [(7, 7, 5, 5), (5, 5, 3, 3), (3, 3, 5, 1)]
+@@ -91,35 +83,6 @@ class TestChecker(TestCase):
+         final = checker.player_play_fast_enter(checker.state, path)
+ 
+ 
+-    def test_fast_inputs(self):
+-        fake_board = np.array([[0, 0, 0, 0, 0, 0, 0, 0],
+-                               [0, 0, 0, 0, 0, 0, 0, 0],
+-                               [0, 0, 0, 0, -1, 0, 0, 0],
+-                               [0, 0, 0, 0, 0, 0, 0, 0],
+-                               [0, 0, -1, 0, -1, 0, 0, 0],
+-                               [0, 0, 0, 0, 0, 0, 0, 0],
+-                               [-1, 0, 0, 0, 0, 0, -1, 0],
+-                               [0, 0, 0, 0, 0, 0, 0, 2]])
+-        path = [(7, 7, 5, 5), (5, 5, 3, 3), (3, 3, 5, 1)]
+-        checker = Checker()
+-        print(checker)
+-        checker.state.board = fake_board
+-        final = checker.ask_human_for_action(checker.state)
+-
+-    def test_get_legal_actions(self):
+-        fake_board = np.array([[1, 0, 1, 0, 1, 0, 1, 0],
+-                               [0, 1, 0, 1, 0, 1, 0, 1],
+-                               [0, 0, 1, 0, 1, 0, 1, 0],
+-                               [0, 1, 0, 0, 0, 0, 0, 0],
+-                               [0, 0, -1, 0, 0, 0, 0, 0],
+-                               [0, -1, 0, 0, 0,-1, 0, -1],
+-                               [-1, 0,-1, 0,-1, 0, -1, 0],
+-                               [0, -1, 0,-1, 0, 0, 0, -1]])
+-        checker = Checker()
+-        print(checker)
+-        checker.state.board = fake_board
+-        checker.ask_human_for_action(checker.state)
+-        checker.state.get_legal_actions()
+ 
+ if __name__ == '__main__':
+     tc=TestChecker()
+Only in demodir/yesterday: training_timesteps
+Only in demodir/yesterday: validation_timesteps
+diff -up -r demodir/yesterday/zero.py demodir/today/zero.py

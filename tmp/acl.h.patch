@@ -1,0 +1,30 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/acl.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/acl.h	2020-01-28 23:39:42.000000000 -0600
+@@ -14,15 +14,22 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ 
+    Written by Paul Eggert.  */
+ 
+-#if HAVE_SYS_ACL_H && HAVE_ACL
++#include <sys/types.h>
++
++#if HAVE_SYS_ACL_H
+ # include <sys/acl.h>
+ #endif
+-#if ! defined GETACLCNT && defined ACL_CNT
++#if defined HAVE_ACL && ! defined GETACLCNT && defined ACL_CNT
+ # define GETACLCNT ACL_CNT
+ #endif
+ 
++#include <sys/stat.h>
++
+ int file_has_acl (char const *, struct stat const *);
++int copy_acl (char const *, int, char const *, int, mode_t);
++int set_acl (char const *, int, mode_t);
++int chmod_or_fchmod (char const *, int, mode_t);
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: acl-internal.h
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/acosl.c dbg/find6/find/gnulib-cvs/gnulib/lib/acosl.c

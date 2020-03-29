@@ -1,0 +1,14 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/memmove.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/memmove.c	2020-01-28 23:39:42.000000000 -0600
+@@ -3,9 +3,7 @@
+    In the public domain.
+    By David MacKenzie <djm@gnu.ai.mit.edu>.  */
+ 
+-#if HAVE_CONFIG_H
+-# include <config.h>
+-#endif
++#include <config.h>
+ 
+ #include <stddef.h>
+ 
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/mempcpy.c dbg/find6/find/gnulib-cvs/gnulib/lib/mempcpy.c

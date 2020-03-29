@@ -1,0 +1,29 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/exclude	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/exclude	2020-01-28 23:39:42.000000000 -0600
+@@ -7,16 +7,16 @@ lib/exclude.c
+ m4/exclude.m4
+ 
+ Depends-on:
+-xalloc
+-strcase
+-fnmatch-gnu
++fnmatch
++mbscasecmp
+ stdbool
++verify
++xalloc
+ 
+ configure.ac:
+ gl_EXCLUDE
+ 
+ Makefile.am:
+-lib_SOURCES += exclude.h exclude.c
+ 
+ Include:
+ "exclude.h"
+@@ -26,4 +26,3 @@ GPL
+ 
+ Maintainer:
+ Paul Eggert
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/execute dbg/find6/find/gnulib-cvs/gnulib/modules/execute

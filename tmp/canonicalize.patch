@@ -1,0 +1,35 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/canonicalize	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/canonicalize	2020-01-28 23:39:42.000000000 -0600
+@@ -4,21 +4,22 @@ Return the canonical absolute name of a
+ Files:
+ lib/canonicalize.h
+ lib/canonicalize.c
+-lib/stat-macros.h
++lib/pathmax.h
+ m4/canonicalize.m4
+ 
+ Depends-on:
+ cycle-check
+-path-concat
++filenamecat
++sys_stat
+ xalloc
+ xgetcwd
+-xreadlink
++xreadlink-with-size
+ 
+ configure.ac:
+ AC_FUNC_CANONICALIZE_FILE_NAME
++gl_MODULE_INDICATOR([canonicalize])
+ 
+ Makefile.am:
+-lib_SOURCES += canonicalize.h canonicalize.c stat-macros.h
+ 
+ Include:
+ "canonicalize.h"
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: canonicalize-lgpl
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: canonicalize-lgpl-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: carray-list
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: carray-list-tests
+Only in dbg/find14/find/gnulib-cvs/gnulib/modules: c-bs-a
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/c-ctype dbg/find6/find/gnulib-cvs/gnulib/modules/c-ctype

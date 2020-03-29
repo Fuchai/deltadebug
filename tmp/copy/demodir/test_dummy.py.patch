@@ -1,0 +1,15 @@
+--- today/test_dummy.py	2020-03-28 15:48:41.366667432 -0500
++++ yesterday/test_dummy.py	2020-03-27 14:30:08.494322171 -0500
+@@ -3,8 +3,8 @@
+ import sys
+ from os import listdir
+ 
++
+ def main():
+-    """ this is the original test dummy"""
+     source_dir = sys.argv[1]
+ 
+     for f in listdir(source_dir):
+Only in today/: test_dummy.py.orig
+Only in today/: test_dummy.py.rej
+diff -up -r today/tmp/b.000.patch yesterday/tmp/b.000.patch

@@ -1,0 +1,20 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/atexit	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/atexit	2020-01-28 23:39:42.000000000 -0600
+@@ -16,8 +16,7 @@ Include:
+ <stdlib.h>
+ 
+ License:
+-GPL
++public domain
+ 
+ Maintainer:
+ Jim Meyering
+-
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: atexit-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: avltreehash-list
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: avltreehash-list-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: avltree-list
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: avltree-list-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: avltree-oset
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: avltree-oset-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/backupfile dbg/find6/find/gnulib-cvs/gnulib/modules/backupfile

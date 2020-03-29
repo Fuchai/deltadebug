@@ -1,0 +1,20 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/allocsa	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/allocsa	2020-01-28 23:39:42.000000000 -0600
+@@ -18,13 +18,12 @@ gl_ALLOCSA
+ 
+ Makefile.am:
+ lib_SOURCES += allocsa.h allocsa.c
+-EXTRA_DIST += allocsa.valgrind
+ 
+ Include:
+ #include "allocsa.h"
+ 
+ License:
+-GPL
++LGPL
+ 
+ Maintainer:
+ Bruno Haible
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: allocsa-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: announce-gen
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/argmatch dbg/find6/find/gnulib-cvs/gnulib/modules/argmatch

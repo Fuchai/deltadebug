@@ -1,0 +1,37 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/m4/unlocked-io.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/m4/unlocked-io.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,7 +1,7 @@
+-# unlocked-io.m4 serial 11
++# unlocked-io.m4 serial 14
+ 
+-# Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004 Free Software
+-# Foundation, Inc.
++# Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006
++# Free Software Foundation, Inc.
+ #
+ # This file is free software; the Free Software Foundation
+ # gives unlimited permission to copy and/or distribute it,
+@@ -26,9 +26,17 @@ AC_DEFUN([gl_FUNC_GLIBC_UNLOCKED_IO],
+   dnl fgets_unlocked(), fputs_unlocked() etc.
+   AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
+ 
+-  AC_CHECK_DECLS_ONCE(
+-     [clearerr_unlocked feof_unlocked ferror_unlocked
+-      fflush_unlocked fgets_unlocked fputc_unlocked fputs_unlocked
+-      fread_unlocked fwrite_unlocked getc_unlocked
+-      getchar_unlocked putc_unlocked putchar_unlocked])
++  AC_CHECK_DECLS_ONCE([clearerr_unlocked])
++  AC_CHECK_DECLS_ONCE([feof_unlocked])
++  AC_CHECK_DECLS_ONCE([ferror_unlocked])
++  AC_CHECK_DECLS_ONCE([fflush_unlocked])
++  AC_CHECK_DECLS_ONCE([fgets_unlocked])
++  AC_CHECK_DECLS_ONCE([fputc_unlocked])
++  AC_CHECK_DECLS_ONCE([fputs_unlocked])
++  AC_CHECK_DECLS_ONCE([fread_unlocked])
++  AC_CHECK_DECLS_ONCE([fwrite_unlocked])
++  AC_CHECK_DECLS_ONCE([getc_unlocked])
++  AC_CHECK_DECLS_ONCE([getchar_unlocked])
++  AC_CHECK_DECLS_ONCE([putc_unlocked])
++  AC_CHECK_DECLS_ONCE([putchar_unlocked])
+ ])
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/userspec.m4 dbg/find6/find/gnulib-cvs/gnulib/m4/userspec.m4

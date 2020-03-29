@@ -1,0 +1,29 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/pipe.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/pipe.h	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+ /* Creation of subprocesses, communicating via pipes.
+-   Copyright (C) 2001-2003 Free Software Foundation, Inc.
++   Copyright (C) 2001-2003, 2006 Free Software Foundation, Inc.
+    Written by Bruno Haible <haible@clisp.cons.org>, 2001.
+ 
+    This program is free software; you can redistribute it and/or modify
+@@ -14,16 +14,14 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ #ifndef _PIPE_H
+ #define _PIPE_H
+ 
+ /* Get pid_t.  */
+ #include <stdlib.h>
+-#ifdef HAVE_UNISTD_H
+ #include <unistd.h>
+-#endif
+ #include <sys/types.h>
+ 
+ #include <stdbool.h>
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: pipe-safer.c
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/poll.c dbg/find6/find/gnulib-cvs/gnulib/lib/poll.c

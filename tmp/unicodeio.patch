@@ -1,0 +1,15 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/unicodeio	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/unicodeio	2020-01-28 23:39:42.000000000 -0600
+@@ -8,7 +8,8 @@ m4/unicodeio.m4
+ 
+ Depends-on:
+ iconv
+-gettext
++iconv_open
++gettext-h
+ localcharset
+ error
+ 
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: uniconv
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: unistd
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/unistd-safer dbg/find6/find/gnulib-cvs/gnulib/modules/unistd-safer

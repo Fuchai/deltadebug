@@ -1,0 +1,10 @@
+--- demodir/yesterday/neuralnetwork.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/neuralnetwork.py	2019-11-29 23:50:49.000000000 -0600
+@@ -166,6 +166,7 @@ class YesPolicy(Model):
+         p2 = self.policy_linear_1(p2)
+         p2 = torch.relu(p2)
+         p2 = self.policy_linear_2(p2)
++        p2 = torch.tanh(p2)
+ 
+         v = self.value_head(out3)
+         v1 = v.reshape(v.shape[0], -1)

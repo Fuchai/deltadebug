@@ -1,0 +1,46 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/sysexits	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/sysexits	2020-01-28 23:39:42.000000000 -0600
+@@ -11,21 +11,24 @@ configure.ac:
+ gl_SYSEXITS
+ 
+ Makefile.am:
+-EXTRA_DIST += sysexit_.h
++BUILT_SOURCES += $(SYSEXITS_H)
+ 
+-# We need the following in order to create a <sysexits.h> when the system
++# We need the following in order to create <sysexits.h> when the system
+ # doesn't have one that works with the given compiler.
+-all-local $(lib_OBJECTS): $(SYSEXITS_H)
+ sysexits.h: sysexit_.h
+-	cp $(srcdir)/sysexit_.h sysexits.h-t
+-	mv sysexits.h-t sysexits.h
++	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
++	  sed -e 's|@''HAVE_SYSEXITS_H''@|$(HAVE_SYSEXITS_H)|g' \
++	      -e 's|@''ABSOLUTE_SYSEXITS_H''@|$(ABSOLUTE_SYSEXITS_H)|g' \
++	      < $(srcdir)/sysexit_.h; \
++	} > $@-t
++	mv -f $@-t $@
+ MOSTLYCLEANFILES += sysexits.h sysexits.h-t
+ 
+ Include:
+ #include <sysexits.h>
+ 
+ License:
+-GPL
++LGPL
+ 
+ Maintainer:
+ Simon Josefsson
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: sysexits-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: sys_select
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: sys_select-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: sys_socket
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: sys_socket-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: sys_stat
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: sys_stat-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: sys_time
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: sys_time-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: TEMPLATE-TESTS
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: tempname
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: time
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/timegm dbg/find6/find/gnulib-cvs/gnulib/modules/timegm

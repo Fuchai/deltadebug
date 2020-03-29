@@ -1,0 +1,17 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/xgetcwd	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/xgetcwd	2020-01-28 23:39:42.000000000 -0600
+@@ -9,12 +9,12 @@ m4/xgetcwd.m4
+ Depends-on:
+ getcwd
+ xalloc
++stdbool
+ 
+ configure.ac:
+ gl_XGETCWD
+ 
+ Makefile.am:
+-lib_SOURCES += xgetcwd.h xgetcwd.c
+ 
+ Include:
+ "xgetcwd.h"
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/xmemcoll dbg/find6/find/gnulib-cvs/gnulib/modules/xmemcoll

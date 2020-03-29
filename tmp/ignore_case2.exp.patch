@@ -1,0 +1,18 @@
+--- dbg/find14/find/locate/testsuite/locate.gnu/ignore_case2.exp	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/locate/testsuite/locate.gnu/ignore_case2.exp	2020-01-28 23:39:42.000000000 -0600
+@@ -4,5 +4,5 @@ exec rm -rf tmp
+ exec mkdir tmp
+ exec mkdir tmp/subdir
+ exec touch tmp/subdir/fred
+-locate_start f {--output=tmp/locatedb --localpaths=tmp/subdir/} {--database=tmp/locatedb FRed} {}
++locate_start f {--changecwd=. --output=tmp/locatedb --localpaths=tmp/subdir/} {--database=tmp/locatedb FRed} {}
+ 
+Only in dbg/find6/find/locate/testsuite/locate.gnu: notexists1.exp
+Only in dbg/find6/find/locate/testsuite/locate.gnu: notexists1.xo
+Only in dbg/find6/find/locate/testsuite/locate.gnu: notexists2.exp
+Only in dbg/find6/find/locate/testsuite/locate.gnu: notexists2.xo
+Only in dbg/find6/find/locate/testsuite/locate.gnu: notexists3.exp
+Only in dbg/find6/find/locate/testsuite/locate.gnu: notexists3.xo
+Only in dbg/find6/find/locate/testsuite/locate.gnu: space1st.exp
+Only in dbg/find6/find/locate/testsuite/locate.gnu: sv-bug-14535.exp
+diff -up -r dbg/find14/find/locate/testsuite/Makefile dbg/find6/find/locate/testsuite/Makefile

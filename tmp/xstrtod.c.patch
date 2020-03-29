@@ -1,0 +1,75 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/xstrtod.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/xstrtod.c	2020-01-28 23:39:42.000000000 -0600
+@@ -1,6 +1,7 @@
+ /* error-checking interface to strtod-like functions
+ 
+-   Copyright (C) 1996, 1999, 2000, 2003, 2004 Free Software Foundation, Inc.
++   Copyright (C) 1996, 1999, 2000, 2003, 2004, 2005, 2006 Free
++   Software Foundation, Inc.
+ 
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+@@ -14,13 +15,11 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ /* Written by Jim Meyering.  */
+ 
+-#ifdef HAVE_CONFIG_H
+-# include <config.h>
+-#endif
++#include <config.h>
+ 
+ #include "xstrtod.h"
+ 
+@@ -28,22 +27,26 @@
+ #include <limits.h>
+ #include <stdio.h>
+ 
+-/* Tell the compiler that non-default rounding modes are used.  */
+-#if 199901 <= __STDC_VERSION__
+- #pragma STDC FENV_ACCESS ON
++#if LONG
++# define XSTRTOD xstrtold
++# define DOUBLE long double
++#else
++# define XSTRTOD xstrtod
++# define DOUBLE double
+ #endif
+ 
+-/* An interface to strtod that encapsulates all the error checking
+-   one should usually perform.  Like strtod, but upon successful
++/* An interface to a string-to-floating-point conversion function that
++   encapsulates all the error checking one should usually perform.
++   Like strtod/strtold, but upon successful
+    conversion put the result in *RESULT and return true.  Return
+    false and don't modify *RESULT upon any failure.  CONVERT
+    specifies the conversion function, e.g., strtod itself.  */
+ 
+ bool
+-xstrtod (char const *str, char const **ptr, double *result,
+-	 double (*convert) (char const *, char **))
++XSTRTOD (char const *str, char const **ptr, DOUBLE *result,
++	 DOUBLE (*convert) (char const *, char **))
+ {
+-  double val;
++  DOUBLE val;
+   char *terminator;
+   bool ok = true;
+ 
+@@ -55,9 +58,9 @@ xstrtod (char const *str, char const **p
+     ok = false;
+   else
+     {
+-      /* Allow underflow (in which case strtod returns zero),
++      /* Allow underflow (in which case CONVERT returns zero),
+ 	 but flag overflow as an error. */
+-      if (val != 0.0 && errno == ERANGE)
++      if (val != 0 && errno == ERANGE)
+ 	ok = false;
+     }
+ 
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/xstrtod.h dbg/find6/find/gnulib-cvs/gnulib/lib/xstrtod.h

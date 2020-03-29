@@ -1,0 +1,28 @@
+--- demodir/yesterday/tmp/bigpatch	2020-03-27 22:22:13.166607991 -0500
++++ demodir/today/tmp/bigpatch	2020-03-27 22:29:44.217051598 -0500
+@@ -1,6 +1,6 @@
+-diff -u -r /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/b /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/b
+---- /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/b	2020-03-27 22:18:39.749727778 -0500
+-+++ /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/b	2020-03-27 14:30:08.494322171 -0500
++diff -u -r /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/b /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/b
++--- /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/b	2020-03-27 19:16:53.766614000 -0500
+++++ /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/b	2020-03-27 19:16:53.766614000 -0500
+ @@ -6,4 +6,9 @@
+  123123123
+  123123123
+@@ -13,10 +13,10 @@
+ +asdfasdf
+ +a
+ +asdfasdf
+-Only in /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2: bug
+-diff -u -r /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/c /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/c
+---- /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp/c	2020-03-27 22:18:39.761728051 -0500
+-+++ /home/jasonhu/Desktop/pydd/demodir/yesterday/patches/expcp2/c	2020-03-27 14:30:08.494322171 -0500
++Only in /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2: bug
++diff -u -r /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/c /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/c
++--- /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp/c	2020-03-27 19:16:53.766614000 -0500
+++++ /home/jasonhu/Desktop/pydd/demodir/today/patches/expcp2/c	2020-03-27 19:16:53.766614000 -0500
+ @@ -8,13 +8,5 @@
+  123123123123
+  12312312asdfasdfasdf
+diff -u -r demodir/yesterday/tmp/c.000.patch demodir/today/tmp/c.000.patch

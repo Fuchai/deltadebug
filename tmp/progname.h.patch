@@ -1,0 +1,27 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/progname.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/progname.h	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+ /* Program name management.
+-   Copyright (C) 2001-2004 Free Software Foundation, Inc.
++   Copyright (C) 2001-2004, 2006 Free Software Foundation, Inc.
+    Written by Bruno Haible <haible@clisp.cons.org>, 2001.
+ 
+    This program is free software; you can redistribute it and/or modify
+@@ -14,7 +14,7 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ #ifndef _PROGNAME_H
+ #define _PROGNAME_H
+@@ -42,6 +42,7 @@ extern void set_program_name (const char
+ extern void set_program_name_and_installdir (const char *argv0,
+ 					     const char *orig_installprefix,
+ 					     const char *orig_installdir);
++#undef set_program_name
+ #define set_program_name(ARG0) \
+   set_program_name_and_installdir (ARG0, INSTALLPREFIX, INSTALLDIR)
+ 
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/progreloc.c dbg/find6/find/gnulib-cvs/gnulib/lib/progreloc.c

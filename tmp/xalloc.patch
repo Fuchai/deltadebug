@@ -1,0 +1,23 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/xalloc	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/xalloc	2020-01-28 23:39:42.000000000 -0600
+@@ -7,12 +7,13 @@ lib/xmalloc.c
+ m4/xalloc.m4
+ 
+ Depends-on:
++inline
++xalloc-die
+ 
+ configure.ac:
+ gl_XALLOC
+ 
+ Makefile.am:
+-lib_SOURCES += xalloc.h xmalloc.c
+ 
+ Include:
+ "xalloc.h"
+@@ -22,4 +23,3 @@ GPL
+ 
+ Maintainer:
+ all
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/xalloc-die dbg/find6/find/gnulib-cvs/gnulib/modules/xalloc-die

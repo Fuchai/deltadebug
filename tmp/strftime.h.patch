@@ -1,0 +1,15 @@
+--- dbg/find14/find/gnulib/lib/strftime.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib/lib/strftime.h	2020-01-28 23:39:42.000000000 -0600
+@@ -14,7 +14,7 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ #include <time.h>
+ 
+Binary files dbg/find14/find/gnulib/lib/strftime.o and dbg/find6/find/gnulib/lib/strftime.o differ
+Only in dbg/find6/find/gnulib/lib: string_.h
+Only in dbg/find6/find/gnulib/lib: string.h
+diff -up -r dbg/find14/find/gnulib/lib/stripslash.c dbg/find6/find/gnulib/lib/stripslash.c

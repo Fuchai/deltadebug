@@ -1,0 +1,19 @@
+--- dbg/find14/find/gnulib/m4/yesno.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib/m4/yesno.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,11 +1,13 @@
+-# yesno.m4 serial 3
+-dnl Copyright (C) 2002-2003 Free Software Foundation, Inc.
++# yesno.m4 serial 5
++dnl Copyright (C) 2002, 2003, 2005, 2006 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+ 
+ AC_DEFUN([gl_YESNO],
+ [
++  AC_LIBOBJ([yesno])
++
+   dnl No prerequisites of lib/yesno.c.
+   :
+ ])
+diff -up -r dbg/find14/find/gnulib/Makefile dbg/find6/find/gnulib/Makefile

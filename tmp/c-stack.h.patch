@@ -1,0 +1,19 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/c-stack.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/c-stack.h	2020-01-28 23:39:42.000000000 -0600
+@@ -14,6 +14,6 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ int c_stack_action (void (*) (int));
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: c-strcasecmp.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: c-strcaseeq.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: c-strcase.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: c-strcasestr.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: c-strcasestr.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: c-strncasecmp.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: c-strstr.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: c-strstr.h
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/c-strtod.c dbg/find6/find/gnulib-cvs/gnulib/lib/c-strtod.c

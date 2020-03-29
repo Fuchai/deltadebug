@@ -1,0 +1,291 @@
+--- dbg/find14/find/locate/.deps/locate.Po	2020-01-28 23:48:56.000000000 -0600
++++ dbg/find6/find/locate/.deps/locate.Po	2020-01-28 23:40:08.000000000 -0600
+@@ -12,52 +12,67 @@ locate.o: locate.c /usr/include/stdc-pre
+  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+- /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/ctype.h \
++ /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/signal.h \
++ /usr/include/x86_64-linux-gnu/bits/sigset.h \
++ /usr/include/x86_64-linux-gnu/bits/signum.h ../gnulib/lib/time.h \
++ ///usr/include/time.h /usr/include/x86_64-linux-gnu/bits/siginfo.h \
++ /usr/include/x86_64-linux-gnu/bits/sigaction.h \
++ /usr/include/x86_64-linux-gnu/bits/sigcontext.h \
++ /usr/include/x86_64-linux-gnu/bits/sigstack.h \
++ /usr/include/x86_64-linux-gnu/sys/ucontext.h \
++ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
++ /usr/include/x86_64-linux-gnu/bits/sigthread.h /usr/include/ctype.h \
+  /usr/include/endian.h /usr/include/x86_64-linux-gnu/bits/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap-16.h /usr/include/xlocale.h \
+- /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/time.h \
++ /usr/include/x86_64-linux-gnu/sys/types.h \
+  /usr/include/x86_64-linux-gnu/sys/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select.h \
+- /usr/include/x86_64-linux-gnu/bits/sigset.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/select2.h \
+- /usr/include/x86_64-linux-gnu/sys/sysmacros.h \
+- /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+- /usr/include/x86_64-linux-gnu/sys/stat.h \
++ /usr/include/x86_64-linux-gnu/sys/sysmacros.h /usr/include/grp.h \
++ ../gnulib/lib/sys/stat.h ///usr/include/x86_64-linux-gnu/sys/stat.h \
+  /usr/include/x86_64-linux-gnu/bits/stat.h \
+  /usr/include/x86_64-linux-gnu/bits/timex.h /usr/include/fnmatch.h \
+  /usr/include/getopt.h ../gnulib/lib/xstrtol.h ../gnulib/lib/exitfail.h \
+- /usr/include/inttypes.h \
++ ../gnulib/lib/inttypes.h ///usr/include/inttypes.h \
+  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h /usr/include/stdint.h \
+- /usr/include/x86_64-linux-gnu/bits/wchar.h /usr/include/assert.h \
+- /usr/include/string.h /usr/include/x86_64-linux-gnu/bits/string.h \
+- /usr/include/x86_64-linux-gnu/bits/string2.h /usr/include/stdlib.h \
+- /usr/include/x86_64-linux-gnu/bits/string3.h \
++ /usr/include/x86_64-linux-gnu/bits/wchar.h \
++ /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h \
++ /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h \
++ /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
++ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
++ /usr/include/linux/limits.h \
++ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
++ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h ../gnulib/lib/gettext.h \
++ ../gnulib/lib/string.h ///usr/include/string.h \
++ /usr/include/x86_64-linux-gnu/bits/string.h \
++ /usr/include/x86_64-linux-gnu/bits/string2.h ../gnulib/lib/stdlib.h \
++ ///usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/string3.h \
++ ../gnulib/lib/unistd.h ///usr/include/unistd.h \
++ /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
++ /usr/include/x86_64-linux-gnu/bits/environments.h \
++ /usr/include/x86_64-linux-gnu/bits/confname.h \
++ /usr/include/x86_64-linux-gnu/bits/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+  /usr/include/x86_64-linux-gnu/bits/waitstatus.h ../gnulib/lib/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+- /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/errno.h \
+- /usr/include/x86_64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
+- /usr/include/x86_64-linux-gnu/asm/errno.h \
++ /usr/include/x86_64-linux-gnu/bits/stdlib.h ../gnulib/lib/fcntl.h \
++ ///usr/include/fcntl.h /usr/include/x86_64-linux-gnu/bits/fcntl.h \
++ /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
++ /usr/include/x86_64-linux-gnu/bits/uio.h \
++ /usr/include/x86_64-linux-gnu/bits/fcntl2.h /usr/include/assert.h \
++ /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
++ /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
+  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
+  /usr/include/locale.h /usr/include/x86_64-linux-gnu/bits/locale.h \
+  locatedb.h ../gnulib/lib/getline.h ../gnulib/lib/xalloc.h \
+  ../gnulib/lib/error.h ../gnulib/lib/human.h \
+- /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h \
+- /usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h \
+- /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+- /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+- /usr/include/linux/limits.h \
+- /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+- /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+  /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdbool.h \
+- /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+- /usr/include/x86_64-linux-gnu/bits/environments.h \
+- /usr/include/x86_64-linux-gnu/bits/confname.h \
+- /usr/include/x86_64-linux-gnu/bits/unistd.h ../gnulib/lib/dirname.h \
+- ../gnulib/lib/closeout.h ../lib/nextelem.h ../gnulib/lib/regex.h
++ ../gnulib/lib/dirname.h ../gnulib/lib/closeout.h ../lib/nextelem.h \
++ ../gnulib/lib/regex.h ../gnulib/lib/quote.h ../gnulib/lib/quotearg.h \
++ ../lib/printquoted.h ../lib/regextype.h ../lib/gnulib-version.h
+ 
+ /usr/include/stdc-predef.h:
+ 
+@@ -97,6 +112,30 @@ locate.o: locate.c /usr/include/stdc-pre
+ 
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h:
+ 
++/usr/include/signal.h:
++
++/usr/include/x86_64-linux-gnu/bits/sigset.h:
++
++/usr/include/x86_64-linux-gnu/bits/signum.h:
++
++../gnulib/lib/time.h:
++
++///usr/include/time.h:
++
++/usr/include/x86_64-linux-gnu/bits/siginfo.h:
++
++/usr/include/x86_64-linux-gnu/bits/sigaction.h:
++
++/usr/include/x86_64-linux-gnu/bits/sigcontext.h:
++
++/usr/include/x86_64-linux-gnu/bits/sigstack.h:
++
++/usr/include/x86_64-linux-gnu/sys/ucontext.h:
++
++/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
++
++/usr/include/x86_64-linux-gnu/bits/sigthread.h:
++
+ /usr/include/ctype.h:
+ 
+ /usr/include/endian.h:
+@@ -111,23 +150,21 @@ locate.o: locate.c /usr/include/stdc-pre
+ 
+ /usr/include/x86_64-linux-gnu/sys/types.h:
+ 
+-/usr/include/time.h:
+-
+ /usr/include/x86_64-linux-gnu/sys/select.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/select.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/sigset.h:
+-
+ /usr/include/x86_64-linux-gnu/bits/time.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/select2.h:
+ 
+ /usr/include/x86_64-linux-gnu/sys/sysmacros.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
++/usr/include/grp.h:
++
++../gnulib/lib/sys/stat.h:
+ 
+-/usr/include/x86_64-linux-gnu/sys/stat.h:
++///usr/include/x86_64-linux-gnu/sys/stat.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/stat.h:
+ 
+@@ -141,7 +178,9 @@ locate.o: locate.c /usr/include/stdc-pre
+ 
+ ../gnulib/lib/exitfail.h:
+ 
+-/usr/include/inttypes.h:
++../gnulib/lib/inttypes.h:
++
++///usr/include/inttypes.h:
+ 
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h:
+ 
+@@ -149,18 +188,50 @@ locate.o: locate.c /usr/include/stdc-pre
+ 
+ /usr/include/x86_64-linux-gnu/bits/wchar.h:
+ 
+-/usr/include/assert.h:
++/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h:
++
++/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h:
+ 
+-/usr/include/string.h:
++/usr/include/limits.h:
++
++/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
++
++/usr/include/x86_64-linux-gnu/bits/local_lim.h:
++
++/usr/include/linux/limits.h:
++
++/usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
++
++/usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
++
++../gnulib/lib/gettext.h:
++
++../gnulib/lib/string.h:
++
++///usr/include/string.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/string.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/string2.h:
+ 
+-/usr/include/stdlib.h:
++../gnulib/lib/stdlib.h:
++
++///usr/include/stdlib.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/string3.h:
+ 
++../gnulib/lib/unistd.h:
++
++///usr/include/unistd.h:
++
++/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
++
++/usr/include/x86_64-linux-gnu/bits/environments.h:
++
++/usr/include/x86_64-linux-gnu/bits/confname.h:
++
++/usr/include/x86_64-linux-gnu/bits/unistd.h:
++
+ /usr/include/x86_64-linux-gnu/bits/waitflags.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
+@@ -173,6 +244,20 @@ locate.o: locate.c /usr/include/stdc-pre
+ 
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h:
+ 
++../gnulib/lib/fcntl.h:
++
++///usr/include/fcntl.h:
++
++/usr/include/x86_64-linux-gnu/bits/fcntl.h:
++
++/usr/include/x86_64-linux-gnu/bits/fcntl-linux.h:
++
++/usr/include/x86_64-linux-gnu/bits/uio.h:
++
++/usr/include/x86_64-linux-gnu/bits/fcntl2.h:
++
++/usr/include/assert.h:
++
+ /usr/include/errno.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/errno.h:
+@@ -199,38 +284,22 @@ locatedb.h:
+ 
+ ../gnulib/lib/human.h:
+ 
+-/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/limits.h:
+-
+-/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed/syslimits.h:
+-
+-/usr/include/limits.h:
+-
+-/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+-
+-/usr/include/x86_64-linux-gnu/bits/local_lim.h:
+-
+-/usr/include/linux/limits.h:
+-
+-/usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
+-
+-/usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
+-
+ /usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdbool.h:
+ 
+-/usr/include/unistd.h:
++../gnulib/lib/dirname.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
++../gnulib/lib/closeout.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/environments.h:
++../lib/nextelem.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/confname.h:
++../gnulib/lib/regex.h:
+ 
+-/usr/include/x86_64-linux-gnu/bits/unistd.h:
++../gnulib/lib/quote.h:
+ 
+-../gnulib/lib/dirname.h:
++../gnulib/lib/quotearg.h:
+ 
+-../gnulib/lib/closeout.h:
++../lib/printquoted.h:
+ 
+-../lib/nextelem.h:
++../lib/regextype.h:
+ 
+-../gnulib/lib/regex.h:
++../lib/gnulib-version.h:
+Binary files dbg/find14/find/locate/frcode and dbg/find6/find/locate/frcode differ
+diff -up -r dbg/find14/find/locate/frcode.c dbg/find6/find/locate/frcode.c

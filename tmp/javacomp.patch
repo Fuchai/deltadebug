@@ -1,0 +1,46 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/javacomp	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/javacomp	2020-01-28 23:39:42.000000000 -0600
+@@ -4,29 +4,35 @@ Compile a Java program.
+ Files:
+ lib/javacomp.h
+ lib/javacomp.c
+-lib/javacomp.sh.in
+-m4/javacomp.m4
+ 
+ Depends-on:
+ stdbool
+-xallocsa
++unistd
++javaversion
+ execute
+ pipe
+ wait-process
+ classpath
+ xsetenv
+ sh-quote
++binary-io
+ safe-read
+ xalloc
++xallocsa
++getline
++filename
++fwriteerror
++clean-temp
+ error
+-gettext
++xvasprintf
++c-strstr
++gettext-h
++javacomp-script
+ 
+ configure.ac:
+-gt_JAVACOMP
+ 
+ Makefile.am:
+ lib_SOURCES += javacomp.h javacomp.c
+-EXTRA_DIST += javacomp.sh.in
+ 
+ Include:
+ "javacomp.h"
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: javacomp-script
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/javaexec dbg/find6/find/gnulib-cvs/gnulib/modules/javaexec

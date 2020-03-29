@@ -1,0 +1,593 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/doc/gnulib.texi	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/doc/gnulib.texi	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+ \input texinfo   @c -*-texinfo-*-
+-@comment $Id: gnulib.texi,v 1.6 2004/09/29 10:58:47 haible Exp $
++@comment $Id: gnulib.texi,v 1.35 2007/03/31 12:34:55 haible Exp $
+ @comment %**start of header
+ @setfilename gnulib.info
+ @settitle GNU Gnulib
+@@ -7,28 +7,21 @@
+ @syncodeindex pg cp
+ @comment %**end of header
+ 
+-@set UPDATED $Date: 2004/09/29 10:58:47 $
++@set UPDATED $Date: 2007/03/31 12:34:55 $
+ 
+ @copying
+ This manual is for GNU Gnulib (updated @value{UPDATED}),
+ which is a library of common routines intended to be shared at the
+ source level.
+ 
+-Copyright @copyright{} 2004 Free Software Foundation, Inc.
++Copyright @copyright{} 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+ 
+-@quotation
+ Permission is granted to copy, distribute and/or modify this document
+ under the terms of the GNU Free Documentation License, Version 1.1 or
+ any later version published by the Free Software Foundation; with no
+-Invariant Sections, with the Front-Cover Texts being ``A GNU Manual,''
+-and with the Back-Cover Texts as in (a) below.  A copy of the
+-license is included in the section entitled ``GNU Free Documentation
+-License.''
+-
+-(a) The FSF's Back-Cover Text is: ``You have freedom to copy and modify
+-this GNU Manual, like GNU software.  Copies published by the Free
+-Software Foundation raise funds for GNU development.''
+-@end quotation
++Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
++Texts.  A copy of the license is included in the section entitled
++``GNU Free Documentation License.''
+ @end copying
+ 
+ @dircategory Software development
+@@ -55,37 +48,63 @@ Software Foundation raise funds for GNU
+ @end ifnottex
+ 
+ @menu
+-* Gnulib::
++* Introduction::
+ * Invoking gnulib-tool::
++* Miscellaneous Notes::
++* Particular Modules::          Documentation of Individual Modules
+ * Copying This Manual::
+ * Index::
+ @end menu
+ 
++@node Introduction
++@chapter Introduction
+ 
+-@node Gnulib
+-@chapter Gnulib
++Gnulib is a source code library. It provides basic functionalities to
++programs and libraries.  Currently (as of October 2006) more than 30
++packages make use of Gnulib.
+ 
+-This is not a real manual.  It's just a place to store random notes
+-until someone (you?) gets around to actually writing a manual.
+-
+-Getting started:
++Resources:
+ 
+ @itemize
+ @item Gnulib is hosted at Savannah:
+       @url{http://savannah.gnu.org/projects/gnulib}.  Get the sources
+-      through CVS from there.
++      through git or CVS from there.
+ @item The Gnulib home page:
+       @url{http://www.gnu.org/software/gnulib/}.
+ @end itemize
+ 
+ @menu
++* Library vs. Reusable Code::
++* Portability and Application Code::
++* Modules::
++* Various Kinds of Modules::
++* Collaborative Development::
++* Copyright::
++* Steady Development::
++* Openness::
++@end menu
++
++@include gnulib-intro.texi
++
++
++@include gnulib-tool.texi
++
++
++@node Miscellaneous Notes
++@chapter Miscellaneous Notes
++
++@menu
+ * Comments::
+ * Header files::
+-* ctime::
+-* inet_ntoa::
+ * Out of memory handling::
++* Library version handling::
++* Windows sockets::
++* Libtool and Windows::
++* License Texinfo sources::
++* Build robot for gnulib::
+ @end menu
+ 
++
+ @node Comments
+ @section Comments
+ 
+@@ -158,42 +177,18 @@ preference might depend on whether you c
+ your header file as something available for C programs only, or for C
+ and C++ programs alike.
+ 
+-@node ctime
+-@section ctime
+-@findex ctime
+-
+-The @code{ctime} function need not be reentrant, and consequently is
+-not required to be thread safe.  Implementations of @code{ctime}
+-typically write the time stamp into static buffer.  If two threads
+-call @code{ctime} at roughly the same time, you might end up with the
+-wrong date in one of the threads, or some undefined string.  There is
+-a re-entrant interface @code{ctime_r}, that take a pre-allocated
+-buffer and length of the buffer, and return @code{NULL} on errors.
+-The input buffer should be at least 26 bytes in size.  The output
+-string is locale-independent.  However, years can have more than 4
+-digits if @code{time_t} is sufficiently wide, so the length of the
+-required output buffer is not easy to determine.  Increasing the
+-buffer size when @code{ctime_r} return @code{NULL} is not necessarily
+-sufficient. The @code{NULL} return value could mean some other error
+-condition, which will not go away by increasing the buffer size.
+-
+-A more flexible function is @code{strftime}.  However, note that it is
+-locale dependent.
+-
+-
+-@node inet_ntoa
+-@section inet_ntoa
+-@findex inet_ntoa
+-
+-The @code{inet_ntoa} function need not be reentrant, and consequently
+-is not required to be thread safe.  Implementations of
+-@code{inet_ntoa} typically write the time stamp into static buffer.
+-If two threads call @code{inet_ntoa} at roughly the same time, you
+-might end up with the wrong date in one of the threads, or some
+-undefined string.  Further, @code{inet_ntoa} is specific for
+-@acronym{IPv4} addresses.
++@subheading Include ordering
+ 
+-A protocol independent function is @code{inet_ntop}.
++When writing a gnulib module, or even in general, a good way to order
++the @samp{#include} directives is the following.
++
++@itemize
++@item First comes the #include "..." specifying the module being implemented.
++@item Then come all the #include <...> of system or system-replacement headers,
++in arbitrary order.
++@item Then come all the #include "..." of gnulib and private headers, in
++arbitrary order.
++@end itemize
+ 
+ 
+ @node Out of memory handling
+@@ -207,18 +202,18 @@ library has chosen to adopt a different
+ handling happens in rare situations, but performing the out of memory
+ error handling after almost all API function invocations pollute your
+ source code and might make it harder to spot more serious problems.
+-The strategy chosen improve code readability and robustness.
++The strategy chosen improves code readability and robustness.
+ 
+ @cindex Aborting execution
+ For most applications, aborting the application with an error message
+-when the out of memory situation occur is the best that can be wished
++when the out of memory situation occurs is the best that can be wished
+ for.  This is how the library behaves by default.
+ 
+ @vindex xalloc_fail_func
+ However, we realize that some applications may not want to have the
+-GSS library abort execution in any situation.  The GSS library support
++GSS library abort execution in any situation.  The GSS library supports
+ a hook to let the application regain control and perform its own
+-cleanups when an out of memory situation has occured.  The application
++cleanups when an out of memory situation has occurred.  The application
+ can define a function (having a @code{void} prototype, i.e., no return
+ value and no parameters) and set the library variable
+ @code{xalloc_fail_func} to that function.  The variable should be
+@@ -237,239 +232,216 @@ must be taken to not allocate more memor
+ fail.
+ 
+ 
+-@node Invoking gnulib-tool
+-@chapter Invoking gnulib-tool
+-
+-@pindex gnulib-tool
+-@cindex invoking @command{gnulib-tool}
++@node Library version handling
++@section Library version handling
+ 
+-Run @samp{gnulib-tool --help}, and use the source.
+-@command{gnulib-tool} is the way to import Gnulib modules.
++The module @samp{check-version} can be useful when your gnulib
++application is a system library.  You will typically wrap the call to
++the @code{check_version} function through a library API, your library
++header file may contain:
+ 
+-@menu
+-* Initial import::              First import of Gnulib modules.
+-* Importing updated files::     Subsequent imports.
+-* Finishing touches::           Simplifying imports.
+-@end menu
++@example
++#define STRINGPREP_VERSION "0.5.18"
++...
++  extern const char *stringprep_check_version (const char *req_version);
++@end example
+ 
++To avoid ELF symbol collisions with other libraries that use the
++@samp{check-version} module, add to @file{config.h} through a
++AC_DEFINE something like:
+ 
+-@node Initial import
+-@section Initial import
+-@cindex initial import
++@example
++AC_DEFINE(check_version, stringprep_check_version,
++          [Rename check_version.])
++@end example
+ 
+-Gnulib assumes your project uses Autoconf and Automake.  Invoking
+-@samp{gnulib-tool --import} will copy source files, create a
+-@file{Makefile.am} to build them, and generate a @file{gnulib.m4} with
+-Autoconf M4 macro declarations used by @file{configure.ac}.
++The @code{stringprep_check_version} function will thus be implemented
++by the @code{check_version} module.
+ 
+-Our example will be a library that uses Autoconf, Automake and
+-Libtool.  It calls @code{strdup}, and you wish to use gnulib to make
+-the package portable to C89 (which doesn't have @code{strdup}).
++There are two uses of the interface.  The first is a way to provide
++for applications to find out the version number of the library it
++uses.  The application may contain diagnostic code such as:
+ 
+ @example
+-~/src/libfoo$ gnulib-tool --import strdup
+-Module list with included dependencies:
+-  strdup
+-File list:
+-  lib/strdup.c
+-  lib/strdup.h
+-  m4/onceonly_2_57.m4
+-  m4/strdup.m4
+-Creating ./lib/Makefile.am...
+-Creating ./m4/gnulib.m4...
+-Finished.
++  printf ("Stringprep version: header %s library %s",
++          STRINGPREP_VERSION,
++          stringprep_check_version (NULL));
++@end example
++
++Separating the library and header file version can be useful when
++searching for version mismatch related problems.
++
++The second uses is as a rudimentary test of proper library version, by
++making sure the application get a library version that is the same, or
++newer, than the header file used when building the application.  This
++doesn't catch all problems, libraries may change backwards incompatibly
++in later versions, but enable applications to require a certain
++minimum version before it may proceed.
++
++Typical uses look like:
+ 
+-Don't forget to add "lib/Makefile"
+-to AC_CONFIG_FILES in "./configure.ac" and to mention
+-"lib" in SUBDIRS in some Makefile.am.
+-~/src/libfoo$
++@example
++       /* Check version of libgcrypt. */
++       if (!gcry_check_version (GCRYPT_VERSION))
++         die ("version mismatch\n");
+ @end example
+ 
+-By default, the source code is copied into @file{lib/} and the M4
+-macros in @file{m4/}.  You can override these paths by using
+-@code{--source-base=DIRECTORY} and @code{--m4-base=DIRECTORY}, or by
+-adding @samp{gl_SOURCE_BASE(DIRECTORY)} and
+-@samp{gl_M4_BASE(DIRECTORY)} to your @file{configure.ac}.
+ 
+-@code{gnulib-tool} will overwrite any pre-existing files, in
+-particular @file{Makefile.am}.  Unfortunately, separating the
+-generated @file{Makefile.am} content (for building the gnulib library)
+-into a separate file, say @file{gnulib.mk}, that could be included
+-by your handwritten @file{Makefile.am} is not possible, due to how
+-variable assignments are handled by Automake.
++@node Windows sockets
++@section Windows sockets
+ 
+-Consequently, it can be a good idea to chose directories that are not
+-already used by your projects, to separate gnulib imported files from
+-your own files.  This approach can also be useful if you want to avoid
+-conflicts between other tools (e.g., @code{getextize} that also copy
+-M4 files into your package.  Simon Josefsson successfully uses a source
+-base of @file{gl/}, and a M4 base of @file{gl/m4/}, in several
+-packages.
++There are several issues when building applications that should work
++under Windows.  The most problematic part is for applications that use
++sockets.
+ 
+-A few manual steps are required to finish the initial import.
++Hopefully, we can add helpful notes to this section that will help you
++port your application to Windows using gnulib.
+ 
+-First, you need to make sure Autoconf can find the macro definitions
+-in @file{gnulib.m4}.  Use the @code{ACLOCAL_AMFLAGS} specifier in your
+-top-level @file{Makefile.am} file, as in:
++@subsection Getaddrinfo and WINVER
+ 
+-@example
+-ACLOCAL_AMFLAGS = -I m4
+-@end example
++This was written for the getaddrinfo module, but may be applicable to
++other functions too.
+ 
+-Naturally, replace @file{m4} with the value from @code{--m4-base} or
+-@code{gl_M4_BASE}.  If the M4 base is @file{gl/m4} you would use:
++The getaddrinfo function exists in ws2tcpip.h and -lws2_32 on Windows
++XP.  The function declaration is present if @code{WINVER >= 0x0501}.
++Windows 2000 does not have getaddrinfo in its @file{WS2_32.dll}.
+ 
+-@example
+-ACLOCAL_AMFLAGS = -I gl/m4
+-@end example
++Thus, if you want to assume Windows XP or later, you can add
++AC_DEFINE(WINVER, 0x0501) to avoid compiling to (partial) getaddrinfo
++implementation.
+ 
+-You are now ready to call the M4 macros in @code{gnulib.m4} from
+-@file{configure.ac}.  The macro @code{gl_EARLY} must be called as soon
+-as possible after verifying that the C compiler is working.
+-Typically, this is immediately after @code{AC_PROG_CC}, as in:
++If you want to support Windows 2000, don't do anything, but be aware
++that gnulib will use its own (partial) getaddrinfo implementation even
++on Windows XP.  Currently the code does not attempt to determine if
++the getaddrinfo function is available during runtime.
+ 
+-@example
+-...
+-AC_PROG_CC
+-gl_EARLY
+-...
+-@end example
++Todo: Make getaddrinfo.c open the WS2_32.DLL and check for the
++getaddrinfo symbol and use it if present, otherwise fall back to our
++own implementation.
+ 
+-The core part of the gnulib checks are done by the macro
+-@code{gl_INIT}.  Place it further down in the file, typically where
+-you normally check for header files or functions.  Or in a separate
+-section with other gnulib statements, such as @code{gl_SOURCE_BASE}.
+-For example:
+ 
+-@example
+-...
+-# For gnulib.
+-gl_INIT
+-...
+-@end example
++@node Libtool and Windows
++@section Libtool and Windows
+ 
+-You must also make sure that the gnulib library is built.  Add the
+-@code{Makefile} in the gnulib source base directory to
+-@code{AC_CONFIG_FILES}, as in:
++If you want it to be possible to cross-compile your program to MinGW
++and you use Libtool, you need to put:
+ 
+ @example
+-AC_CONFIG_FILES(... lib/Makefile ...)
++AC_LIBTOOL_WIN32_DLL
+ @end example
+ 
+-If your gnulib source base is @file{gl}, you would use:
++in your @file{configure.ac}.  This sets the correct names for the
++@code{OBJDUMP}, @code{DLLTOOL}, and @code{AS} tools for the build.
++
++If you are building a library, you will also need to pass
++@code{-no-undefined} to make sure Libtool produces a DLL for your
++library.  From a @file{Makefile.am}:
+ 
+ @example
+-AC_CONFIG_FILES(... gl/Makefile ...)
++libgsasl_la_LDFLAGS += -no-undefined
+ @end example
+ 
+-You must also make sure that @code{make} work in the gnulib directory.
+-Add the gnulib source base directory to a @code{SUBDIRS} Makefile.am
+-statement, as in:
+ 
+-@example
+-SUBDIRS = lib
+-@end example
++@node License Texinfo sources
++@section License Texinfo sources
++
++Gnulib provides copies of the GNU GPL, GNU LGPL, and GNU FDL licenses
++in Texinfo form.  (The master location is
++@url{http://www.gnu.org/licenses/}).  These Texinfo documents have
++various node names and structures built into them; for your manual,
++you might like to change these.  It's ok to do this, and a convenient
++way to do so is to use a context diff and the @option{--local-dir}
++option to @command{gnulib-tool}.
++
++Of course the license texts themselves should not be changed at all.
+ 
+-or if you, more likely, already have a few entries in @code{SUBDIRS},
+-you can add something like:
++@node Build robot for gnulib
++@section Build robot for gnulib
++
++To simplify testing on a wide set of platforms, gnulib is built on
++many platforms every day and the results are uploaded to:
++
++@url{http://autobuild.josefsson.org/gnulib/}
++
++If you wish to help the gnulib development effort with build logs for
++your favorite platform, you may perform these steps:
++
++@enumerate
++
++@item Create gnulib directory
++
++On a machine with recent automake, autoconf, m4 installed and with a
++gnulib git or cvs checkout (typically a Linux machine), use
+ 
+ @example
+-SUBDIRS += lib
++gnulib-tool --create-megatestdir --with-tests --dir=..."
+ @end example
+ 
+-If you are using a gnulib source base of @code{gl}, you would use:
++Note: The created directory uses ca. 512 MB on disk.
++
++@item Transfer gnulib directory
++
++Transfer this directory to a build machine (HP-UX, Cygwin, or
++whatever).  Often it is easier to transfer one file, and this can be
++achieved by running, inside the directory the following commands:
+ 
+ @example
+-SUBDIRS += gl
++./configure
++make dist
+ @end example
+ 
+-Finally, you have add C flags and LD flags, so that you can make use
+-of the gnulib library.  For example:
++And then transferring the @file{dummy-0.tar.gz} file.
++
++@item Build modules
++
++On the build machine, run ./autobuild (or "nohup ./autobuild").  It
++creates a directory 'logs/' with a log file for each module.
++
++@item Submit build logs
++
++Submit each log file to Simon's site, either through a
+ 
+ @example
+-...
+-AM_CPPFLAGS = -I$(top_srcdir)/lib
+-...
+-LIBADD = lib/libgnu.la
+-...
++mail `echo gnulib__at__autobuild.josefsson.org | sed -e s/__at__/@/`
+ @end example
+ 
+-Don't forget to @code{#include} the various header files.  In this
+-example, you would need to make sure that @samp{#include <strdup.h>}
+-is evaluated when compiling all source code files, that want to make
+-use of @code{strdup}.
+-
+-
+-@node Importing updated files
+-@section Importing updated files
+-
+-From time to time, you may want to invoke @samp{gnulib-tool --import}
+-to update the files in your package.  Once you have set up your
+-package for gnulib, this step is quite simple.  For example:
+-
+-@example
+-~/src/libfoo$ gnulib-tool --import --source-base gl --m4-base gl/m4 strdup
+-Module list with included dependencies:
+-  strdup
+-File list:
+-  lib/strdup.c
+-  lib/strdup.h
+-  m4/onceonly_2_57.m4
+-  m4/strdup.m4
+-Creating ./lib/Makefile.am...
+-Creating ./m4/gnulib.m4...
+-Finished.
+-
+-Don't forget to add "lib/Makefile"
+-to AC_CONFIG_FILES in "./configure.ac" and to mention
+-"lib" in SUBDIRS in some Makefile.am.
+-~/src/libfoo$
+-@end example
+-
+-If you don't recall how you invoked the tool last time, the commands
+-used (and the operations it resulted in) are placed in comments within
+-the generated @file{Makefile.am} and @file{gnulib.m4}, as in:
++or through netcat
+ 
+ @example
+-...
+-# Invoked as: gnulib-tool --import strdup
+-# Reproduce by: gnulib-tool --import --dir=. --lib=libgnu --source-base=lib --m4-base=m4 --libtool strdup
+-...
++autobuild-submit logs/*
+ @end example
+ 
++@end enumerate
+ 
+-@node Finishing touches
+-@section Finishing touches
++@node Particular Modules
++@chapter Particular Modules
+ 
+-Invoking @samp{gnulib-tool --import} with the proper parameters (e.g.,
+-@samp{--m4-base gl/m4}) and list of modules (e.g., @samp{strdup
+-snprintf getline minmax}) can be tedious.  To simplify this procedure,
+-you may put the command line parameters in your @file{configure.ac}.
+-For example:
++@menu
++* Quoting::
++* ctime::
++* error and progname::
++* gcd::
++* inet_ntoa::
++* Regular expressions::
++* Supporting Relocation::
++@end menu
+ 
+-@example
+-...
+-AC_PROG_CC
+-gl_EARLY
+-...
+-# For gnulib.
+-gl_SOURCE_BASE(gl)
+-gl_M4_BASE(gl/m4)
+-gl_LIB(libgl)
+-gl_MODULES(getopt progname strdup dummy exit error getpass-gnu getaddrinfo)
+-gl_INIT
+-...
+-@end example
++@include quote.texi
++@include error.texi
++@include ctime.texi
++@include gcd.texi
++@include inet_ntoa.texi
++@include relocatable-maint.texi
++
++@node Regular expressions
++@section Regular expressions
++
++Gnulib supports many different types of regular expressions; although
++the underlying features are the same or identical, the syntax used
++varies.  The descriptions given here for the different types are
++generated automatically.
+ 
+-This illustrate all macros defined in @file{gnulib.m4}.  With the
+-above, importing new files are as simple as running @samp{gnulib-tool
+---import} with no additional parameters.
+-
+-The macros @code{gl_EARLY}, @code{gl_INIT}, @code{gl_SOURCE_BASE}, and
+-@code{gl_M4_BASE} have been discussed earlier.  The @code{gl_LIB}
+-macro can be used if you wish to change the library name (by default
+-@file{libgnu.a} or @file{libgnu.la} if you use libtool).  The
+-@code{gl_MODULES} macro is used to specify which modules to import.
++@include regexprops-generic.texi
+ 
+ 
+ @node Copying This Manual
+Only in dbg/find6/find/gnulib-cvs/gnulib/doc: gnulib-tool.texi
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/doc/gpl.texi dbg/find6/find/gnulib-cvs/gnulib/doc/gpl.texi

@@ -1,0 +1,33 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/gettime	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/gettime	2020-01-28 23:39:42.000000000 -0600
+@@ -3,24 +3,26 @@ Return current time, with nanosecond res
+ 
+ Files:
+ lib/gettime.c
+-m4/clock_time.m4
+ m4/gettime.m4
+ 
+ Depends-on:
++clock-time
++gettime
+ gettimeofday
++sys_time
+ timespec
++extensions
+ 
+ configure.ac:
+ gl_GETTIME
+ 
+ Makefile.am:
+-lib_SOURCES += gettime.c
+ 
+ Include:
++#include "timespec.h"
+ 
+ License:
+ GPL
+ 
+ Maintainer:
+ Paul Eggert, Jim Meyering
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/gettimeofday dbg/find6/find/gnulib-cvs/gnulib/modules/gettimeofday

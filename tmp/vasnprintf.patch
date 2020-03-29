@@ -1,0 +1,33 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/vasnprintf	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/vasnprintf	2020-01-28 23:39:42.000000000 -0600
+@@ -6,10 +6,10 @@ lib/printf-args.h
+ lib/printf-args.c
+ lib/printf-parse.h
+ lib/printf-parse.c
++lib/float+.h
+ lib/vasnprintf.h
+ lib/vasnprintf.c
+ lib/asnprintf.c
+-m4/signed.m4
+ m4/longdouble.m4
+ m4/wchar_t.m4
+ m4/wint_t.m4
+@@ -22,13 +22,13 @@ m4/vasnprintf.m4
+ 
+ Depends-on:
+ alloca-opt
++stdint
+ xsize
+ 
+ configure.ac:
+ gl_FUNC_VASNPRINTF
+ 
+ Makefile.am:
+-lib_SOURCES += printf-args.h printf-parse.h vasnprintf.h
+ 
+ Include:
+ "vasnprintf.h"
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: vasnprintf-posix
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: vasnprintf-posix-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: vasnprintf-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/vasprintf dbg/find6/find/gnulib-cvs/gnulib/modules/vasprintf

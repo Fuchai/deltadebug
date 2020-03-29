@@ -1,0 +1,15 @@
+--- demodir/yesterday/zero.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/zero.py	2019-11-29 23:50:49.000000000 -0600
+@@ -3,10 +3,9 @@
+ # We then sample the MCTS timesteps to train the neural network (how many times?)
+ # Then we repeat. (with new MCTS tree? right?)
+ # We need to design the asynchronous behavior.
+-from collections import deque
+-from multiprocessing.pool import ThreadPool, Pool
++
+ from mcts import MCTS, TimeStep
+-from neuralnetwork import NoPolicy, PaperLoss, YesPolicy, SharedPolicy
++from neuralnetwork import NoPolicy, PaperLoss, YesPolicy
+ import random
+ import torch
+ import torch.optim

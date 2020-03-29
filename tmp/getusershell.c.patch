@@ -1,0 +1,116 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/getusershell.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/getusershell.c	2020-01-28 23:39:42.000000000 -0600
+@@ -1,7 +1,7 @@
+ /* getusershell.c -- Return names of valid user shells.
+ 
+-   Copyright (C) 1991, 1997, 2000, 2001, 2003, 2004 Free Software
+-   Foundation, Inc.
++   Copyright (C) 1991, 1997, 2000, 2001, 2003, 2004, 2005, 2006 Free
++   Software Foundation, Inc.
+ 
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+@@ -15,13 +15,11 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ /* Written by David MacKenzie <djm@gnu.ai.mit.edu> */
+ 
+-#ifdef HAVE_CONFIG_H
+-# include <config.h>
+-#endif
++#include <config.h>
+ 
+ #ifndef SHELLS_FILE
+ # ifndef __DJGPP__
+@@ -33,24 +31,16 @@
+ # endif
+ #endif
+ 
+-#include <stdio.h>
+ #include <stdlib.h>
+ #include <ctype.h>
+ 
++#include "stdio--.h"
+ #include "xalloc.h"
+ 
+ #if USE_UNLOCKED_IO
+ # include "unlocked-io.h"
+ #endif
+ 
+-#if defined (STDC_HEADERS) || (!defined (isascii) && !defined (HAVE_ISASCII))
+-# define IN_CTYPE_DOMAIN(c) 1
+-#else
+-# define IN_CTYPE_DOMAIN(c) isascii(c)
+-#endif
+-
+-#define ISSPACE(c) (IN_CTYPE_DOMAIN (c) && isspace (c))
+-
+ static size_t readname (char **, size_t *, FILE *);
+ 
+ #if ! defined ADDITIONAL_DEFAULT_SHELLS && defined __MSDOS__
+@@ -152,14 +142,14 @@ readname (char **name, size_t *size, FIL
+   size_t name_index = 0;
+ 
+   /* Skip blank space.  */
+-  while ((c = getc (stream)) != EOF && ISSPACE (c))
++  while ((c = getc (stream)) != EOF && isspace (c))
+     /* Do nothing. */ ;
+ 
+   for (;;)
+     {
+       if (*size <= name_index)
+ 	*name = x2nrealloc (*name, size, sizeof **name);
+-      if (c == EOF || ISSPACE (c))
++      if (c == EOF || isspace (c))
+ 	break;
+       (*name)[name_index++] = c;
+       c = getc (stream);
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anyavltree_list1.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anyavltree_list2.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anyhash_list1.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anyhash_list2.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anylinked_list1.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anylinked_list2.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anyrbtree_list1.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anyrbtree_list2.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anytreehash_list1.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anytreehash_list2.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anytree_list1.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anytree_list2.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_anytree_oset.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_array_list.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_array_list.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_array_oset.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_array_oset.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_avltreehash_list.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_avltreehash_list.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_avltree_list.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_avltree_list.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_avltree_oset.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_avltree_oset.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_carray_list.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_carray_list.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_linkedhash_list.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_linkedhash_list.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_linked_list.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_linked_list.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_list.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_list.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: glob.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: glob_.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: glob-libc.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_oset.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_oset.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_rbtreehash_list.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_rbtreehash_list.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_rbtree_list.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_rbtree_list.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_rbtree_oset.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_rbtree_oset.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_sublist.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: gl_sublist.h
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/group-member.c dbg/find6/find/gnulib-cvs/gnulib/lib/group-member.c

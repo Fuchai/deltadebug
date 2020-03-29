@@ -1,0 +1,27 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/m4/stpcpy.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/m4/stpcpy.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+-# stpcpy.m4 serial 1
+-dnl Copyright (C) 2002 Free Software Foundation, Inc.
++# stpcpy.m4 serial 3
++dnl Copyright (C) 2002, 2007 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+@@ -9,8 +9,10 @@ AC_DEFUN([gl_FUNC_STPCPY],
+   dnl Persuade glibc <string.h> to declare stpcpy().
+   AC_REQUIRE([AC_GNU_SOURCE])
+ 
++  AC_REQUIRE([gl_HEADER_STRING_H_DEFAULTS])
+   AC_REPLACE_FUNCS(stpcpy)
+   if test $ac_cv_func_stpcpy = no; then
++    HAVE_STPCPY=0
+     gl_PREREQ_STPCPY
+   fi
+ ])
+@@ -19,4 +21,3 @@ AC_DEFUN([gl_FUNC_STPCPY],
+ AC_DEFUN([gl_PREREQ_STPCPY], [
+   :
+ ])
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/stpncpy.m4 dbg/find6/find/gnulib-cvs/gnulib/m4/stpncpy.m4

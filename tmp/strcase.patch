@@ -1,0 +1,33 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/strcase	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/strcase	2020-01-28 23:39:42.000000000 -0600
+@@ -2,25 +2,23 @@ Description:
+ Case-insensitive string comparison functions.
+ 
+ Files:
+-lib/strcase.h
+ lib/strcasecmp.c
+ lib/strncasecmp.c
+ m4/strcase.m4
+ 
+ Depends-on:
++string
+ 
+ configure.ac:
+ gl_STRCASE
+ 
+ Makefile.am:
+-lib_SOURCES += strcase.h
+ 
+ Include:
+-"strcase.h"
++<string.h>
+ 
+ License:
+ LGPL
+ 
+ Maintainer:
+ Bruno Haible
+-
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: strcasestr
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: strcasestr-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/strchrnul dbg/find6/find/gnulib-cvs/gnulib/modules/strchrnul

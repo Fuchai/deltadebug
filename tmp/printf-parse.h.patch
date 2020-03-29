@@ -1,0 +1,12 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/printf-parse.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/printf-parse.h	2020-01-28 23:39:42.000000000 -0600
+@@ -13,7 +13,7 @@
+ 
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ #ifndef _PRINTF_PARSE_H
+ #define _PRINTF_PARSE_H
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/progname.c dbg/find6/find/gnulib-cvs/gnulib/lib/progname.c

@@ -1,0 +1,42 @@
+--- dbg/find14/find/gnulib/lib/mountlist.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib/lib/mountlist.h	2020-01-28 23:39:42.000000000 -0600
+@@ -15,19 +15,19 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ #ifndef MOUNTLIST_H_
+-#define MOUNTLIST_H_
++# define MOUNTLIST_H_
+ 
+-#include <stdbool.h>
+-#include <sys/types.h>
++# include <stdbool.h>
++# include <sys/types.h>
+ 
+ /* A mount table entry. */
+ struct mount_entry
+ {
+-  char *me_devname;		/* Device node pathname, including "/dev/". */
+-  char *me_mountdir;		/* Mount point directory pathname. */
++  char *me_devname;		/* Device node name, including "/dev/". */
++  char *me_mountdir;		/* Mount point directory name. */
+   char *me_type;		/* "nfs", "4.2", etc. */
+   dev_t me_dev;			/* Device number of me_mountdir. */
+   unsigned int me_dummy : 1;	/* Nonzero for dummy file systems. */
+Binary files dbg/find14/find/gnulib/lib/mountlist.o and dbg/find6/find/gnulib/lib/mountlist.o differ
+Only in dbg/find6/find/gnulib/lib: openat.c
+Only in dbg/find6/find/gnulib/lib: openat-die.c
+Only in dbg/find6/find/gnulib/lib: openat-die.o
+Only in dbg/find6/find/gnulib/lib: openat.h
+Only in dbg/find6/find/gnulib/lib: openat-priv.h
+Only in dbg/find6/find/gnulib/lib: openat-proc.c
+Only in dbg/find6/find/gnulib/lib: openat-proc.o
+Only in dbg/find6/find/gnulib/lib: open-safer.c
+Only in dbg/find6/find/gnulib/lib: open-safer.o
+Only in dbg/find14/find/gnulib/lib: path-concat.c
+Only in dbg/find14/find/gnulib/lib: path-concat.h
+Only in dbg/find14/find/gnulib/lib: path-concat.o
+diff -up -r dbg/find14/find/gnulib/lib/pathmax.h dbg/find6/find/gnulib/lib/pathmax.h

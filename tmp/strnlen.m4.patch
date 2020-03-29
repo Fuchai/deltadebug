@@ -1,0 +1,24 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/m4/strnlen.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/m4/strnlen.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+-# strnlen.m4 serial 4
+-dnl Copyright (C) 2002-2003 Free Software Foundation, Inc.
++# strnlen.m4 serial 8
++dnl Copyright (C) 2002-2003, 2005-2007 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+@@ -9,6 +9,12 @@ AC_DEFUN([gl_FUNC_STRNLEN],
+   dnl Persuade glibc <string.h> to declare strnlen().
+   AC_REQUIRE([AC_GNU_SOURCE])
+ 
++  AC_REQUIRE([gl_HEADER_STRING_H_DEFAULTS])
++  AC_CHECK_DECLS_ONCE([strnlen])
++  if test $ac_cv_have_decl_strnlen = no; then
++    HAVE_DECL_STRNLEN=0
++  fi
++
+   AC_FUNC_STRNLEN
+   if test $ac_cv_func_strnlen_working = no; then
+     # This is necessary because automake-1.6.1 doens't understand
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/strpbrk.m4 dbg/find6/find/gnulib-cvs/gnulib/m4/strpbrk.m4

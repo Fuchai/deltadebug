@@ -1,0 +1,33 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/dirname	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/dirname	2020-01-28 23:39:42.000000000 -0600
+@@ -6,17 +6,19 @@ lib/dirname.h
+ lib/dirname.c
+ lib/basename.c
+ lib/stripslash.c
+-m4/dos.m4
+ m4/dirname.m4
++m4/dos.m4
+ 
+ Depends-on:
++double-slash-root
++stdbool
+ xalloc
++xstrndup
+ 
+ configure.ac:
+ gl_DIRNAME
+ 
+ Makefile.am:
+-lib_SOURCES += dirname.h dirname.c basename.c stripslash.c
+ 
+ Include:
+ "dirname.h"
+@@ -26,4 +28,3 @@ GPL
+ 
+ Maintainer:
+ Jim Meyering
+-
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: dirname-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: double-slash-root
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: d-type
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/dup2 dbg/find6/find/gnulib-cvs/gnulib/modules/dup2

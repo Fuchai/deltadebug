@@ -1,0 +1,35 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/localcharset	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/localcharset	2020-01-28 23:39:42.000000000 -0600
+@@ -12,14 +12,13 @@ m4/glibc21.m4
+ m4/localcharset.m4
+ 
+ Depends-on:
++configmake
+ 
+ configure.ac:
+ gl_LOCALCHARSET
+ 
+ Makefile.am:
+ lib_SOURCES += localcharset.h localcharset.c
+-EXTRA_DIST += config.charset ref-add.sin ref-del.sin
+-DEFS += -DLIBDIR=\"$(libdir)\"
+ 
+ # We need the following in order to install a simple file in $(libdir)
+ # which is shared with other installed packages. We use a list of referencing
+@@ -59,11 +58,13 @@ uninstall-local: all-local
+ 	fi
+ 
+ charset.alias: config.charset
++	rm -f t-$@ $@
+ 	$(SHELL) $(srcdir)/config.charset '$(host)' > t-$@
+ 	mv t-$@ $@
+ 
+ SUFFIXES += .sed .sin
+ .sin.sed:
++	rm -f t-$@ $@
+ 	sed -e '/^#/d' -e 's/@''PACKAGE''@/$(PACKAGE)/g' $< > t-$@
+ 	mv t-$@ $@
+ 
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: lock
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: lock-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/long-options dbg/find6/find/gnulib-cvs/gnulib/modules/long-options

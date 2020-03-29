@@ -1,0 +1,21 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/pathmax	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/pathmax	2020-01-28 23:39:42.000000000 -0600
+@@ -11,14 +11,12 @@ configure.ac:
+ gl_PATHMAX
+ 
+ Makefile.am:
+-lib_SOURCES += pathmax.h
+ 
+ Include:
+ "pathmax.h"
+ 
+ License:
+-GPL
++LGPL
+ 
+ Maintainer:
+ Jim Meyering
+-
+Only in dbg/find14/find/gnulib-cvs/gnulib/modules: pathname
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: perl
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/physmem dbg/find6/find/gnulib-cvs/gnulib/modules/physmem

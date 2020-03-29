@@ -1,0 +1,25 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/ucs4-utf8	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/ucs4-utf8	2020-01-28 23:39:42.000000000 -0600
+@@ -2,18 +2,16 @@ Description:
+ Conversion UCS-4 to UTF-8.
+ 
+ Files:
+-lib/ucs4-utf8.h
+-m4/ucs4-utf.m4
+ 
+ Depends-on:
++unistr/u8-uctomb
+ 
+ configure.ac:
+-gl_UCS4_UTF
+ 
+ Makefile.am:
+-lib_SOURCES += ucs4-utf8.h
+ 
+ Include:
++"unistr.h"
+ 
+ License:
+ LGPL
+Only in dbg/find14/find/gnulib-cvs/gnulib/modules: ullong_max
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/unicodeio dbg/find6/find/gnulib-cvs/gnulib/modules/unicodeio

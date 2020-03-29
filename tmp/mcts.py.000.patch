@@ -1,0 +1,11 @@
+--- demodir/yesterday/mcts.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/mcts.py	2019-11-29 23:50:49.000000000 -0600
+@@ -17,7 +17,7 @@ class MCTS:
+     page 2 right column paragraph 1).
+     """
+ 
+-    def __init__(self, nn_execution_queue, nn, is_cuda, max_game_length, peace, simulations_per_play, debug):
++    def __init__(self, nn_execution_queue, nn, is_cuda, max_game_length, simulations_per_play, debug):
+         self.checker = Checker()
+         self.permaTree = PermaTree(self.checker, is_cuda)
+         self.nn_queue = nn_execution_queue

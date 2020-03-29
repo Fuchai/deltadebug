@@ -1,0 +1,35 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/strftime	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/strftime	2020-01-28 23:39:42.000000000 -0600
+@@ -9,14 +9,14 @@ m4/tm_gmtoff.m4
+ m4/strftime.m4
+ 
+ Depends-on:
++stdbool
+ time_r
+-tzset
++wchar
+ 
+ configure.ac:
+ gl_FUNC_GNU_STRFTIME
+ 
+ Makefile.am:
+-lib_SOURCES += strftime.c strftime.h
+ 
+ Include:
+ "strftime.h"
+@@ -25,5 +25,4 @@ License:
+ LGPL
+ 
+ Maintainer:
+-glibc
+-
++Jim Meyering, glibc
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: striconv
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: striconveh
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: striconveha
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: striconveha-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: striconveh-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: striconv-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: string
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: string-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/strndup dbg/find6/find/gnulib-cvs/gnulib/modules/strndup

@@ -1,0 +1,34 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/vsnprintf	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/vsnprintf	2020-01-28 23:39:42.000000000 -0600
+@@ -3,22 +3,21 @@ vsnprintf() function: print formatted ou
+ to a fixed length string
+ 
+ Files:
+-lib/vsnprintf.h
+ lib/vsnprintf.c
+ m4/vsnprintf.m4
+ 
+ Depends-on:
++stdio
+ vasnprintf
+-minmax
+ 
+ configure.ac:
+ gl_FUNC_VSNPRINTF
++gl_STDIO_MODULE_INDICATOR([vsnprintf])
+ 
+ Makefile.am:
+-lib_SOURCES += vsnprintf.h
+ 
+ Include:
+-"vsnprintf.h"
++<stdio.h>
+ 
+ License:
+ LGPL
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: vsnprintf-posix
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: vsnprintf-posix-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: vsnprintf-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: vsprintf-posix
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: vsprintf-posix-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/wait-process dbg/find6/find/gnulib-cvs/gnulib/modules/wait-process

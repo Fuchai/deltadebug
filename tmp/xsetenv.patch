@@ -1,0 +1,17 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/xsetenv	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/xsetenv	2020-01-28 23:39:42.000000000 -0600
+@@ -10,7 +10,7 @@ Depends-on:
+ setenv
+ error
+ exit
+-gettext
++gettext-h
+ 
+ configure.ac:
+ 
+@@ -25,4 +25,3 @@ GPL
+ 
+ Maintainer:
+ Bruno Haible
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/xsize dbg/find6/find/gnulib-cvs/gnulib/modules/xsize

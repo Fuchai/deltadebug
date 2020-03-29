@@ -1,0 +1,46 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/sincosl.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/sincosl.c	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+ /* Quad-precision floating point trigonometric functions on <-pi/4,pi/4>.
+-   Copyright (C) 1999 Free Software Foundation, Inc.
++   Copyright (C) 1999, 2006, 2007 Free Software Foundation, Inc.
+    This file is part of the GNU C Library.
+    Contributed by Jakub Jelinek <jj@ultra.linux.cz>
+ 
+@@ -15,12 +15,14 @@
+ 
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
++#include <config.h>
++
++/* Specification.  */
+ #include <math.h>
+-#include <float.h>
+ 
+-#include "mathl.h"
++#include <float.h>
+ 
+ static const long double sin_c[] = {
+ #define ONE sin_c[0]
+@@ -113,7 +115,7 @@ kernel_sinl (long double x, long double
+       sign = -1;
+     }
+ 
+-  if (x < 0.148375L)		/* |x| < 0.1484375 */
++  if (x < 0.1484375L)		/* |x| < 0.1484375 */
+     {
+       /* Argument is small enough to approximate it by a Chebyshev
+          polynomial of degree 17.  */
+@@ -228,7 +230,7 @@ kernel_cosl (long double x, long double
+    Computed using gmp.
+  */
+ 
+-const long double sincosl_table[] = {
++static const long double sincosl_table[] = {
+ 
+ /* x =  1.48437500000000000000000000000000000e-01L 3ffc3000000000000000000000000000 */
+ /* cos(x) = 0.fd2f5320e1b790209b4dda2f98f79caaa7b873aff1014b0fbc5243766d03cb006bc837c4358 */
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/sinl.c dbg/find6/find/gnulib-cvs/gnulib/lib/sinl.c

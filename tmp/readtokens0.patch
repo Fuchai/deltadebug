@@ -1,0 +1,16 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/readtokens0	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/readtokens0	2020-01-28 23:39:42.000000000 -0600
+@@ -7,6 +7,7 @@ lib/readtokens0.c
+ 
+ Depends-on:
+ obstack
++stdbool
+ 
+ configure.ac:
+ 
+@@ -21,4 +22,3 @@ GPL
+ 
+ Maintainer:
+ Jim Meyering
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/readutmp dbg/find6/find/gnulib-cvs/gnulib/modules/readutmp

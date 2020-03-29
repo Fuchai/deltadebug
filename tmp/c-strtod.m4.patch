@@ -1,0 +1,42 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/m4/c-strtod.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/m4/c-strtod.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,6 +1,6 @@
+-# c-strtod.m4 serial 5
++# c-strtod.m4 serial 9
+ 
+-# Copyright (C) 2004 Free Software Foundation, Inc.
++# Copyright (C) 2004, 2005, 2006 Free Software Foundation, Inc.
+ # This file is free software; the Free Software Foundation
+ # gives unlimited permission to copy and/or distribute it,
+ # with or without modifications, as long as this notice is preserved.
+@@ -11,7 +11,7 @@ AC_DEFUN([gl_C99_STRTOLD],
+ [
+   AC_CACHE_CHECK([whether strtold conforms to C99],
+     [gl_cv_func_c99_strtold],
+-    [AC_COMPILE_IFELSE(
++    [AC_LINK_IFELSE(
+        [AC_LANG_PROGRAM(
+           [[/* On HP-UX before 11.23, strtold returns a struct instead of
+ 		long double.  Reject implementations like that, by requiring
+@@ -35,6 +35,8 @@ AC_DEFUN([gl_C99_STRTOLD],
+ 
+ AC_DEFUN([gl_C_STRTOD],
+ [
++  AC_LIBOBJ([c-strtod])
++
+   dnl Prerequisites of lib/c-strtod.c.
+   AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
+   :
+@@ -42,8 +44,10 @@ AC_DEFUN([gl_C_STRTOD],
+ 
+ AC_DEFUN([gl_C_STRTOLD],
+ [
++  AC_LIBOBJ([c-strtold])
++
+   dnl Prerequisites of lib/c-strtold.c.
+-  AC_REQUIRE([gl_C_STRTOD])
++  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
+   AC_REQUIRE([gl_C99_STRTOLD])
+   :
+ ])
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/CVS/Entries dbg/find6/find/gnulib-cvs/gnulib/m4/CVS/Entries

@@ -1,0 +1,57 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/m4/chdir-long.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/m4/chdir-long.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,4 +1,4 @@
+-#serial 4
++#serial 10
+ 
+ # Use Gnulib's robust chdir function.
+ # It can handle arbitrarily long directory names, which means
+@@ -6,7 +6,7 @@
+ # never fails with ENAMETOOLONG.
+ # Arrange to compile chdir-long.c only on systems that define PATH_MAX.
+ 
+-dnl Copyright (C) 2004 Free Software Foundation, Inc.
++dnl Copyright (C) 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+@@ -15,19 +15,18 @@ dnl with or without modifications, as lo
+ 
+ AC_DEFUN([gl_FUNC_CHDIR_LONG],
+ [
+-  AC_LIBSOURCES([chdir-long.c, chdir-long.h])
+-  AC_CACHE_CHECK([whether this system has a definition of PATH_MAX],
+-    gl_have_path_max_definition,
+-    [AC_EGREP_CPP([have_path_max_definition],
++  AC_CACHE_CHECK([whether this system has an arbitrary file name length limit],
++    gl_cv_have_arbitrary_file_name_length_limit,
++    [AC_EGREP_CPP([have_arbitrary_file_name_length_limit],
+                   [#include <unistd.h>
+ #include <limits.h>
+-#ifdef PATH_MAX
+-have_path_max_definition
++#if defined PATH_MAX || defined MAXPATHLEN
++have_arbitrary_file_name_length_limit
+ #endif],
+-    gl_have_path_max_definition=yes,
+-    gl_have_path_max_definition=no)])
++    gl_cv_have_arbitrary_file_name_length_limit=yes,
++    gl_cv_have_arbitrary_file_name_length_limit=no)])
+ 
+-  if test $gl_have_path_max_definition; then
++  if test $gl_cv_have_arbitrary_file_name_length_limit = yes; then
+     AC_LIBOBJ([chdir-long])
+     gl_PREREQ_CHDIR_LONG
+   fi
+@@ -35,7 +34,5 @@ have_path_max_definition
+ 
+ AC_DEFUN([gl_PREREQ_CHDIR_LONG],
+ [
+-  AM_STDBOOL_H
+-  gl_FUNC_MEMPCPY
+-  gl_FUNC_OPENAT
++  :
+ ])
+Only in dbg/find6/find/gnulib-cvs/gnulib/m4: chdir-safer.m4
+Only in dbg/find6/find/gnulib-cvs/gnulib/m4: check-version.m4
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/chown.m4 dbg/find6/find/gnulib-cvs/gnulib/m4/chown.m4

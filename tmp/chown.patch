@@ -1,0 +1,23 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/chown	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/chown	2020-01-28 23:39:42.000000000 -0600
+@@ -7,9 +7,12 @@ lib/fchown-stub.c
+ m4/chown.m4
+ 
+ Depends-on:
++unistd
++sys_stat
+ 
+ configure.ac:
+ gl_FUNC_CHOWN
++gl_UNISTD_MODULE_INDICATOR([chown])
+ 
+ Makefile.am:
+ 
+@@ -21,4 +24,3 @@ GPL
+ 
+ Maintainer:
+ Jim Meyering
+-
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: clean-temp
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: clock-time
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/cloexec dbg/find6/find/gnulib-cvs/gnulib/modules/cloexec

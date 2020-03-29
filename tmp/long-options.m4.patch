@@ -1,0 +1,19 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/m4/long-options.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/m4/long-options.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,11 +1,12 @@
+-# long-options.m4 serial 3
+-dnl Copyright (C) 2002, 2003 Free Software Foundation, Inc.
++# long-options.m4 serial 5
++dnl Copyright (C) 2002, 2003, 2005, 2006 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+ 
+ AC_DEFUN([gl_LONG_OPTIONS],
+ [
++  AC_LIBOBJ([long-options])
++
+   dnl Prerequisites of lib/long-options.c.
+-  :
+ ])
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/ls-mntd-fs.m4 dbg/find6/find/gnulib-cvs/gnulib/m4/ls-mntd-fs.m4

@@ -1,0 +1,12 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/xmemcoll	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/xmemcoll	2020-01-28 23:39:42.000000000 -0600
+@@ -7,7 +7,7 @@ lib/xmemcoll.c
+ 
+ Depends-on:
+ memcoll
+-gettext
++gettext-h
+ error
+ quotearg
+ exitfail
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/xnanosleep dbg/find6/find/gnulib-cvs/gnulib/modules/xnanosleep

@@ -1,0 +1,25 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/utf16-ucs4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/utf16-ucs4	2020-01-28 23:39:42.000000000 -0600
+@@ -2,18 +2,16 @@ Description:
+ Conversion UTF-16 to UCS-4.
+ 
+ Files:
+-lib/utf16-ucs4.h
+-m4/utf-ucs4.m4
+ 
+ Depends-on:
++unistr/u16-mbtouc
+ 
+ configure.ac:
+-gl_UTF_UCS4
+ 
+ Makefile.am:
+-lib_SOURCES += utf16-ucs4.h
+ 
+ Include:
++"unistr.h"
+ 
+ License:
+ LGPL
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: utf16-ucs4-unsafe
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/utf8-ucs4 dbg/find6/find/gnulib-cvs/gnulib/modules/utf8-ucs4

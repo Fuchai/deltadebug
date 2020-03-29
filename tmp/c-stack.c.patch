@@ -1,0 +1,50 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/c-stack.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/c-stack.c	2020-01-28 23:39:42.000000000 -0600
+@@ -1,6 +1,6 @@
+ /* Stack overflow handling.
+ 
+-   Copyright (C) 2002, 2004 Free Software Foundation, Inc.
++   Copyright (C) 2002, 2004, 2006 Free Software Foundation, Inc.
+ 
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+@@ -14,7 +14,7 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ /* Written by Paul Eggert.  */
+ 
+@@ -34,9 +34,7 @@
+ 
+    No attempt has been made to deal with multithreaded applications.  */
+ 
+-#if HAVE_CONFIG_H
+-# include <config.h>
+-#endif
++#include <config.h>
+ 
+ #ifndef __attribute__
+ # if __GNUC__ < 3 || __STRICT_ANSI__
+@@ -77,9 +75,7 @@ typedef struct sigaltstack stack_t;
+ # include <ucontext.h>
+ #endif
+ 
+-#if HAVE_UNISTD_H
+-# include <unistd.h>
+-#endif
++#include <unistd.h>
+ #ifndef STDERR_FILENO
+ # define STDERR_FILENO 2
+ #endif
+@@ -306,6 +302,6 @@ main (int argc __attribute__ ((unused)),
+ 
+ /*
+ Local Variables:
+-compile-command: "gcc -DDEBUG -DHAVE_CONFIG_H -I.. -g -O -Wall -W c-stack.c"
++compile-command: "gcc -DDEBUG -g -O -Wall -W c-stack.c"
+ End:
+ */
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/c-stack.h dbg/find6/find/gnulib-cvs/gnulib/lib/c-stack.h

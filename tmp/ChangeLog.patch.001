@@ -1,0 +1,110 @@
+--- dbg/find14/find/po/ChangeLog	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/po/ChangeLog	2020-01-28 23:39:42.000000000 -0600
+@@ -1,4 +1,87 @@
+-2005-02-05  jay  <jay@orbital>
++2005-11-19  James Youngman  <jay@gnu.org>
++
++	* be.po, ca.po, da.po, de.po, el.po, eo.po, es.po, et.po, fi.po,
++	findutils.pot, fr.po, ga.po, gl.po, hr.po, hu.po, id.po, it.po,
++	ja.po, ko.po, lg.po, ms.po, nl.po, pl.po, pt.po, pt_BR.po, ro.po,
++	ru.po, rw.po, sk.po, sl.po, sr.po, sv.po, tr.po, vi.po, zh_CN.po,
++	zh_TW.po: Updated Portuguese .po file and did update-po
++
++2005-11-11  James Youngman  <jay@gnu.org>
++
++	* ro.po, ru.po, rw.po, sk.po, sl.po, sr.po, sv.po, tr.po, vi.po,
++	zh_CN.po, zh_TW.po, ko.po, lg.po, ms.po, nl.po, pl.po, pt.po,
++	pt_BR.po, be.po, ca.po, da.po, de.po, el.po, eo.po, es.po, et.po,
++	fi.po, findutils.pot, fr.po, ga.po, gl.po, hr.po, hu.po, id.po,
++	it.po, ja.po: Updated Polish translation
++
++2005-09-04  James Youngman  <jay@gnu.org>
++
++	* be.po, ca.po, da.po, de.po, el.po, eo.po, es.po, et.po, fi.po,
++	findutils.pot, fr.po, ga.po, gl.po, hr.po, hu.po, id.po, it.po,
++	ja.po, ko.po, lg.po, ms.po, nl.po, pl.po, pt.po, pt_BR.po, ro.po,
++	ru.po, rw.po, sk.po, sl.po, sr.po, sv.po, tr.po, vi.po, zh_CN.po,
++	zh_TW.po: Work around compilation failure with GCC 4 and AIX 5.1,
++	in which open is #defined to open64
++
++2005-09-03  James Youngman  <jay@gnu.org>
++
++	* sr.po, sv.po, tr.po, vi.po, zh_CN.po, zh_TW.po, sl.po, be.po,
++	ca.po, da.po, de.po, el.po, eo.po, es.po, et.po, fi.po,
++	findutils.pot, fr.po, ga.po, gl.po, hr.po, hu.po, id.po, it.po,
++	ja.po, ko.po, lg.po, ms.po, nl.po, pl.po, pt.po, pt_BR.po, ro.po,
++	ru.po, rw.po, sk.po: Did update-po
++
++2005-09-01  James Youngman  <jay@gnu.org>
++
++	* ChangeLog: Updated with recent changes.
++
++2005-08-24  James Youngman  <jay@gnu.org>
++
++	* sl.po: Updated from Translation Project
++
++2005-08-24  James Youngman  <jay@gnu.org>
++
++	* ssl.po: Updated from Translation Project
++
++2005-08-11  James Youngman  <jay@gnu.org>
++
++	* fr.po: Updated French translation and added new PO file zh_TW.po
++	for Chinese (traditional)
++
++2005-08-02  James Youngman  <jay@gnu.org>
++
++	* tr.po, vi.po:
++	Updated Vietnamese and Turkish translations from Translation Project
++
++	* sl.po, sr.po, sv.po, tr.po, vi.po, zh_CN.po, be.po, ca.po, da.po, de.po, el.po, eo.po, es.po, fi.po, findutils.pot, fr.po, ga.po, gl.po, hr.po, hu.po, id.po, it.po, ja.po, ko.po, lg.po, ms.po, pl.po, pt.po, pt_BR.po, ru.po, rw.po:
++	Did update-po
++
++	* et.po, sk.po, ro.po:
++	Updated Romanian, Slovak and Estonian translations from Translation Project
++
++2005-08-01  James Youngman  <jay@gnu.org>
++
++	* nl.po: Updated Dutch translation from Translation Project
++
++	* ga.po: Updated Irish translation from the Translation Project
++
++	* da.po: Updated Danish translation from the Translation Project
++
++	* ca.po: Updated Catalan translation from Translation Project
++
++2005-06-18  James Youngman  <jay@gnu.org>
++
++	* ga.po, tr.po: Updated Irish and Turkish translations.
++
++	* pl.po: Did update-po
++
++	* pl.po:
++	Updated Polish translation file from the Translation Project
++
++	* ca.po, da.po, de.po, el.po, eo.po, es.po, et.po, fi.po, findutils.pot, fr.po, ga.po, gl.po, hr.po, hu.po, id.po, it.po, ja.po, ko.po, lg.po, ms.po, nl.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po, rw.po, sk.po, sl.po, sr.po, sv.po, tr.po, vi.po, zh_CN.po, be.po:
++	Did update-po
++
++2005-02-05  James Youngman  <jay@gnu.org>
+ 
+ 	* da.po, de.po, es.po, et.po, findutils.pot, fr.po, gl.po, id.po,
+ 	it.po, ko.po, nl.po, pl.po, pt_BR.po, ru.po, sk.po, sl.po, sv.po,
+@@ -6,7 +89,7 @@
+ 
+ 	* fetch-po-files: This is the first version we actually used.
+ 
+-2005-02-02  jay  <jay@orbital>
++2005-02-02  James Youngman  <jay@gnu.org>
+ 
+ 	* tr.po: Updated Turkish translation from TP
+ 
+@@ -14,7 +97,7 @@
+ 
+ 	* da.po, et.po: Updated translations from MT project website
+ 
+-2005-01-31  jay  <jay@orbital>
++2005-01-31  James Youngman  <jay@gnu.org>
+ 
+ 	* ca.po: Updated from Translation Project
+ 
+diff -up -r dbg/find14/find/po/.cvsignore dbg/find6/find/po/.cvsignore

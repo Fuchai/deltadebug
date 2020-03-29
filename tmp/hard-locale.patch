@@ -1,0 +1,18 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/hard-locale	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/hard-locale	2020-01-28 23:39:42.000000000 -0600
+@@ -7,13 +7,13 @@ lib/hard-locale.c
+ m4/hard-locale.m4
+ 
+ Depends-on:
++stdbool
+ strdup
+ 
+ configure.ac:
+ gl_HARD_LOCALE
+ 
+ Makefile.am:
+-lib_SOURCES += hard-locale.h hard-locale.c
+ 
+ Include:
+ "hard-locale.h"
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/hash dbg/find6/find/gnulib-cvs/gnulib/modules/hash

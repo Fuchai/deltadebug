@@ -1,0 +1,95 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/tests/test-base64.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/tests/test-base64.c	2020-01-28 23:39:42.000000000 -0600
+@@ -14,7 +14,7 @@
+ 
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ #ifdef HAVE_CONFIG_H
+ # include <config.h>
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-binary-io.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-binary-io.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-byteswap.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-canonicalize-lgpl.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-canonicalize-lgpl.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-carray_list.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-c-ctype.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-crc.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-c-strcasecmp.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-c-strcase.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-c-strcasestr.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-c-strncasecmp.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-c-strstr.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-des.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-dirname.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-fcntl.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-fprintf-posix.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-fprintf-posix.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-fprintf-posix.out
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-fprintf-posix.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-frexp.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-frexpl.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-fseterr.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gc-arcfour.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gc-arctwo.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gc.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gc-des.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gc-hmac-md5.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gc-hmac-sha1.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gc-md2.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gc-md4.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gc-md5.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gc-pbkdf2-sha1.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gc-rijndael.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gc-sha1.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-getaddrinfo.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-getpass.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-gettimeofday.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-hmac-md5.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-hmac-sha1.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-iconv.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-iconvme.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-inttypes.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-isnan.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-isnanl.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-isnanl.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-isnanl-nolibm.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-ldexpl.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-linkedhash_list.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-linked_list.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-lock.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-math.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbscasecmp.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbscasecmp.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbscasestr1.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbscasestr2.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbscasestr2.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbscasestr3.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbscasestr3.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbscasestr4.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbscasestr4.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbschr.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbschr.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbscspn.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbscspn.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbsncasecmp.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbsncasecmp.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbspbrk.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbspbrk.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbspcasecmp.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbspcasecmp.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbsrchr.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbsrchr.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbsspn.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbsspn.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbsstr1.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbsstr2.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbsstr2.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbsstr3.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-mbsstr3.sh
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-md2.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-md4.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/tests: test-md5.c
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/tests/test-memmem.c dbg/find6/find/gnulib-cvs/gnulib/tests/test-memmem.c

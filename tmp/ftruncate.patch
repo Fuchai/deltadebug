@@ -1,0 +1,17 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/ftruncate	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/ftruncate	2020-01-28 23:39:42.000000000 -0600
+@@ -6,9 +6,11 @@ lib/ftruncate.c
+ m4/ftruncate.m4
+ 
+ Depends-on:
++unistd
+ 
+ configure.ac:
+ gl_FUNC_FTRUNCATE
++gl_UNISTD_MODULE_INDICATOR([ftruncate])
+ 
+ Makefile.am:
+ 
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: fts
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: fts-lgpl
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/fwriteerror dbg/find6/find/gnulib-cvs/gnulib/modules/fwriteerror

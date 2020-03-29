@@ -1,0 +1,41 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/timespec	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/timespec	2020-01-28 23:39:42.000000000 -0600
+@@ -1,19 +1,17 @@
+ Description:
+-struct timespec.
++timespec-related declarations
+ 
+ Files:
+ lib/timespec.h
+-m4/st_mtim.m4
+ m4/timespec.m4
+ 
+ Depends-on:
+-extensions
++time
+ 
+ configure.ac:
+ gl_TIMESPEC
+ 
+ Makefile.am:
+-lib_SOURCES += timespec.h
+ 
+ Include:
+ "timespec.h"
+@@ -22,5 +20,4 @@ License:
+ GPL
+ 
+ Maintainer:
+-Jim Meyering
+-
++Paul Eggert and Jim Meyering
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: time-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: tls
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: tls-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: tmpdir
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: tmpfile
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: tmpfile-safer
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: trim
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: tsearch
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: tsearch-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/ucs4-utf16 dbg/find6/find/gnulib-cvs/gnulib/modules/ucs4-utf16

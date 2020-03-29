@@ -1,0 +1,21 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/m4/savedir.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/m4/savedir.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,12 +1,10 @@
+-# savedir.m4 serial 3
+-dnl Copyright (C) 2002, 2003 Free Software Foundation, Inc.
++# savedir.m4 serial 9
++dnl Copyright (C) 2002, 2003, 2005, 2006 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+ 
+ AC_DEFUN([gl_SAVEDIR],
+ [
+-  dnl Prerequisites of lib/savedir.c.
+-  AC_REQUIRE([AC_HEADER_DIRENT])
+-  AC_REQUIRE([AC_FUNC_CLOSEDIR_VOID])
++  AC_LIBOBJ([savedir])
+ ])
+Only in dbg/find6/find/gnulib-cvs/gnulib/m4: savewd.m4
+Only in dbg/find6/find/gnulib-cvs/gnulib/m4: search_h.m4
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/setenv.m4 dbg/find6/find/gnulib-cvs/gnulib/m4/setenv.m4

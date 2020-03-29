@@ -1,0 +1,41 @@
+--- demodir/yesterday/zero.py	2019-12-13 16:22:23.000000000 -0600
++++ demodir/today/zero.py	2019-11-29 23:50:49.000000000 -0600
+@@ -417,26 +237,26 @@ class AlphaZero:
+         print(string)
+ 
+     def save_model(self, epoch, iteration):
+-        if not self.fast:
+-            epoch = int(epoch)
+-            task_dir = os.path.dirname(abspath(__file__))
+-            if not os.path.isdir(Path(task_dir) / "saves"):
+-                os.mkdir(Path(task_dir) / "saves")
+ 
+-            pickle_file = Path(task_dir).joinpath(
+-                "saves/" + self.model_name + "_" + str(epoch) + "_" + str(iteration) + ".pkl")
+-            with pickle_file.open('wb') as fhand:
+-                torch.save((self.nn.state_dict(), self.optim, epoch, iteration), fhand)
++        epoch = int(epoch)
++        task_dir = os.path.dirname(abspath(__file__))
++        if not os.path.isdir(Path(task_dir) / "saves"):
++            os.mkdir(Path(task_dir) / "saves")
++
++        pickle_file = Path(task_dir).joinpath(
++            "saves/" + self.model_name + "_" + str(epoch) + "_" + str(iteration) + ".pkl")
++        with pickle_file.open('wb') as fhand:
++            torch.save((self.nn.state_dict(), self.optim, epoch, iteration), fhand)
+ 
+-            print("saved model", self.model_name, "at", pickle_file)
++        print("saved model", self.model_name, "at", pickle_file)
+ 
+     def load_model(self):
+         """
+         if starting epoch and iteration are zero, it loads the newest model
+         :return:
+         """
+-        starting_epoch = self.starting_epoch
+-        starting_iteration = self.starting_iteration
++        starting_epoch=self.starting_epoch
++        starting_iteration=self.starting_iteration
+         task_dir = os.path.dirname(abspath(__file__))
+         save_dir = Path(task_dir) / "saves"
+         highest_epoch = 0

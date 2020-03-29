@@ -1,0 +1,52 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/sqrtl.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/sqrtl.c	2020-01-28 23:39:42.000000000 -0600
+@@ -1,7 +1,7 @@
+ /* Emulation for sqrtl.
+    Contributed by Paolo Bonzini
+ 
+-   Copyright 2002, 2003 Free Software Foundation, Inc.
++   Copyright 2002, 2003, 2007 Free Software Foundation, Inc.
+ 
+    This file is part of gnulib.
+ 
+@@ -17,12 +17,15 @@
+ 
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+-#include <float.h>
++#include <config.h>
++
++/* Specification.  */
+ #include <math.h>
+ 
+-#include "mathl.h"
++#include <float.h>
++#include "isnanl.h"
+ 
+ /* A simple Newton-Raphson method. */
+ long double
+@@ -31,12 +34,16 @@ sqrtl(long double x)
+   long double delta, y;
+   int exponent;
+ 
++  /* Check for NaN */
++  if (isnanl (x))
++    return x;
++
+   /* Check for negative numbers */
+   if (x < 0.0L)
+     return (long double) sqrt(-1);
+ 
+-  /* Check for zero, NANs and infinites */
+-  if (x + x == x || x != x)
++  /* Check for zero and infinites */
++  if (x + x == x)
+     return x;
+ 
+   frexpl (x, &exponent);
+Only in dbg/find14/find/gnulib-cvs/gnulib/lib: stat.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: stat_.h
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/stat-macros.h dbg/find6/find/gnulib-cvs/gnulib/lib/stat-macros.h

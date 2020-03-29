@@ -1,0 +1,33 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/fnmatch	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/fnmatch	2020-01-28 23:39:42.000000000 -0600
+@@ -10,20 +10,23 @@ m4/fnmatch.m4
+ 
+ Depends-on:
+ alloca
++stdbool
++wchar
++wctype
+ 
+ configure.ac:
+ # No macro. You should also use one of fnmatch-posix or fnmatch-gnu.
+ 
+ Makefile.am:
+ BUILT_SOURCES += $(FNMATCH_H)
+-EXTRA_DIST += fnmatch_.h fnmatch_loop.c
+ 
+-# We need the following in order to create an <fnmatch.h> when the system
++# We need the following in order to create <fnmatch.h> when the system
+ # doesn't have one that supports the required API.
+-all-local $(lib_OBJECTS): $(FNMATCH_H)
+ fnmatch.h: fnmatch_.h
+-	cp $(srcdir)/fnmatch_.h $@-t
+-	mv $@-t $@
++	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
++	  cat $(srcdir)/fnmatch_.h; \
++	} > $@-t
++	mv -f $@-t $@
+ MOSTLYCLEANFILES += fnmatch.h fnmatch.h-t
+ 
+ Include:
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: fopen-safer
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/fpending dbg/find6/find/gnulib-cvs/gnulib/modules/fpending

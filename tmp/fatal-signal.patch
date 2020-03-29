@@ -1,0 +1,20 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/fatal-signal	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/fatal-signal	2020-01-28 23:39:42.000000000 -0600
+@@ -5,12 +5,13 @@ Files:
+ lib/fatal-signal.h
+ lib/fatal-signal.c
+ m4/fatal-signal.m4
+-m4/signalblocking.m4
+ m4/sig_atomic_t.m4
+ 
+ Depends-on:
+ xalloc
+ stdbool
++unistd
++sigprocmask
+ 
+ configure.ac:
+ gl_FATAL_SIGNAL
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: fchdir
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: fcntl
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/fcntl-safer dbg/find6/find/gnulib-cvs/gnulib/modules/fcntl-safer

@@ -1,0 +1,28 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/timegm	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/timegm	2020-01-28 23:39:42.000000000 -0600
+@@ -2,22 +2,21 @@ Description:
+ Convert calendar time to simple time, inverse of mktime.
+ 
+ Files:
+-lib/timegm.h
+ lib/timegm.c
+ m4/timegm.m4
+ 
+ Depends-on:
+ mktime
++time
+ time_r
+ 
+ configure.ac:
+ gl_FUNC_TIMEGM
+ 
+ Makefile.am:
+-lib_SOURCES += timegm.h
+ 
+ Include:
+-"timegm.h"
++<time.h>
+ 
+ License:
+ LGPL
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/time_r dbg/find6/find/gnulib-cvs/gnulib/modules/time_r

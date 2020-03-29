@@ -1,0 +1,24 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/getloadavg	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/getloadavg	2020-01-28 23:39:42.000000000 -0600
+@@ -3,14 +3,18 @@ Return the current system load averages.
+ 
+ Files:
+ lib/getloadavg.c
++m4/getloadavg.m4
+ 
+ Depends-on:
+ cloexec
+ xalloc
+ c-strtod
++intprops
++stdbool
++fcntl-safer
+ 
+ configure.ac:
+-AC_FUNC_GETLOADAVG
++gl_GETLOADAVG([$gl_source_base])
+ 
+ Makefile.am:
+ 
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: getlogin_r
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/getndelim2 dbg/find6/find/gnulib-cvs/gnulib/modules/getndelim2

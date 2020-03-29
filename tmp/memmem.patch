@@ -1,0 +1,27 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/memmem	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/memmem	2020-01-28 23:39:42.000000000 -0600
+@@ -2,20 +2,20 @@ Description:
+ memmem() function: locate first substring in a buffer.
+ 
+ Files:
+-lib/memmem.h
+ lib/memmem.c
+ m4/memmem.m4
+ 
+ Depends-on:
++string
+ 
+ configure.ac:
+ gl_FUNC_MEMMEM
++gl_STRING_MODULE_INDICATOR([memmem])
+ 
+ Makefile.am:
+-lib_SOURCES += memmem.h
+ 
+ Include:
+-"memmem.h"
++<string.h>
+ 
+ License:
+ LGPL
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/memmove dbg/find6/find/gnulib-cvs/gnulib/modules/memmove

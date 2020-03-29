@@ -1,0 +1,29 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/strtok_r.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/strtok_r.c	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+ /* Reentrant string tokenizer.  Generic version.
+-   Copyright (C) 1991,1996-1999,2001,2004 Free Software Foundation, Inc.
++   Copyright (C) 1991,1996-1999,2001,2004,2007 Free Software Foundation, Inc.
+    This file is part of the GNU C Library.
+ 
+    This program is free software; you can redistribute it and/or modify
+@@ -14,7 +14,7 @@
+ 
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. */
+ 
+ #ifdef HAVE_CONFIG_H
+ # include <config.h>
+@@ -26,8 +26,6 @@
+ #undef __strtok_r
+ 
+ #ifndef _LIBC
+-/* Get specification.  */
+-# include "strtok_r.h"
+ # define __strtok_r strtok_r
+ # define __rawmemchr strchr
+ #endif
+Only in dbg/find14/find/gnulib-cvs/gnulib/lib: strtok_r.h
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/strtol.c dbg/find6/find/gnulib-cvs/gnulib/lib/strtol.c

@@ -1,0 +1,35 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/fsusage	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/fsusage	2020-01-28 23:39:42.000000000 -0600
+@@ -1,23 +1,20 @@
+ Description:
+-Return filesystem space usage info.
++Return file system space usage info.
+ 
+ Files:
+ lib/fsusage.h
+ lib/fsusage.c
+-m4/ulonglong.m4
+-m4/stdint_h.m4
+-m4/inttypes_h.m4
+-m4/uintmax_t.m4
+ m4/fsusage.m4
+ 
+ Depends-on:
+ full-read
++stdbool
++stdint
+ 
+ configure.ac:
+ gl_FSUSAGE
+ 
+ Makefile.am:
+-lib_SOURCES += fsusage.h
+ 
+ Include:
+ "fsusage.h"
+@@ -27,4 +24,3 @@ GPL
+ 
+ Maintainer:
+ Jim Meyering
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/ftruncate dbg/find6/find/gnulib-cvs/gnulib/modules/ftruncate

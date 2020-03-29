@@ -1,0 +1,31 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/strchrnul	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/strchrnul	2020-01-28 23:39:42.000000000 -0600
+@@ -2,23 +2,23 @@ Description:
+ strchrnul(): Find the first occurrence of C in S or the final NUL byte.
+ 
+ Files:
+-lib/strchrnul.h
+ lib/strchrnul.c
+ m4/strchrnul.m4
+ 
+ Depends-on:
++string
+ 
+ configure.ac:
+ gl_FUNC_STRCHRNUL
++gl_STRING_MODULE_INDICATOR([strchrnul])
+ 
+ Makefile.am:
+-lib_SOURCES += strchrnul.h
+ 
+ Include:
+-"strchrnul.h"
++<string.h>
+ 
+ License:
+-GPL
++LGPL
+ 
+ Maintainer:
+ FSF
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/strdup dbg/find6/find/gnulib-cvs/gnulib/modules/strdup

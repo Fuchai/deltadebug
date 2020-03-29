@@ -1,0 +1,80 @@
+--- dbg/find14/find/lib/.deps/nextelem.Po	2020-01-28 23:48:54.000000000 -0600
++++ dbg/find6/find/lib/.deps/nextelem.Po	2020-01-28 23:40:05.000000000 -0600
+@@ -12,17 +12,18 @@ nextelem.o: nextelem.c /usr/include/stdc
+  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+  /usr/include/x86_64-linux-gnu/bits/stdio.h \
+- /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/string.h \
+- /usr/include/xlocale.h /usr/include/x86_64-linux-gnu/bits/string.h \
++ /usr/include/x86_64-linux-gnu/bits/stdio2.h ../gnulib/lib/string.h \
++ ///usr/include/string.h /usr/include/xlocale.h \
++ /usr/include/x86_64-linux-gnu/bits/string.h \
+  /usr/include/x86_64-linux-gnu/bits/string2.h /usr/include/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+- /usr/include/x86_64-linux-gnu/bits/byteswap-16.h /usr/include/stdlib.h \
+- /usr/include/x86_64-linux-gnu/bits/string3.h \
++ /usr/include/x86_64-linux-gnu/bits/byteswap-16.h ../gnulib/lib/stdlib.h \
++ ///usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/string3.h \
+  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+- /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/time.h \
+- /usr/include/x86_64-linux-gnu/sys/select.h \
++ /usr/include/x86_64-linux-gnu/sys/types.h ../gnulib/lib/time.h \
++ ///usr/include/time.h /usr/include/x86_64-linux-gnu/sys/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/sigset.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+@@ -31,7 +32,7 @@ nextelem.o: nextelem.c /usr/include/stdc
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h ../gnulib/lib/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+- /usr/include/x86_64-linux-gnu/bits/stdlib.h
++ /usr/include/x86_64-linux-gnu/bits/stdlib.h nextelem.h
+ 
+ /usr/include/stdc-predef.h:
+ 
+@@ -71,7 +72,9 @@ nextelem.o: nextelem.c /usr/include/stdc
+ 
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h:
+ 
+-/usr/include/string.h:
++../gnulib/lib/string.h:
++
++///usr/include/string.h:
+ 
+ /usr/include/xlocale.h:
+ 
+@@ -87,7 +90,9 @@ nextelem.o: nextelem.c /usr/include/stdc
+ 
+ /usr/include/x86_64-linux-gnu/bits/byteswap-16.h:
+ 
+-/usr/include/stdlib.h:
++../gnulib/lib/stdlib.h:
++
++///usr/include/stdlib.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/string3.h:
+ 
+@@ -97,7 +102,9 @@ nextelem.o: nextelem.c /usr/include/stdc
+ 
+ /usr/include/x86_64-linux-gnu/sys/types.h:
+ 
+-/usr/include/time.h:
++../gnulib/lib/time.h:
++
++///usr/include/time.h:
+ 
+ /usr/include/x86_64-linux-gnu/sys/select.h:
+ 
+@@ -120,3 +127,5 @@ nextelem.o: nextelem.c /usr/include/stdc
+ /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+ 
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h:
++
++nextelem.h:
+Only in dbg/find6/find/lib/.deps: printquoted.Po
+Only in dbg/find6/find/lib/.deps: qmark.Po
+Only in dbg/find6/find/lib/.deps: regexprops.Po
+Only in dbg/find6/find/lib/.deps: regextype.Po
+diff -up -r dbg/find14/find/lib/.deps/savedirinfo.Po dbg/find6/find/lib/.deps/savedirinfo.Po

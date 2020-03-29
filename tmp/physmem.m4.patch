@@ -1,0 +1,32 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/m4/physmem.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/m4/physmem.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+-# physmem.m4 serial 3
+-dnl Copyright (C) 2002, 2003 Free Software Foundation, Inc.
++# physmem.m4 serial 7
++dnl Copyright (C) 2002, 2003, 2005, 2006 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+@@ -12,7 +12,8 @@ AC_DEFUN([gl_SYS__SYSTEM_CONFIGURATION],
+     [AC_LINK_IFELSE([AC_LANG_PROGRAM(
+ 		      [[#include <sys/systemcfg.h>
+ 		      ]],
+-		      [double x = _system_configuration.physmem;])],
++		      [double x = _system_configuration.physmem;
++		       if (x > 0.0) return 0;])],
+       [gl_cv_var__system_configuration=yes],
+       [gl_cv_var__system_configuration=no])])
+ 
+@@ -26,8 +27,9 @@ AC_DEFUN([gl_SYS__SYSTEM_CONFIGURATION],
+ 
+ AC_DEFUN([gl_PHYSMEM],
+ [
++  AC_LIBOBJ([physmem])
++
+   # Prerequisites of lib/physmem.c.
+-  AC_CHECK_HEADERS_ONCE(unistd.h)
+   AC_CHECK_HEADERS([sys/pstat.h sys/sysmp.h sys/sysinfo.h \
+     machine/hal_sysinfo.h sys/table.h sys/param.h sys/sysctl.h \
+     sys/systemcfg.h],,, [AC_INCLUDES_DEFAULT])
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/poll.m4 dbg/find6/find/gnulib-cvs/gnulib/m4/poll.m4

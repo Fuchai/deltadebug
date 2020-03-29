@@ -1,0 +1,29 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/backupfile	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/backupfile	2020-01-28 23:39:42.000000000 -0600
+@@ -6,18 +6,18 @@ Files:
+ lib/backupfile.h
+ lib/backupfile.c
+ m4/dos.m4
+-m4/d-ino.m4
+ m4/backupfile.m4
+ 
+ Depends-on:
+ argmatch
++d-ino
+ dirname
++stdbool
+ 
+ configure.ac:
+ gl_BACKUPFILE
+ 
+ Makefile.am:
+-lib_SOURCES += backupfile.h backupfile.c
+ 
+ Include:
+ "backupfile.h"
+@@ -27,4 +27,3 @@ GPL
+ 
+ Maintainer:
+ Paul Eggert, Jim Meyering
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/base64 dbg/find6/find/gnulib-cvs/gnulib/modules/base64

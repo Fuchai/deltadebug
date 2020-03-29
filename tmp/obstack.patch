@@ -1,0 +1,31 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/obstack	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/obstack	2020-01-28 23:39:42.000000000 -0600
+@@ -4,18 +4,16 @@ Memory allocation, optimized for stack-l
+ Files:
+ lib/obstack.h
+ lib/obstack.c
+-m4/inttypes_h.m4
+-m4/obstack.m4
+-m4/stdint_h.m4
+-m4/uintmax_t.m4
+ 
+ Depends-on:
+-gettext
++gettext-h
+ exit
+ exitfail
++stdint
+ 
+ configure.ac:
+-gl_OBSTACK
++AC_FUNC_OBSTACK
++dnl Note: AC_FUNC_OBSTACK does AC_LIBSOURCES([obstack.h, obstack.c]).
+ 
+ Makefile.am:
+ 
+@@ -27,4 +25,3 @@ LGPL
+ 
+ Maintainer:
+ all, glibc
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/openat dbg/find6/find/gnulib-cvs/gnulib/modules/openat

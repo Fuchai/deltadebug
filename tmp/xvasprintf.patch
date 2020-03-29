@@ -1,0 +1,26 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/xvasprintf	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/xvasprintf	2020-01-28 23:39:42.000000000 -0600
+@@ -5,14 +5,20 @@ Files:
+ lib/xvasprintf.h
+ lib/xvasprintf.c
+ lib/xasprintf.c
++lib/xalloc.h
++m4/xvasprintf.m4
+ 
+ Depends-on:
+ vasprintf
++xalloc-die
++xsize
++stdarg
+ 
+ configure.ac:
++gl_XVASPRINTF
+ 
+ Makefile.am:
+-lib_SOURCES += xvasprintf.h xvasprintf.c xasprintf.c 
++lib_SOURCES += xvasprintf.h xvasprintf.c xasprintf.c
+ 
+ Include:
+ "xvasprintf.h"
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: xvasprintf-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/yesno dbg/find6/find/gnulib-cvs/gnulib/modules/yesno

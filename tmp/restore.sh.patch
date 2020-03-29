@@ -1,0 +1,14 @@
+--- dbg/find14/restore.sh	2020-01-28 23:48:57.000000000 -0600
++++ dbg/find6/restore.sh	2020-01-28 23:40:10.000000000 -0600
+@@ -7,6 +7,6 @@ case "$choice" in
+   * ) echo "Did not understand. Try again."; exit 1 ;;
+ esac
+ 
+-cd /root/Desktop/find14/find
++cd /root/Desktop/find6/find
+ git reset --hard
+-"~/find.compile.sh" "/root/Desktop/find14/find" 2d428f84 "/root/corebench" 2>&1 >& /dev/null
++"~/find.compile.sh" "/root/Desktop/find6/find" b46b0d89 "/root/corebench" 2>&1 >& /dev/null
+Only in dbg/find6/test: exp
+Only in dbg/find6/test: out
+diff -up -r dbg/find14/test/test.sh dbg/find6/test/test.sh

@@ -1,0 +1,14 @@
+--- today/patches/expcp2/c	2020-03-27 23:14:09.265573442 -0500
++++ yesterday/patches/expcp2/c	2020-03-27 14:30:08.494322171 -0500
+@@ -9,5 +9,4 @@ asdfasdfasdfads
+ 12312312asdfasdfasdf
+ 
+ 
+-asdfasdfasdfadsasdf
+-w5w5w5w5w5
+\ No newline at end of file
++asdfasdfasdfadsasdf
+\ No newline at end of file
+Only in today/patches/expcp2: c.orig
+Only in today/patches/expcp2: c.rej
+diff -up -r today/test_dummy.py yesterday/test_dummy.py

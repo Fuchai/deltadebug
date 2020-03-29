@@ -1,0 +1,593 @@
+--- dbg/find14/find/lib/Makefile	2020-01-28 23:48:53.000000000 -0600
++++ dbg/find6/find/lib/Makefile	2020-01-28 23:39:59.000000000 -0600
+@@ -15,6 +15,7 @@
+ 
+ 
+ 
++
+ am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
+ am__make_running_with_option = \
+   case $${target_option-} in \
+@@ -78,57 +79,99 @@ PRE_UNINSTALL = :
+ POST_UNINSTALL = :
+ build_triplet = x86_64-unknown-linux-gnu
+ host_triplet = x86_64-unknown-linux-gnu
++noinst_PROGRAMS = regexprops$(EXEEXT)
+ subdir = lib
+ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
+-	$(top_srcdir)/mkinstalldirs $(top_srcdir)/depcomp
++	$(top_srcdir)/build-aux/mkinstalldirs \
++	$(top_srcdir)/build-aux/depcomp
+ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
+ am__aclocal_m4_deps = $(top_srcdir)/m4/findlib.m4 \
+-	$(top_srcdir)/m4/nullsort.m4 $(top_srcdir)/gnulib/m4/alloca.m4 \
+-	$(top_srcdir)/gnulib/m4/atexit.m4 \
++	$(top_srcdir)/m4/mkinstalldirs.m4 $(top_srcdir)/m4/nullsort.m4 \
++	$(top_srcdir)/m4/withfts.m4 \
++	$(top_srcdir)/gnulib/m4/absolute-header.m4 \
++	$(top_srcdir)/gnulib/m4/alloca.m4 \
++	$(top_srcdir)/gnulib/m4/allocsa.m4 \
++	$(top_srcdir)/gnulib/m4/argmatch.m4 \
++	$(top_srcdir)/gnulib/m4/bison.m4 \
+ 	$(top_srcdir)/gnulib/m4/canonicalize.m4 \
++	$(top_srcdir)/gnulib/m4/chdir-long.m4 \
++	$(top_srcdir)/gnulib/m4/chown.m4 \
++	$(top_srcdir)/gnulib/m4/clock_time.m4 \
++	$(top_srcdir)/gnulib/m4/close-stream.m4 \
+ 	$(top_srcdir)/gnulib/m4/closeout.m4 \
++	$(top_srcdir)/gnulib/m4/codeset.m4 \
++	$(top_srcdir)/gnulib/m4/cycle-check.m4 \
+ 	$(top_srcdir)/gnulib/m4/d-ino.m4 \
++	$(top_srcdir)/gnulib/m4/d-type.m4 \
++	$(top_srcdir)/gnulib/m4/dirfd.m4 \
+ 	$(top_srcdir)/gnulib/m4/dirname.m4 \
+ 	$(top_srcdir)/gnulib/m4/dos.m4 \
++	$(top_srcdir)/gnulib/m4/double-slash-root.m4 \
++	$(top_srcdir)/gnulib/m4/eealloc.m4 \
+ 	$(top_srcdir)/gnulib/m4/error.m4 \
+ 	$(top_srcdir)/gnulib/m4/exitfail.m4 \
+ 	$(top_srcdir)/gnulib/m4/extensions.m4 \
++	$(top_srcdir)/gnulib/m4/fcntl-safer.m4 \
++	$(top_srcdir)/gnulib/m4/fcntl_h.m4 \
+ 	$(top_srcdir)/gnulib/m4/fileblocks.m4 \
+ 	$(top_srcdir)/gnulib/m4/filemode.m4 \
++	$(top_srcdir)/gnulib/m4/filenamecat.m4 \
++	$(top_srcdir)/gnulib/m4/flexmember.m4 \
+ 	$(top_srcdir)/gnulib/m4/fnmatch.m4 \
+ 	$(top_srcdir)/gnulib/m4/fpending.m4 \
+ 	$(top_srcdir)/gnulib/m4/fstypename.m4 \
++	$(top_srcdir)/gnulib/m4/fts.m4 \
++	$(top_srcdir)/gnulib/m4/getcwd-abort-bug.m4 \
+ 	$(top_srcdir)/gnulib/m4/getcwd-path-max.m4 \
+ 	$(top_srcdir)/gnulib/m4/getcwd.m4 \
++	$(top_srcdir)/gnulib/m4/getdate.m4 \
++	$(top_srcdir)/gnulib/m4/getdelim.m4 \
+ 	$(top_srcdir)/gnulib/m4/getline.m4 \
+-	$(top_srcdir)/gnulib/m4/getndelim2.m4 \
+ 	$(top_srcdir)/gnulib/m4/getopt.m4 \
+ 	$(top_srcdir)/gnulib/m4/gettext.m4 \
++	$(top_srcdir)/gnulib/m4/gettime.m4 \
+ 	$(top_srcdir)/gnulib/m4/gettimeofday.m4 \
+-	$(top_srcdir)/gnulib/m4/gnulib.m4 \
++	$(top_srcdir)/gnulib/m4/glibc21.m4 \
++	$(top_srcdir)/gnulib/m4/gnulib-common.m4 \
++	$(top_srcdir)/gnulib/m4/gnulib-comp.m4 \
++	$(top_srcdir)/gnulib/m4/hash.m4 \
+ 	$(top_srcdir)/gnulib/m4/human.m4 \
++	$(top_srcdir)/gnulib/m4/i-ring.m4 \
+ 	$(top_srcdir)/gnulib/m4/iconv.m4 \
+ 	$(top_srcdir)/gnulib/m4/idcache.m4 \
+-	$(top_srcdir)/gnulib/m4/intmax_t.m4 \
+-	$(top_srcdir)/gnulib/m4/inttypes_h.m4 \
+-	$(top_srcdir)/gnulib/m4/isc-posix.m4 \
++	$(top_srcdir)/gnulib/m4/inline.m4 \
++	$(top_srcdir)/gnulib/m4/inttypes-pri.m4 \
++	$(top_srcdir)/gnulib/m4/inttypes.m4 \
++	$(top_srcdir)/gnulib/m4/lchown.m4 \
+ 	$(top_srcdir)/gnulib/m4/lib-ld.m4 \
+ 	$(top_srcdir)/gnulib/m4/lib-link.m4 \
+ 	$(top_srcdir)/gnulib/m4/lib-prefix.m4 \
++	$(top_srcdir)/gnulib/m4/localcharset.m4 \
++	$(top_srcdir)/gnulib/m4/locale-fr.m4 \
++	$(top_srcdir)/gnulib/m4/locale-tr.m4 \
++	$(top_srcdir)/gnulib/m4/locale-zh.m4 \
++	$(top_srcdir)/gnulib/m4/longdouble.m4 \
+ 	$(top_srcdir)/gnulib/m4/longlong.m4 \
+ 	$(top_srcdir)/gnulib/m4/ls-mntd-fs.m4 \
+ 	$(top_srcdir)/gnulib/m4/lstat.m4 \
++	$(top_srcdir)/gnulib/m4/mbchar.m4 \
++	$(top_srcdir)/gnulib/m4/mbiter.m4 \
+ 	$(top_srcdir)/gnulib/m4/mbrtowc.m4 \
++	$(top_srcdir)/gnulib/m4/mbscasestr.m4 \
++	$(top_srcdir)/gnulib/m4/mbslen.m4 \
++	$(top_srcdir)/gnulib/m4/mbsstr.m4 \
+ 	$(top_srcdir)/gnulib/m4/mbstate_t.m4 \
++	$(top_srcdir)/gnulib/m4/memchr.m4 \
+ 	$(top_srcdir)/gnulib/m4/memcmp.m4 \
+ 	$(top_srcdir)/gnulib/m4/mempcpy.m4 \
++	$(top_srcdir)/gnulib/m4/memrchr.m4 \
+ 	$(top_srcdir)/gnulib/m4/memset.m4 \
+ 	$(top_srcdir)/gnulib/m4/mktime.m4 \
+ 	$(top_srcdir)/gnulib/m4/modechange.m4 \
+ 	$(top_srcdir)/gnulib/m4/mountlist.m4 \
+ 	$(top_srcdir)/gnulib/m4/nls.m4 \
+ 	$(top_srcdir)/gnulib/m4/onceonly_2_57.m4 \
+-	$(top_srcdir)/gnulib/m4/path-concat.m4 \
++	$(top_srcdir)/gnulib/m4/openat.m4 \
+ 	$(top_srcdir)/gnulib/m4/pathmax.m4 \
+ 	$(top_srcdir)/gnulib/m4/po.m4 \
+ 	$(top_srcdir)/gnulib/m4/progtest.m4 \
+@@ -136,38 +179,52 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/f
+ 	$(top_srcdir)/gnulib/m4/quotearg.m4 \
+ 	$(top_srcdir)/gnulib/m4/readlink.m4 \
+ 	$(top_srcdir)/gnulib/m4/regex.m4 \
+-	$(top_srcdir)/gnulib/m4/restrict.m4 \
+ 	$(top_srcdir)/gnulib/m4/rpmatch.m4 \
++	$(top_srcdir)/gnulib/m4/save-cwd.m4 \
+ 	$(top_srcdir)/gnulib/m4/savedir.m4 \
++	$(top_srcdir)/gnulib/m4/setenv.m4 \
+ 	$(top_srcdir)/gnulib/m4/ssize_t.m4 \
+-	$(top_srcdir)/gnulib/m4/stat.m4 \
++	$(top_srcdir)/gnulib/m4/st_dm_mode.m4 \
++	$(top_srcdir)/gnulib/m4/stat-time.m4 \
+ 	$(top_srcdir)/gnulib/m4/stdbool.m4 \
+-	$(top_srcdir)/gnulib/m4/stdint_h.m4 \
++	$(top_srcdir)/gnulib/m4/stdint.m4 \
++	$(top_srcdir)/gnulib/m4/stdio-safer.m4 \
++	$(top_srcdir)/gnulib/m4/stdlib_h.m4 \
+ 	$(top_srcdir)/gnulib/m4/stpcpy.m4 \
+ 	$(top_srcdir)/gnulib/m4/strdup.m4 \
+-	$(top_srcdir)/gnulib/m4/strerror_r.m4 \
+ 	$(top_srcdir)/gnulib/m4/strftime.m4 \
+-	$(top_srcdir)/gnulib/m4/strstr.m4 \
++	$(top_srcdir)/gnulib/m4/string_h.m4 \
++	$(top_srcdir)/gnulib/m4/strndup.m4 \
++	$(top_srcdir)/gnulib/m4/strnlen.m4 \
+ 	$(top_srcdir)/gnulib/m4/strtoimax.m4 \
+ 	$(top_srcdir)/gnulib/m4/strtol.m4 \
+ 	$(top_srcdir)/gnulib/m4/strtoll.m4 \
+ 	$(top_srcdir)/gnulib/m4/strtoul.m4 \
+ 	$(top_srcdir)/gnulib/m4/strtoull.m4 \
+ 	$(top_srcdir)/gnulib/m4/strtoumax.m4 \
++	$(top_srcdir)/gnulib/m4/sys_stat_h.m4 \
++	$(top_srcdir)/gnulib/m4/sys_time_h.m4 \
++	$(top_srcdir)/gnulib/m4/time_h.m4 \
+ 	$(top_srcdir)/gnulib/m4/time_r.m4 \
++	$(top_srcdir)/gnulib/m4/timespec.m4 \
+ 	$(top_srcdir)/gnulib/m4/tm_gmtoff.m4 \
+-	$(top_srcdir)/gnulib/m4/tzset.m4 \
+-	$(top_srcdir)/gnulib/m4/uintmax_t.m4 \
+ 	$(top_srcdir)/gnulib/m4/ulonglong.m4 \
++	$(top_srcdir)/gnulib/m4/unistd-safer.m4 \
++	$(top_srcdir)/gnulib/m4/unistd_h.m4 \
++	$(top_srcdir)/gnulib/m4/wchar.m4 \
++	$(top_srcdir)/gnulib/m4/wchar_t.m4 \
++	$(top_srcdir)/gnulib/m4/wctype.m4 \
++	$(top_srcdir)/gnulib/m4/wcwidth.m4 \
++	$(top_srcdir)/gnulib/m4/wint_t.m4 \
+ 	$(top_srcdir)/gnulib/m4/xalloc.m4 \
+ 	$(top_srcdir)/gnulib/m4/xgetcwd.m4 \
+-	$(top_srcdir)/gnulib/m4/xreadlink.m4 \
++	$(top_srcdir)/gnulib/m4/xstrndup.m4 \
++	$(top_srcdir)/gnulib/m4/xstrtod.m4 \
+ 	$(top_srcdir)/gnulib/m4/xstrtol.m4 \
+-	$(top_srcdir)/gnulib/m4/xstrtoumax.m4 \
+ 	$(top_srcdir)/gnulib/m4/yesno.m4 $(top_srcdir)/configure.in
+ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
+ 	$(ACLOCAL_M4)
+-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
++mkinstalldirs = $(SHELL) $(top_srcdir)/build-aux/mkinstalldirs
+ CONFIG_HEADER = $(top_builddir)/config.h
+ CONFIG_CLEAN_FILES =
+ CONFIG_CLEAN_VPATH_FILES =
+@@ -179,10 +236,19 @@ am__v_AR_ = $(am__v_AR_$(AM_DEFAULT_VERB
+ am__v_AR_0 = @echo "  AR      " $@;
+ am__v_AR_1 = 
+ libfind_a_AR = $(AR) $(ARFLAGS)
+-am_libfind_a_OBJECTS = listfile.$(OBJEXT) nextelem.$(OBJEXT) \
+-	extendbuf.$(OBJEXT) buildcmd.$(OBJEXT) savedirinfo.$(OBJEXT) \
+-	forcefindlib.$(OBJEXT)
++am_libfind_a_OBJECTS = gnulib-version.$(OBJEXT) listfile.$(OBJEXT) \
++	nextelem.$(OBJEXT) extendbuf.$(OBJEXT) buildcmd.$(OBJEXT) \
++	savedirinfo.$(OBJEXT) forcefindlib.$(OBJEXT) qmark.$(OBJEXT) \
++	printquoted.$(OBJEXT) regextype.$(OBJEXT) \
++	dircallback.$(OBJEXT)
+ libfind_a_OBJECTS = $(am_libfind_a_OBJECTS)
++PROGRAMS = $(noinst_PROGRAMS)
++am__regexprops_SOURCES_DIST = regexprops.c regextype.c
++am_regexprops_OBJECTS = regexprops.$(OBJEXT) \
++	regextype.$(OBJEXT)
++regexprops_OBJECTS = $(am_regexprops_OBJECTS)
++regexprops_LDADD = $(LDADD)
++regexprops_DEPENDENCIES = ../gnulib/lib/libgnulib.a
+ AM_V_P = $(am__v_P_$(V))
+ am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
+ am__v_P_0 = false
+@@ -196,7 +262,7 @@ am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERB
+ am__v_at_0 = @
+ am__v_at_1 = 
+ DEFAULT_INCLUDES = -I. -I$(top_builddir)
+-depcomp = $(SHELL) $(top_srcdir)/depcomp
++depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
+ am__depfiles_maybe = depfiles
+ am__mv = mv -f
+ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+@@ -211,8 +277,8 @@ AM_V_CCLD = $(am__v_CCLD_$(V))
+ am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))
+ am__v_CCLD_0 = @echo "  CCLD    " $@;
+ am__v_CCLD_1 = 
+-SOURCES = $(libfind_a_SOURCES)
+-DIST_SOURCES = $(libfind_a_SOURCES)
++SOURCES = $(libfind_a_SOURCES) $(regexprops_SOURCES)
++DIST_SOURCES = $(libfind_a_SOURCES) $(am__regexprops_SOURCES_DIST)
+ am__can_run_installinfo = \
+   case $$AM_UPDATE_INFO_DIR in \
+     n|no|NO) false;; \
+@@ -238,6 +304,17 @@ am__define_uniq_tagged_files = \
+ ETAGS = etags
+ CTAGS = ctags
+ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
++ABSOLUTE_FCNTL_H = "///usr/include/fcntl.h"
++ABSOLUTE_INTTYPES_H = "///usr/include/inttypes.h"
++ABSOLUTE_STDINT_H = "///usr/lib/gcc/x86_64-linux-gnu/4.8/include/stdint.h"
++ABSOLUTE_STDLIB_H = "///usr/include/stdlib.h"
++ABSOLUTE_STRING_H = "///usr/include/string.h"
++ABSOLUTE_SYS_STAT_H = "///usr/include/x86_64-linux-gnu/sys/stat.h"
++ABSOLUTE_SYS_TIME_H = "///usr/include/x86_64-linux-gnu/sys/time.h"
++ABSOLUTE_TIME_H = "///usr/include/time.h"
++ABSOLUTE_UNISTD_H = "///usr/include/unistd.h"
++ABSOLUTE_WCHAR_H = 
++ABSOLUTE_WCTYPE_H = "///usr/include/wctype.h"
+ ACLOCAL = aclocal-1.14
+ ALLOCA = 
+ ALLOCA_H = alloca.h
+@@ -246,7 +323,13 @@ AM_DEFAULT_VERBOSITY = 1
+ AUTOCONF = autoconf
+ AUTOHEADER = autoheader
+ AUTOMAKE = automake-1.14
++AUXDIR = build-aux
+ AWK = mawk
++BITSIZEOF_PTRDIFF_T = 
++BITSIZEOF_SIG_ATOMIC_T = 
++BITSIZEOF_SIZE_T = 
++BITSIZEOF_WCHAR_T = 
++BITSIZEOF_WINT_T = 
+ CC = gcc
+ CCDEPMODE = depmode=gcc3
+ CFLAGS = -g -O2
+@@ -260,56 +343,175 @@ ECHO_N = -n
+ ECHO_T = 
+ EGREP = /bin/grep -E
+ EXEEXT = 
++FCNTL_H = fcntl.h
+ FINDLIBOBJS =  forcefindlib.o
+ FNMATCH_H = 
+ GETOPT_H = 
++GLIBC21 = yes
+ GMSGFMT = /usr/bin/msgfmt
++GMSGFMT_015 = /usr/bin/msgfmt
++GNULIB_CHOWN = 1
++GNULIB_DUP2 = 0
++GNULIB_FCHDIR = 0
++GNULIB_FTRUNCATE = 0
++GNULIB_GETCWD = 1
++GNULIB_GETLOGIN_R = 0
++GNULIB_GETSUBOPT = 0
++GNULIB_IMAXABS = 0
++GNULIB_IMAXDIV = 0
++GNULIB_MBSCASECMP = 0
++GNULIB_MBSCASESTR = 1
++GNULIB_MBSCHR = 0
++GNULIB_MBSCSPN = 0
++GNULIB_MBSLEN = 1
++GNULIB_MBSNCASECMP = 0
++GNULIB_MBSPBRK = 0
++GNULIB_MBSPCASECMP = 0
++GNULIB_MBSRCHR = 0
++GNULIB_MBSSEP = 0
++GNULIB_MBSSPN = 0
++GNULIB_MBSSTR = 1
++GNULIB_MBSTOK_R = 0
++GNULIB_MEMMEM = 0
++GNULIB_MEMPCPY = 1
++GNULIB_MEMRCHR = 1
++GNULIB_MKDTEMP = 0
++GNULIB_MKSTEMP = 0
++GNULIB_READLINK = 1
++GNULIB_STPCPY = 1
++GNULIB_STPNCPY = 0
++GNULIB_STRCASESTR = 0
++GNULIB_STRCHRNUL = 0
++GNULIB_STRDUP = 1
++GNULIB_STRNDUP = 1
++GNULIB_STRNLEN = 1
++GNULIB_STRPBRK = 0
++GNULIB_STRSEP = 0
++GNULIB_STRTOIMAX = 1
++GNULIB_STRTOK_R = 0
++GNULIB_STRTOUMAX = 1
+ GREP = /bin/grep
++HAVE_DECL_GETLOGIN_R = 1
++HAVE_DECL_IMAXABS = 1
++HAVE_DECL_IMAXDIV = 1
++HAVE_DECL_MEMMEM = 1
++HAVE_DECL_MEMRCHR = 1
++HAVE_DECL_STRDUP = 1
++HAVE_DECL_STRNCASECMP = 1
++HAVE_DECL_STRNDUP = 1
++HAVE_DECL_STRNLEN = 1
++HAVE_DECL_STRTOIMAX = 1
++HAVE_DECL_STRTOK_R = 1
++HAVE_DECL_STRTOUMAX = 1
++HAVE_DUP2 = 1
++HAVE_FTRUNCATE = 1
++HAVE_GETSUBOPT = 1
++HAVE_INTTYPES_H = 1
++HAVE_LONG_LONG_INT = 1
++HAVE_MEMPCPY = 1
++HAVE_MKDTEMP = 1
++HAVE_READLINK = 1
++HAVE_SIGNED_SIG_ATOMIC_T = 
++HAVE_SIGNED_WCHAR_T = 
++HAVE_SIGNED_WINT_T = 
++HAVE_STDINT_H = 1
++HAVE_STPCPY = 1
++HAVE_STPNCPY = 1
++HAVE_STRCASECMP = 1
++HAVE_STRCASESTR = 1
++HAVE_STRCHRNUL = 1
++HAVE_STRNDUP = 1
++HAVE_STRPBRK = 1
++HAVE_STRSEP = 1
++HAVE_STRUCT_TIMEVAL = 1
++HAVE_SYS_BITYPES_H = 
++HAVE_SYS_INTTYPES_H = 
++HAVE_SYS_TIME_H = 1
++HAVE_SYS_TYPES_H = 1
++HAVE_UNISTD_H = 1
++HAVE_UNSIGNED_LONG_LONG_INT = 1
++HAVE_WCTYPE_H = 1
++HAVE_WINT_T = 1
+ HAVE__BOOL = 1
+-INCLUDES = -I$(top_srcdir)/gnulib/lib
++INCLUDES = -I../gnulib/lib -I$(top_srcdir)/gnulib/lib 
+ INSTALL = /usr/bin/install -c
+ INSTALL_DATA = ${INSTALL} -m 644
+ INSTALL_PROGRAM = ${INSTALL}
+ INSTALL_SCRIPT = ${INSTALL}
+ INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
+ INTLLIBS = 
++INTL_MACOSX_LIBS = 
++INTTYPES_H = inttypes.h
+ LDFLAGS = 
++LIBGNULIB_LIBDEPS = 
++LIBGNULIB_LTLIBDEPS = 
+ LIBICONV = -liconv
+ LIBINTL = 
+-LIBOBJS =  ${LIBOBJDIR}mktime$U.o ${LIBOBJDIR}getcwd$U.o ${LIBOBJDIR}mountlist$U.o
++LIBOBJS =  ${LIBOBJDIR}regex$U.o
+ LIBS = 
++LIB_CLOCK_GETTIME = 
++LOCALE_FR_UTF8 = none
++LOCALE_TR_UTF8 = tr_TR.UTF-8
++LOCALE_ZH_CN = none
+ LTLIBICONV = -liconv
+ LTLIBINTL = 
+-LTLIBOBJS =  ${LIBOBJDIR}mktime$U.lo ${LIBOBJDIR}getcwd$U.lo ${LIBOBJDIR}mountlist$U.lo
++LTLIBOBJS =  ${LIBOBJDIR}regex$U.lo
+ MAKEINFO = makeinfo
+ MKDIR_P = /bin/mkdir -p
+-MKINSTALLDIRS = $(top_builddir)/./mkinstalldirs
++MKINSTALLDIRS = $(top_builddir)/build-aux/mkinstalldirs
+ MSGFMT = /usr/bin/msgfmt
++MSGFMT_015 = /usr/bin/msgfmt
+ MSGMERGE = /usr/bin/msgmerge
+ OBJEXT = o
+ PACKAGE = findutils
+-PACKAGE_BUGREPORT = 
+-PACKAGE_NAME = 
+-PACKAGE_STRING = 
+-PACKAGE_TARNAME = 
+-PACKAGE_URL = 
+-PACKAGE_VERSION = 
++PACKAGE_BUGREPORT = bug-findutils@gnu.org
++PACKAGE_NAME = GNU findutils
++PACKAGE_STRING = GNU findutils 4.3.3-CVS
++PACKAGE_TARNAME = findutils
++PACKAGE_URL = http://www.gnu.org/software/findutils/
++PACKAGE_VERSION = 4.3.3-CVS
+ PATH_SEPARATOR = :
+ POSUB = 
++PRIPTR_PREFIX = "l"
++PRI_MACROS_BROKEN = 0
++PTRDIFF_T_SUFFIX = 
+ RANLIB = ranlib
++REPLACE_CHOWN = 0
++REPLACE_FCHDIR = 0
++REPLACE_GETCWD = 0
++REPLACE_GETTIMEOFDAY = 0
++REPLACE_LOCALTIME_R = 0
++REPLACE_MKSTEMP = 0
++REPLACE_NANOSLEEP = GNULIB_PORTCHECK
++REPLACE_STRPTIME = GNULIB_PORTCHECK
++REPLACE_TIMEGM = GNULIB_PORTCHECK
+ SET_MAKE = 
+ SHELL = /bin/bash
++SIG_ATOMIC_T_SUFFIX = 
++SIZE_T_SUFFIX = 
+ SORT = /usr/bin/sort
+ SORT_SUPPORTS_Z = true
+ STDBOOL_H = 
++STDINT_H = 
+ STRIP = 
++SYS_STAT_H = sys/stat.h
++SYS_TIME_H = 
++SYS_TIME_H_DEFINES_STRUCT_TIMESPEC = 0
++TIME_H_DEFINES_STRUCT_TIMESPEC = 1
+ USE_NLS = no
+-VERSION = 4.2.18-CVS
++VERSION = 4.3.3-CVS
++WCHAR_H = 
++WCHAR_T_SUFFIX = 
++WCTYPE_H = 
++WINT_T_SUFFIX = 
+ XGETTEXT = /usr/bin/xgettext
+-abs_builddir = /root/Desktop/find14/find/lib
+-abs_srcdir = /root/Desktop/find14/find/lib
+-abs_top_builddir = /root/Desktop/find14/find
+-abs_top_srcdir = /root/Desktop/find14/find
++XGETTEXT_015 = /usr/bin/xgettext
++YACC = bison -y
++YFLAGS = 
++abs_builddir = /root/Desktop/find6/find/lib
++abs_srcdir = /root/Desktop/find6/find/lib
++abs_top_builddir = /root/Desktop/find6/find
++abs_top_srcdir = /root/Desktop/find6/find
+ ac_ct_CC = gcc
+ am__include = include
+ am__leading_dot = .
+@@ -325,9 +527,11 @@ build_vendor = unknown
+ builddir = .
+ datadir = ${datarootdir}
+ datarootdir = ${prefix}/share
+-docdir = ${datarootdir}/doc/${PACKAGE}
++docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
+ dvidir = ${docdir}
+ exec_prefix = ${prefix}
++gl_LIBOBJS =  argmatch.o basename.o canonicalize.o chdir-long.o close-stream.o closeout.o creat-safer.o cycle-check.o dirname.o dup-safer.o exitfail.o fchownat.o fd-safer.o filemode.o filenamecat.o fopen-safer.o fstatat.o fts.o gettime.o hash.o human.o i-ring.o idcache.o modechange.o mountlist.o open-safer.o openat-die.o openat-proc.o pipe-safer.o quote.o quotearg.o regex.o save-cwd.o savedir.o strftime.o stripslash.o xgetcwd.o xmalloc.o xstrtod.o xstrtol.o xstrtoul.o yesno.o
++gl_LTLIBOBJS =  argmatch.lo basename.lo canonicalize.lo chdir-long.lo close-stream.lo closeout.lo creat-safer.lo cycle-check.lo dirname.lo dup-safer.lo exitfail.lo fchownat.lo fd-safer.lo filemode.lo filenamecat.lo fopen-safer.lo fstatat.lo fts.lo gettime.lo hash.lo human.lo i-ring.lo idcache.lo modechange.lo mountlist.lo open-safer.lo openat-die.lo openat-proc.lo pipe-safer.lo quote.lo quotearg.lo regex.lo save-cwd.lo savedir.lo strftime.lo stripslash.lo xgetcwd.lo xmalloc.lo xstrtod.lo xstrtol.lo xstrtoul.lo yesno.lo
+ host = x86_64-unknown-linux-gnu
+ host_alias = 
+ host_cpu = x86_64
+@@ -336,13 +540,13 @@ host_vendor = unknown
+ htmldir = ${docdir}
+ includedir = ${prefix}/include
+ infodir = ${datarootdir}/info
+-install_sh = ${SHELL} /root/Desktop/find14/find/install-sh
++install_sh = ${SHELL} /root/Desktop/find6/find/build-aux/install-sh
+ libdir = ${exec_prefix}/lib
+ libexecdir = ${exec_prefix}/libexec
+ localedir = ${datarootdir}/locale
+ localstatedir = ${prefix}/var
+ mandir = ${datarootdir}/man
+-mkdir_p = $(MKDIR_P)
++mkdir_p = /bin/mkdir -p
+ oldincludedir = /usr/include
+ pdfdir = ${docdir}
+ prefix = /usr/local
+@@ -359,16 +563,22 @@ top_srcdir = ..
+ AUTOMAKE_OPTIONS = 1.5 gnits 
+ # no-dependencies
+ noinst_LIBRARIES = libfind.a
+-libfind_a_SOURCES = modetype.h nextelem.h listfile.c nextelem.c \
+-	extendbuf.c buildcmd.c savedirinfo.c forcefindlib.c
++regexprops_SOURCES = regexprops.c regextype.c
++libfind_a_SOURCES = gnulib-version.c modetype.h nextelem.h \
++	printquoted.h listfile.h regextype.h dircallback.h listfile.c \
++	nextelem.c extendbuf.c buildcmd.c savedirinfo.c forcefindlib.c \
++	qmark.c printquoted.c regextype.c dircallback.c
+ EXTRA_DIST = modetype.h wait.h extendbuf.h savedirinfo.h buildcmd.h \
+-	waitpid.c forcefindlib.c
+-BUILT_SOURCES = 
++	gnulib-version.h gnulib-version.sh gnulib-version.c waitpid.c \
++	forcefindlib.c
++BUILT_SOURCES = gnulib-version.c
+ SUFFIXES = 
+ MOSTLYCLEANFILES = 
+ CLEANFILES = 
+ DISTCLEANFILES = 
+ MAINTAINERCLEANFILES = 
++IMPORT_GNULIB_CONFIG = $(top_srcdir)/import-gnulib.config
++LDADD = ../gnulib/lib/libgnulib.a 
+ libfind_a_LIBADD =  forcefindlib.o
+ libfind_a_DEPENDENCIES =  forcefindlib.o
+ all: $(BUILT_SOURCES)
+@@ -415,6 +625,13 @@ libfind.a: $(libfind_a_OBJECTS) $(libfin
+ 	$(AM_V_AR)$(libfind_a_AR) libfind.a $(libfind_a_OBJECTS) $(libfind_a_LIBADD)
+ 	$(AM_V_at)$(RANLIB) libfind.a
+ 
++clean-noinstPROGRAMS:
++	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
++
++regexprops$(EXEEXT): $(regexprops_OBJECTS) $(regexprops_DEPENDENCIES) $(EXTRA_regexprops_DEPENDENCIES) 
++	@rm -f regexprops$(EXEEXT)
++	$(AM_V_CCLD)$(LINK) $(regexprops_OBJECTS) $(regexprops_LDADD) $(LIBS)
++
+ mostlyclean-compile:
+ 	-rm -f *.$(OBJEXT)
+ 
+@@ -422,10 +639,16 @@ distclean-compile:
+ 	-rm -f *.tab.c
+ 
+ include ./$(DEPDIR)/buildcmd.Po
++include ./$(DEPDIR)/dircallback.Po
+ include ./$(DEPDIR)/extendbuf.Po
+ include ./$(DEPDIR)/forcefindlib.Po
++include ./$(DEPDIR)/gnulib-version.Po
+ include ./$(DEPDIR)/listfile.Po
+ include ./$(DEPDIR)/nextelem.Po
++include ./$(DEPDIR)/printquoted.Po
++include ./$(DEPDIR)/qmark.Po
++include ./$(DEPDIR)/regexprops.Po
++include ./$(DEPDIR)/regextype.Po
+ include ./$(DEPDIR)/savedirinfo.Po
+ 
+ .c.o:
+@@ -527,7 +750,7 @@ distdir: $(DISTFILES)
+ check-am: all-am
+ check: $(BUILT_SOURCES)
+ 	$(MAKE) $(AM_MAKEFLAGS) check-am
+-all-am: Makefile $(LIBRARIES)
++all-am: Makefile $(LIBRARIES) $(PROGRAMS)
+ installdirs:
+ install: $(BUILT_SOURCES)
+ 	$(MAKE) $(AM_MAKEFLAGS) install-am
+@@ -567,7 +790,8 @@ maintainer-clean-generic:
+ 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
+ clean: clean-am
+ 
+-clean-am: clean-generic clean-noinstLIBRARIES mostlyclean-am
++clean-am: clean-generic clean-noinstLIBRARIES clean-noinstPROGRAMS \
++	mostlyclean-am
+ 
+ distclean: distclean-am
+ 	-rm -rf ./$(DEPDIR)
+@@ -637,23 +861,26 @@ uninstall-am:
+ .MAKE: all check install install-am install-strip
+ 
+ .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean clean-generic \
+-	clean-noinstLIBRARIES cscopelist-am ctags ctags-am distclean \
+-	distclean-compile distclean-generic distclean-tags distdir dvi \
+-	dvi-am html html-am info info-am install install-am \
+-	install-data install-data-am install-dvi install-dvi-am \
+-	install-exec install-exec-am install-html install-html-am \
+-	install-info install-info-am install-man install-pdf \
+-	install-pdf-am install-ps install-ps-am install-strip \
+-	installcheck installcheck-am installdirs maintainer-clean \
+-	maintainer-clean-generic mostlyclean mostlyclean-compile \
+-	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
+-	uninstall-am
++	clean-noinstLIBRARIES clean-noinstPROGRAMS cscopelist-am ctags \
++	ctags-am distclean distclean-compile distclean-generic \
++	distclean-tags distdir dvi dvi-am html html-am info info-am \
++	install install-am install-data install-data-am install-dvi \
++	install-dvi-am install-exec install-exec-am install-html \
++	install-html-am install-info install-info-am install-man \
++	install-pdf install-pdf-am install-ps install-ps-am \
++	install-strip installcheck installcheck-am installdirs \
++	maintainer-clean maintainer-clean-generic mostlyclean \
++	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
++	tags tags-am uninstall uninstall-am
+ 
+ # libfind_la_LIBADD = @LTFINDLIBOBJS@
+ 
+ # libfind_a_OBJECTS  +=  forcefindlib.o
+ # libfind_la_OBJECTS += @LTFINDLIBOBJS@
+ 
++$(srcdir)/gnulib-version.c: $(srcdir)/gnulib-version.sh $(IMPORT_GNULIB_CONFIG)
++	sh $(srcdir)/gnulib-version.sh $(top_srcdir) $(srcdir)  $(IMPORT_GNULIB_CONFIG)
++
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
+ .NOEXPORT:
+diff -up -r dbg/find14/find/lib/Makefile.am dbg/find6/find/lib/Makefile.am

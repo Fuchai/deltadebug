@@ -1,0 +1,28 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/m4/euidaccess.m4	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/m4/euidaccess.m4	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+-# euidaccess.m4 serial 5
+-dnl Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
++# euidaccess.m4 serial 7
++dnl Copyright (C) 2002-2006 Free Software Foundation, Inc.
+ dnl This file is free software; the Free Software Foundation
+ dnl gives unlimited permission to copy and/or distribute it,
+ dnl with or without modifications, as long as this notice is preserved.
+@@ -32,7 +32,6 @@ AC_DEFUN([gl_PREREQ_EUIDACCESS], [
+   AC_CHECK_HEADERS_ONCE(libgen.h)
+   AC_CHECK_DECLS_ONCE(setregid)
+   AC_REQUIRE([AC_FUNC_GETGROUPS])
+-  AC_REQUIRE([AC_HEADER_STAT])
+ 
+   # Solaris 9 needs -lgen to get the eaccess function.
+   # Save and restore LIBS so -lgen isn't added to it.  Otherwise, *all*
+@@ -42,7 +41,7 @@ AC_DEFUN([gl_PREREQ_EUIDACCESS], [
+     AC_SEARCH_LIBS(eaccess, [gen],
+                    [test "$ac_cv_search_eaccess" = "none required" ||
+                     LIB_EACCESS=$ac_cv_search_eaccess])
+-    AC_SUBST(LIB_EACCESS)
++    AC_SUBST([LIB_EACCESS])
+     AC_CHECK_FUNCS(eaccess)
+   LIBS=$gl_saved_libs
+ ])
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/exclude.m4 dbg/find6/find/gnulib-cvs/gnulib/m4/exclude.m4

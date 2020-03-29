@@ -1,0 +1,29 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/canon-host	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/canon-host	2020-01-28 23:39:42.000000000 -0600
+@@ -4,21 +4,23 @@ usually the host name including FQDN.
+ 
+ Files:
+ lib/canon-host.c
++lib/canon-host.h
+ m4/canon-host.m4
+ 
+ Depends-on:
++getaddrinfo
+ strdup
+ 
+ configure.ac:
+ gl_CANON_HOST
+ 
+ Makefile.am:
+-lib_SOURCES += canon-host.c
+ 
+ Include:
++#include "canon-host.h"
+ 
+ License:
+-GPL
++LGPL
+ 
+ Maintainer:
+ Jim Meyering
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/canonicalize dbg/find6/find/gnulib-cvs/gnulib/modules/canonicalize

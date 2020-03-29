@@ -1,0 +1,30 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/floorl.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/floorl.c	2020-01-28 23:39:42.000000000 -0600
+@@ -1,7 +1,7 @@
+ /* Emulation for floorl.
+    Contributed by Paolo Bonzini
+ 
+-   Copyright 2002, 2003 Free Software Foundation, Inc.
++   Copyright 2002, 2003, 2007 Free Software Foundation, Inc.
+ 
+    This file is part of gnulib.
+ 
+@@ -17,11 +17,14 @@
+ 
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+-#include <float.h>
++#include <config.h>
++
++/* Specification.  */
++#include <math.h>
+ 
+-#include "mathl.h"
++#include <float.h>
+ 
+ /* To compute the integer part of X, sum a big enough
+    integer so that the precision of the floating point
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/fnmatch.c dbg/find6/find/gnulib-cvs/gnulib/lib/fnmatch.c

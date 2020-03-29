@@ -1,0 +1,26 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/strtok_r	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/strtok_r	2020-01-28 23:39:42.000000000 -0600
+@@ -3,19 +3,19 @@ strtok_r() function: split string into t
+ 
+ Files:
+ lib/strtok_r.c
+-lib/strtok_r.h
+ m4/strtok_r.m4
+ 
+ Depends-on:
++string
+ 
+ configure.ac:
+ gl_FUNC_STRTOK_R
++gl_STRING_MODULE_INDICATOR([strtok_r])
+ 
+ Makefile.am:
+-lib_SOURCES += strtok_r.h
+ 
+ Include:
+-"strtok_r.h"
++<string.h>
+ 
+ License:
+ LGPL
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/strtol dbg/find6/find/gnulib-cvs/gnulib/modules/strtol

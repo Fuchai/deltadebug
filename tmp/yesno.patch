@@ -1,0 +1,25 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/yesno	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/yesno	2020-01-28 23:39:42.000000000 -0600
+@@ -8,13 +8,14 @@ lib/yesno.h
+ m4/yesno.m4
+ 
+ Depends-on:
++getline
+ rpmatch
++stdbool
+ 
+ configure.ac:
+ gl_YESNO
+ 
+ Makefile.am:
+-lib_SOURCES += yesno.c yesno.h
+ 
+ Include:
+ "yesno.h"
+@@ -24,4 +25,3 @@ GPL
+ 
+ Maintainer:
+ Jim Meyering
+-
+Only in dbg/find14/find/gnulib-cvs/gnulib: MODULES.html
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/MODULES.html.sh dbg/find6/find/gnulib-cvs/gnulib/MODULES.html.sh

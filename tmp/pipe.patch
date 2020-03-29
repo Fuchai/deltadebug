@@ -1,0 +1,15 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/pipe	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/pipe	2020-01-28 23:39:42.000000000 -0600
+@@ -12,9 +12,10 @@ wait-process
+ error
+ exit
+ fatal-signal
+-gettext
++gettext-h
+ stdbool
+ strpbrk
++unistd
+ 
+ configure.ac:
+ gl_PIPE
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/poll dbg/find6/find/gnulib-cvs/gnulib/modules/poll

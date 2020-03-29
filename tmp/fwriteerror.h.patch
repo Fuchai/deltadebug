@@ -1,0 +1,42 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/fwriteerror.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/fwriteerror.h	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+ /* Detect write error on a stream.
+-   Copyright (C) 2003, 2005 Free Software Foundation, Inc.
++   Copyright (C) 2003, 2005-2006 Free Software Foundation, Inc.
+    Written by Bruno Haible <bruno@clisp.org>, 2003.
+ 
+    This program is free software; you can redistribute it and/or modify
+@@ -14,7 +14,7 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ /* There are two approaches for detecting a write error on a stream opened
+    for writing:
+@@ -40,6 +40,10 @@
+ 
+ #include <stdio.h>
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ /* Write out the not yet written buffered contents of the stream FP, close
+    the stream FP, and test whether some error occurred on the stream FP.
+    FP must be a stream opened for writing.
+@@ -49,3 +53,11 @@
+    For any given stream FP other than stdout, fwriteerror (FP) may only be
+    called once.  */
+ extern int fwriteerror (FILE *fp);
++
++/* Likewise, but don't consider it an error if FP has an invalid file
++   descriptor and no output was done to FP.  */
++extern int fwriteerror_no_ebadf (FILE *fp);
++
++#ifdef __cplusplus
++}
++#endif
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/gai_strerror.c dbg/find6/find/gnulib-cvs/gnulib/lib/gai_strerror.c

@@ -1,0 +1,12 @@
+--- yesterday/patches/expcp2/a	2020-03-27 14:30:08.494322171 -0500
++++ today/patches/expcp2/a	2020-03-28 16:53:15.722826321 -0500
+@@ -10,3 +10,4 @@
+ 
+ file change one
+ fc2
++asdfasdfasdfasd
+\ No newline at end of file
+Only in today/patches/expcp2: a.orig
+Only in today/patches/expcp2: a.rej
+Only in yesterday/patches/expcp2: .a.swp
+diff -u -r yesterday/patches/expcp2/b today/patches/expcp2/b

@@ -1,0 +1,46 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/xvasprintf.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/xvasprintf.h	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+ /* vasprintf and asprintf with out-of-memory checking.
+-   Copyright (C) 2002-2004 Free Software Foundation, Inc.
++   Copyright (C) 2002-2004, 2006-2007 Free Software Foundation, Inc.
+ 
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+@@ -13,7 +13,7 @@
+ 
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ #ifndef _XVASPRINTF_H
+ #define _XVASPRINTF_H
+@@ -34,14 +34,12 @@
+ # endif
+ #endif
+ 
+-#ifdef	__cplusplus
++#ifdef __cplusplus
+ extern "C" {
+ #endif
+ 
+-/* Write formatted output to a string dynamically allocated with malloc().
+-   If the memory allocation succeeds, store the address of the string in
+-   *RESULT and return the number of resulting bytes, excluding the trailing
+-   NUL.  Upon [ENOMEM] memory allocation error, call xalloc_die.
++/* Write formatted output to a string dynamically allocated with malloc(),
++   and return it.  Upon [ENOMEM] memory allocation error, call xalloc_die.
+    On some other error
+      - [EOVERFLOW] resulting string length is > INT_MAX,
+      - [EINVAL] invalid format string,
+@@ -52,7 +50,7 @@ extern char *xasprintf (const char *form
+ extern char *xvasprintf (const char *format, va_list args)
+        __attribute__ ((__format__ (__printf__, 1, 0)));
+ 
+-#ifdef	__cplusplus
++#ifdef __cplusplus
+ }
+ #endif
+ 
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/yesno.c dbg/find6/find/gnulib-cvs/gnulib/lib/yesno.c

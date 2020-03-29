@@ -1,0 +1,73 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/execute.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/execute.c	2020-01-28 23:39:42.000000000 -0600
+@@ -1,5 +1,5 @@
+ /* Creation of autonomous subprocesses.
+-   Copyright (C) 2001-2004 Free Software Foundation, Inc.
++   Copyright (C) 2001-2004, 2006-2007 Free Software Foundation, Inc.
+    Written by Bruno Haible <haible@clisp.cons.org>, 2001.
+ 
+    This program is free software; you can redistribute it and/or modify
+@@ -14,12 +14,10 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software Foundation,
+-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ 
+-#ifdef HAVE_CONFIG_H
+-# include "config.h"
+-#endif
++#include <config.h>
+ 
+ /* Specification.  */
+ #include "execute.h"
+@@ -29,13 +27,9 @@
+ #include <stdbool.h>
+ #include <stdlib.h>
+ #include <signal.h>
+-
+-#ifdef HAVE_UNISTD_H
+-# include <unistd.h>
+-#endif
++#include <unistd.h>
+ 
+ #include "error.h"
+-#include "exit.h"
+ #include "fatal-signal.h"
+ #include "wait-process.h"
+ #include "gettext.h"
+@@ -51,17 +45,17 @@
+ #else
+ 
+ /* Unix API.  */
+-# ifdef HAVE_POSIX_SPAWN
++# if HAVE_POSIX_SPAWN
+ #  include <spawn.h>
+ # else
+-#  ifdef HAVE_VFORK_H
++#  if HAVE_VFORK_H
+ #   include <vfork.h>
+ #  endif
+ # endif
+ 
+ #endif
+ 
+-#ifndef HAVE_ENVIRON_DECL
++#if ! HAVE_ENVIRON_DECL
+ extern char **environ;
+ #endif
+ 
+@@ -75,6 +69,11 @@ extern char **environ;
+ # define STDERR_FILENO 2
+ #endif
+ 
++/* The results of open() in this file are not used with fchdir,
++   therefore save some unnecessary work in fchdir.c.  */
++#undef open
++#undef close
++
+ 
+ #ifdef EINTR
+ 
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/execute.h dbg/find6/find/gnulib-cvs/gnulib/lib/execute.h

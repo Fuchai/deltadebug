@@ -1,0 +1,29 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/strsep	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/strsep	2020-01-28 23:39:42.000000000 -0600
+@@ -2,21 +2,21 @@ Description:
+ strsep() function: extract token from string.
+ 
+ Files:
+-lib/strsep.h
+ lib/strsep.c
+ m4/strsep.m4
+ 
+ Depends-on:
++string
+ strpbrk
+ 
+ configure.ac:
+ gl_FUNC_STRSEP
++gl_STRING_MODULE_INDICATOR([strsep])
+ 
+ Makefile.am:
+-lib_SOURCES += strsep.h
+ 
+ Include:
+-"strsep.h"
++<string.h>
+ 
+ License:
+ LGPL
+Only in dbg/find14/find/gnulib-cvs/gnulib/modules: strstr
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/strtod dbg/find6/find/gnulib-cvs/gnulib/modules/strtod

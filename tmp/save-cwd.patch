@@ -1,0 +1,13 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/save-cwd	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/save-cwd	2020-01-28 23:39:42.000000000 -0600
+@@ -8,7 +8,9 @@ m4/save-cwd.m4
+ 
+ Depends-on:
+ chdir-long
++fcntl-safer
+ xgetcwd
++stdbool
+ 
+ configure.ac:
+ gl_SAVE_CWD
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/savedir dbg/find6/find/gnulib-cvs/gnulib/modules/savedir

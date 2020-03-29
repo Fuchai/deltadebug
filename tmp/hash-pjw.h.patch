@@ -1,0 +1,15 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/lib/hash-pjw.h	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/lib/hash-pjw.h	2020-01-28 23:39:42.000000000 -0600
+@@ -14,7 +14,7 @@
+    You should have received a copy of the GNU General Public License
+    along with this program; see the file COPYING.
+    If not, write to the Free Software Foundation,
+-   59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
++   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
+ 
+ #include <stddef.h>
+ 
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: hmac.h
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: hmac-md5.c
+Only in dbg/find6/find/gnulib-cvs/gnulib/lib: hmac-sha1.c
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/lib/human.c dbg/find6/find/gnulib-cvs/gnulib/lib/human.c

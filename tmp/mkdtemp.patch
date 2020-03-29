@@ -1,0 +1,33 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/mkdtemp	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/mkdtemp	2020-01-28 23:39:42.000000000 -0600
+@@ -2,24 +2,22 @@ Description:
+ mkdtemp() function: create a private temporary directory.
+ 
+ Files:
+-lib/mkdtemp.h
+ lib/mkdtemp.c
+-m4/ulonglong.m4
+-m4/stdint_h.m4
+-m4/inttypes_h.m4
+-m4/uintmax_t.m4
+ m4/mkdtemp.m4
+ 
+ Depends-on:
++stdint
++stdlib
++tempname
+ 
+ configure.ac:
+ gt_FUNC_MKDTEMP
++gl_STDLIB_MODULE_INDICATOR([mkdtemp])
+ 
+ Makefile.am:
+-lib_SOURCES += mkdtemp.h
+ 
+ Include:
+-"mkdtemp.h"
++<stdlib.h>
+ 
+ License:
+ LGPL
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/mkstemp dbg/find6/find/gnulib-cvs/gnulib/modules/mkstemp

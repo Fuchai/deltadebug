@@ -1,0 +1,22 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/linebreak	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/linebreak	2020-01-28 23:39:42.000000000 -0600
+@@ -11,8 +11,9 @@ Depends-on:
+ localcharset
+ c-ctype
+ iconv
+-utf8-ucs4
+-utf16-ucs4
++iconv_open
++utf8-ucs4-unsafe
++utf16-ucs4-unsafe
+ xsize
+ 
+ configure.ac:
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: linkedhash-list
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: linkedhash-list-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: linked-list
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: linked-list-tests
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: link-follow
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: link-warning
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: list
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/localcharset dbg/find6/find/gnulib-cvs/gnulib/modules/localcharset

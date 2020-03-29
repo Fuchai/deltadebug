@@ -1,0 +1,24 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/alloca-opt	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/alloca-opt	2020-01-28 23:39:42.000000000 -0600
+@@ -14,14 +14,14 @@ gl_FUNC_ALLOCA
+ 
+ Makefile.am:
+ BUILT_SOURCES += $(ALLOCA_H)
+-EXTRA_DIST += alloca_.h
+ 
+-# We need the following in order to create an <alloca.h> when the system
++# We need the following in order to create <alloca.h> when the system
+ # doesn't have one that works with the given compiler.
+-all-local $(lib_OBJECTS): $(ALLOCA_H)
+ alloca.h: alloca_.h
+-	cp $(srcdir)/alloca_.h $@-t
+-	mv $@-t $@
++	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
++	  cat $(srcdir)/alloca_.h; \
++	} > $@-t
++	mv -f $@-t $@
+ MOSTLYCLEANFILES += alloca.h alloca.h-t
+ 
+ Include:
+Only in dbg/find6/find/gnulib-cvs/gnulib/modules: alloca-opt-tests
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/allocsa dbg/find6/find/gnulib-cvs/gnulib/modules/allocsa

@@ -1,0 +1,29 @@
+--- dbg/find14/find/gnulib-cvs/gnulib/modules/c-strtod	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/gnulib-cvs/gnulib/modules/c-strtod	2020-01-28 23:39:42.000000000 -0600
+@@ -2,18 +2,18 @@ Description:
+ Convert string to double in C locale.
+ 
+ Files:
+-lib/c-strtod.h
+ lib/c-strtod.c
++lib/c-strtod.h
+ m4/c-strtod.m4
+ 
+ Depends-on:
+ extensions
++xalloc
+ 
+ configure.ac:
+ gl_C_STRTOD
+ 
+ Makefile.am:
+-lib_SOURCES += c-strtod.h c-strtod.c
+ 
+ Include:
+ "c-strtod.h"
+@@ -23,4 +23,3 @@ GPL
+ 
+ Maintainer:
+ Paul Eggert, Jim Meyering
+-
+diff -up -r dbg/find14/find/gnulib-cvs/gnulib/modules/c-strtold dbg/find6/find/gnulib-cvs/gnulib/modules/c-strtold

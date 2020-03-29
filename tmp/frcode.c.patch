@@ -1,0 +1,94 @@
+--- dbg/find14/find/locate/frcode.c	2020-01-28 23:47:42.000000000 -0600
++++ dbg/find6/find/locate/frcode.c	2020-01-28 23:39:42.000000000 -0600
+@@ -13,7 +13,7 @@
+ 
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
++   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
+    USA.
+ */
+ 
+@@ -65,6 +65,8 @@
+ 
+ #include <config.h>
+ #include <stdio.h>
++#include <limits.h>
++#include <assert.h>
+ #include <sys/types.h>
+ 
+ #if defined(HAVE_STRING_H) || defined(STDC_HEADERS)
+@@ -114,6 +116,11 @@ char *program_name;
+ static void
+ put_short (int c, FILE *fp)
+ {
++  /* XXX: The value may be negative, but I think ISO C doesn't 
++   * guarantee the assumptions we're making here will hold.
++   */
++  assert(c <= SHRT_MAX);
++  assert(c >= SHRT_MIN);
+   putc (c >> 8, fp);
+   putc (c, fp); 
+ }
+@@ -124,9 +131,15 @@ static int
+ prefix_length (char *s1, char *s2)
+ {
+   register char *start;
+-
++  int limit = INT_MAX;
+   for (start = s1; *s1 == *s2 && *s1 != '\0'; s1++, s2++)
+-    ;
++    {
++      /* Don't emit a prefix length that will not fit into 
++       * our return type.
++       */
++      if (0 == --limit)
++	break;
++    }
+   return s1 - start;
+ }
+ 
+@@ -164,7 +177,7 @@ main (int argc, char **argv)
+   int line_len;			/* Length of input line.  */
+   int delimiter = '\n';
+   int optc;
+-  
++
+   program_name = argv[0];
+   atexit (close_stdout);
+ 
+@@ -172,9 +185,7 @@ main (int argc, char **argv)
+   path = xmalloc (pathsize);
+   oldpath = xmalloc (oldpathsize);
+ 
+-  /* Set to anything not starting with a slash, to force the first
+-     prefix count to 0.  */
+-  strcpy (oldpath, " ");
++  oldpath[0] = 0;
+   oldcount = 0;
+ 
+ 
+@@ -215,10 +226,19 @@ main (int argc, char **argv)
+ 
+       count = prefix_length (oldpath, path);
+       diffcount = count - oldcount;
++      if ( (diffcount > SHRT_MAX) || (diffcount < SHRT_MIN) )
++	{
++	  /* We do this to prevent overflow of the value we 
++	   * write with put_short()
++	   */
++	  count = 0;
++	  diffcount = (-oldcount);
++	}
+       oldcount = count;
++
+       /* If the difference is small, it fits in one byte;
+ 	 otherwise, two bytes plus a marker noting that fact.  */
+-      if (diffcount < -127 || diffcount > 127)
++      if (diffcount < LOCATEDB_ONEBYTE_MIN || diffcount > LOCATEDB_ONEBYTE_MAX)
+ 	{
+ 	  putc (LOCATEDB_ESCAPE, stdout);
+ 	  put_short (diffcount, stdout);
+Binary files dbg/find14/find/locate/frcode.o and dbg/find6/find/locate/frcode.o differ
+Binary files dbg/find14/find/locate/locate and dbg/find6/find/locate/locate differ
+diff -up -r dbg/find14/find/locate/locate.1 dbg/find6/find/locate/locate.1
