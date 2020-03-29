@@ -5,26 +5,10 @@ import os
 import subprocess
 from pathlib import Path
 
-# this test runs the delta debugging program
-# my delta debugging program should revert all patches applied so that the original files has the same content
-# as before
-# this test tool checks if that is true
-
 def main():
-    # run the delta debugging program
-    dd_path=Path(sys.argv[1])/"dd.py"
-    subprocess.run(["python3", str(dd_path)])
-
-    # check if the files remain the same
-    source_dir = Path(sys.argv[1])/"patches"
-    referencce="demodir/reference"
-    result=subprocess.run(["diff", "-r", referencce, str(source_dir)],
-                          stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                          universal_newlines=True)
-    if result.stdout=="" and result.stderr=="":
-        return 0
-    else:
-        return 1
+    dd_path=Path(sys.argv[1])/"test_checker.py"
+    pro=subprocess.run(["python3", str(dd_path)],stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    return pro.returncode
 
 
 if __name__ == '__main__':

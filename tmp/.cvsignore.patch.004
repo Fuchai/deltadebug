@@ -1,6 +1,0 @@
---- dbg/find14/find/m4/.cvsignore	2020-01-28 23:47:42.000000000 -0600
-+++ dbg/find6/find/m4/.cvsignore	2020-01-28 23:39:42.000000000 -0600
-@@ -1 +1,2 @@
-+Makefile
- Makefile.in
-diff -up -r dbg/find14/find/m4/Makefile dbg/find6/find/m4/Makefile

@@ -1,8 +1,0 @@
---- dbg/find14/find/gnulib-cvs/gnulib/m4/CVS/Tag	2020-01-28 23:47:42.000000000 -0600
-+++ dbg/find6/find/gnulib-cvs/gnulib/m4/CVS/Tag	2020-01-28 23:39:42.000000000 -0600
-@@ -1 +1 @@
--D2005.02.12.00.00.00
-+D2007.04.03.00.00.00
-Only in dbg/find6/find/gnulib-cvs/gnulib/m4: cycle-check.m4
-Only in dbg/find6/find/gnulib-cvs/gnulib/m4: des.m4
-diff -up -r dbg/find14/find/gnulib-cvs/gnulib/m4/d-ino.m4 dbg/find6/find/gnulib-cvs/gnulib/m4/d-ino.m4

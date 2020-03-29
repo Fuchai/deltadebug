@@ -24,7 +24,7 @@ For tester binary/script, you need to make it executable with ```chmod +x script
 ## Specifications
 
 We need two directories containing the source code before and after the change, placed in a source root directory.
-All of these files will be modified, so backup for yourself.
+A copy of the files will be made so original files are untouched.
 
 We need a test binary that takes only one argument that is a source code directory and returns 0, 1 or -1. 
 The return value 0 indicates that the test succeeds,

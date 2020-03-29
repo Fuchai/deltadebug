@@ -1,6 +1,0 @@
---- dbg/find14/find/xargs/testsuite/xargs.posix/s470.exp	2020-01-28 23:47:42.000000000 -0600
-+++ dbg/find6/find/xargs/testsuite/xargs.posix/s470.exp	2020-01-28 23:39:42.000000000 -0600
-@@ -1 +1 @@
--xargs_start p {-s470} files.xi
-+xargs_start p {-s470} files.xi skip
-diff -up -r dbg/find14/find/xargs/testsuite/xargs.posix/s47.exp dbg/find6/find/xargs/testsuite/xargs.posix/s47.exp

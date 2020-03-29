@@ -1,8 +1,0 @@
---- yesterday/patches/expcp/a	2020-03-27 19:13:24.174468838 -0500
-+++ today/patches/expcp/a	2020-03-28 17:12:17.269454648 -0500
-@@ -10,3 +10,5 @@
- 
- file change one
- fc2
-+
-+today's new change

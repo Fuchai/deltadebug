@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import sys
-from os import listdir
+import os
 import subprocess
 from pathlib import Path
 
@@ -12,7 +12,8 @@ from pathlib import Path
 
 def main():
     # run the delta debugging program
-
+    dd_path=Path(sys.argv[1])/"dd.py"
+    subprocess.run(["python3", str(dd_path)])
 
     # check if the files remain the same
     source_dir = Path(sys.argv[1])/"patches"

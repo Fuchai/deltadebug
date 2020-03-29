@@ -1,8 +1,0 @@
---- dbg/find14/find/find/.cvsignore	2020-01-28 23:47:42.000000000 -0600
-+++ dbg/find6/find/find/.cvsignore	2020-01-28 23:39:42.000000000 -0600
-@@ -2,3 +2,4 @@
- Makefile
- Makefile.in
- find
-+oldfind
-diff -up -r dbg/find14/find/find/defs.h dbg/find6/find/find/defs.h
