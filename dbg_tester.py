@@ -10,7 +10,13 @@ def main():
     
 
     find_path=Path(sys.argv[1])/"find"
-    pro=subprocess.run(["make", str(find_path)])
+
+    # compile
+    subprocess.run(["cd", str(find_path)])
+    subprocess.run(["make", "clean"])
+    subprocess.run(["make"])
+
+    # test
     tt_path=Path("dbg")/"find6"/"test"/"test.sh"
     tt_path=tt_path.resolve()
     find_path=find_path.resolve()
