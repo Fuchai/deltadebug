@@ -2,5 +2,16 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/dbg/find14/find" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/dbg/find6/find" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/demodir/535-p" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/demodir/backup/today" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/demodir/backup/yesterday" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/demodir/today" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/demodir/yesterday" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/tmp/copy/demodir/backup/today" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/tmp/copy/demodir/backup/yesterday" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/tmp/dbg/find14/find" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/tmp/dbg/find6/find" vcs="Git" />
   </component>
 </project>

@@ -15,20 +15,54 @@ class Delta:
         :param yesterday_directory: yesterday it works
         :param today_directory: today it does not work
         """
+        os.chdir(Path(__file__).parent)
         self.test_binary = Path(test_binary).resolve()
-        self.root_directory = Path(root_directory).resolve()
+        self.original_root_directory = Path(root_directory).resolve()
         self.yesterday_directory = Path(yesterday_directory).resolve()
         self.today_directory = Path(today_directory).resolve()
-        self.debug_flag = False
+        self.debug_flag = True
+        self.patch_directory = None
+        self.directory_structure_check()
+        self.create_tmp_folder()
+        self.copy_root = Path(self.tmp_dir) / self.original_root_directory.name
+        self.copy_to_tmp(force=True)
+        self.permanently_reroute_to_tmp()
+        os.chdir(self.tmp_dir)
+        self.big_patch_path = None
+
+    def directory_structure_check(self):
+        assert self.yesterday_directory.parent == self.original_root_directory
+        assert self.today_directory.parent == self.original_root_directory
+
+    def copy_to_tmp(self, force=False):
+        if not self.copy_root.exists():
+            shutil.copytree(self.original_root_directory, self.copy_root)
+        elif force:
+            shutil.rmtree(self.copy_root)
+            shutil.copytree(self.original_root_directory, self.copy_root)
+        else:
+            raise FileExistsError("The tmp folder exists. Use force=True")
+
+    def permanently_reroute_to_tmp(self):
+        """
+        Paths relative to the tmp folder
+        :return:
+        """
+        self.yesterday_directory = Path(self.original_root_directory.name) / self.yesterday_directory.name
+        self.today_directory = Path(self.original_root_directory.name) / self.today_directory.name
 
     def pre_run(self):
         """
+        create backups
         run the test binary on yesterday and today to check the properties
 
         :return:
         """
+        print("Pre-run test")
         ytd_ret = self.test_ytd()
+        self.copy_to_tmp(force=True)
         today_ret = self.test_today()
+        self.copy_to_tmp(force=True)
 
         assert ytd_ret == 0, "Yesterday's code did not work?"
         assert today_ret == 1, "Today's code did not break?"
@@ -36,17 +70,20 @@ class Delta:
     def test_ytd(self):
         """
         Test yesterday's directory. Patches are applied to yesterday, so it will be used to test patched code
+        Reset tmp files
         :return:
         """
-        ytd_run = subprocess.run([str(self.test_binary), str(self.yesterday_directory)])
-        if self.debug_flag:
-            print("yesterday test return code", ytd_run.returncode)
+        ytd_run = subprocess.run([str(self.test_binary), str(self.yesterday_directory)], stdout=subprocess.DEVNULL,
+                                 stderr=subprocess.DEVNULL)
+        print("yesterday test return code", ytd_run.returncode)
+
         return ytd_run.returncode
 
     def test_today(self):
-        today_run = subprocess.run([str(self.test_binary), str(self.today_directory)])
-        if self.debug_flag:
-            print("yesterday test return code", today_run.returncode)
+        today_run = subprocess.run([str(self.test_binary), str(self.today_directory)], stdout=subprocess.DEVNULL,
+                                   stderr=subprocess.DEVNULL)
+        print("today test return code", today_run.returncode)
+
         return today_run.returncode
 
     def debug(self, algo=1, create_patch=True, print_results=True):
@@ -59,27 +96,27 @@ class Delta:
         of failure inducing changes
         :return:
         """
-        self.create_tmp_folder()
-        os.chdir(self.tmp_dir)
-        big_patch_path = self.tmp_dir / "bigpatch"
-        with big_patch_path.open("w+") as big_patch:
+        self.big_patch_path = Path("bigpatch")
+        with self.big_patch_path.open("w+") as big_patch:
             # create a diff patch
-            subprocess.run(["diff", "-u", "-r", str(self.yesterday_directory), str(self.today_directory)], stdout=big_patch)
+            subprocess.run(["diff", "-up", "-r", str(self.yesterday_directory), str(self.today_directory)],
+                           stdout=big_patch)
 
             # splitpatch into hunks
-            subprocess.run(["splitpatch", "-H", str(big_patch_path)], stderr=subprocess.PIPE)
+            subprocess.run(["splitpatch", str(self.big_patch_path)], stderr=subprocess.DEVNULL,
+                           stdout=subprocess.DEVNULL)
 
         incrementals = []
         for p in self.tmp_dir.iterdir():
             if p.suffix == ".patch":
                 incrementals.append(p)
 
-        if self.debug_flag:
-            print(incrementals)
+        # if self.debug_flag:
+        #     print(incrementals)
 
-        if algo==1:
+        if algo == 1:
             minimal_patches = self.algo1(incrementals, set())
-        elif algo==2:
+        elif algo == 2:
             minimal_patches = self.algo2(incrementals, set(), 2)
         else:
             raise Exception("Your algorithm choice is not supported, only 1 or 2")
@@ -108,9 +145,11 @@ class Delta:
         if len(patches) == 1:
             return patches
 
+        print("Algorithm 1 patches set length: " + str(len(patches)) + ", fixed length: " + str(len(fixed)))
+
         # split the patches into two sets
-        c1 = set(patches[0:len(patches) // 2])
-        c2 = set(patches[len(patches) // 2:])
+        c1 = set(list(patches)[0:len(patches) // 2])
+        c2 = set(list(patches)[len(patches) // 2:])
 
         if self.test_patches(c1 | fixed) == 1:
             return self.algo1(c1, fixed)
@@ -127,9 +166,9 @@ class Delta:
         cis = []
         for i in range(n):
             if i == n - 1:
-                cis.append(set(patches[i * set_size:]))
+                cis.append(set(list(patches)[i * set_size:]))
             else:
-                cis.append(set(patches[i * set_size: (i + 1) * set_size]))
+                cis.append(set(list(patches)[i * set_size: (i + 1) * set_size]))
 
         # case 2
         tis = []
@@ -196,7 +235,7 @@ class Delta:
             if ti == 0:
                 r_prime = r_prime | ci
 
-        n_prime = min(len(c_prime), 2*n)
+        n_prime = min(len(c_prime), 2 * n)
 
         # for real
         if n < len(patches):
@@ -205,35 +244,62 @@ class Delta:
         # case 6
         return c_prime
 
-
     def test_patches(self, patches):
+        """
+        Apply patches and run the test
+        path -R is not a good idea, because the tested program might modify the files, therefore
+        some file changes are not reflected in created patches. We do complete backups.
+        :param patches:
+        :return:
+        """
+        # for some unknown reason, the patches are applied to the today's directory, not yesterday.
+        # so we have to revert today, so it's the same as yesterday, then apply patches on today, then test today
+        with self.big_patch_path.open('r') as big_patch:
+            if self.debug_flag:
+                subprocess.run(["patch", "-f", "-R", "-p0"], stdin=big_patch)
+            else:
+                subprocess.run(["patch", "-f", "-R", "-p0"], stdin=big_patch, stdout=subprocess.DEVNULL,
+                               stderr=subprocess.DEVNULL)
+        ret_code = self.test_today()
+        assert ret_code == 0
+
         # combine patches together
         plist = [str(p) for p in patches]
         combined_path = self.tmp_dir / "combined"
         if combined_path.exists():
             os.remove(combined_path)
-        with combined_path.open("w") as combined:
+
+        if len(plist) == 0:
+            pass
+        else:
             if len(plist) == 1:
                 shutil.copy(plist[0], combined_path)
             else:
-                subprocess.run(["combinediff", "-q"] + plist, stdout=combined)
+                with combined_path.open("w") as combined:
+                    subprocess.run(["combinediff", "-q"] + plist[0:2], stdout=combined)
+                for patch in plist[2:]:
+                    second_combined_path = self.tmp_dir / "combined2"
+                    with second_combined_path.open("w") as second_combined:
+                        subprocess.run(["combinediff", "-q", str(patch), str(combined_path)], stdout=second_combined)
+                        shutil.copy(str(second_combined_path), str(combined_path))
 
-        # patch the files
-        with combined_path.open("r") as combined:
-            if self.debug_flag:
-                subprocess.run(["patch", "-p0", "-d/"], stdin=combined)
-            else:
-                subprocess.run(["patch", "-p0", "-d/"], stdin=combined, stdout=subprocess.DEVNULL)
+            # patch the files
+            with combined_path.open("r") as combined:
+                if self.debug_flag:
+                    subprocess.run(["patch", "-f", "-p0"], stdin=combined)
+                else:
+                    subprocess.run(["patch", "-f", "-p0"], stdin=combined, stdout=subprocess.DEVNULL)
 
-            # apply, test ytd, and revert
-        ret_code = self.test_ytd()
+        # apply, test ytd, and revert
+        ret_code = self.test_today()
+        self.copy_to_tmp(force=True)
 
-        with combined_path.open("r") as combined:
-            # with combined_path.open("r") as combined:
-            if self.debug_flag:
-                subprocess.run(["patch", "-R", "-p0", "-d/"], stdin=combined)
-            else:
-                subprocess.run(["patch", "-R", "-p0", "-d/"], stdin=combined, stdout=subprocess.DEVNULL)
+        # with combined_path.open("r") as combined:
+        #     # with combined_path.open("r") as combined:
+        #     if self.debug_flag:
+        #         subprocess.run(["patch", "-R", "-p0", "-d/"], stdin=combined)
+        #     else:
+        #         subprocess.run(["patch", "-R", "-p0", "-d/"], stdin=combined, stdout=subprocess.DEVNULL)
 
         return ret_code
 
@@ -246,14 +312,26 @@ class Delta:
 
 
 def demo():
-    tb = "demo_test.py"
-    yd = "demodir/today"
-    td = "demodir/yesterday"
+    tb = "checker_test.py"
+    yd = "demodir/yesterday"
+    td = "demodir/today"
     root = "demodir"
 
     delta = Delta(tb, root, yd, td)
     delta.pre_run()
     delta.debug(algo=1)
+
+
+def quick_dgd_demo():
+    tb = "dbg_tester.py"
+    yd = "dbg/find14"
+    td = "dbg/find6"
+    root = "dbg"
+
+    delta = Delta(tb, root, yd, td)
+    delta.pre_run()
+    delta.debug(algo=1)
+
 
 def quick_main():
     # relative paths work
@@ -267,7 +345,7 @@ def quick_main():
 
     delta = Delta(tb, root, yd, td)
     delta.pre_run()
-    delta.debug(algo=2)
+    delta.debug(algo=1)
 
 
 def main():
@@ -282,4 +360,4 @@ def main():
 
 
 if __name__ == '__main__':
-    demo()
+    quick_dgd_demo()
