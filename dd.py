@@ -50,6 +50,8 @@ class Delta:
         """
         self.yesterday_directory = Path(self.original_root_directory.name) / self.yesterday_directory.name
         self.today_directory = Path(self.original_root_directory.name) / self.today_directory.name
+        self.yesterday_directory=self.yesterday_directory.resolve()
+        self.today_directory=self.today_directory.resolve()
 
     def pre_run(self):
         """
@@ -63,6 +65,8 @@ class Delta:
         self.copy_to_tmp(force=True)
         today_ret = self.test_today()
         self.copy_to_tmp(force=True)
+
+
 
         assert ytd_ret == 0, "Yesterday's code did not work?"
         assert today_ret == 1, "Today's code did not break?"
